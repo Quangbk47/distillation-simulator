@@ -1,0 +1,8 @@
+name: CI
+on: [pull_request, push]
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Replace with approved runtime setup, lint, type-check, tests and build"

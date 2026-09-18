@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/distillation-simulator/thermodynamics.schema.json",
+  "title": "Reviewed Antoine thermodynamic data",
+  "type": "object",
+  "required": ["schemaVersion", "dataVersion", "model", "status", "records"],
+  "properties": {
+    "schemaVersion": {"type": "string"},
+    "dataVersion": {"type": "string"},
+    "model": {"const": "raoult-antoine"},
+    "status": {"enum": ["PENDING_REVIEW", "REVIEWED"]},
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["component", "A", "B", "C", "formula", "temperatureRange", "pressureUnit", "provenance"],
+        "properties": {
+          "component": {"type": "string"},
+          "A": {"type": "number"},
+          "B": {"type": "number"},
+          "C": {"type": "number"},
+          "formula": {"type": "string"},
+          "temperatureRange": {
+            "type": "object",
+            "required": ["min", "max", "unit"],
+            "properties": {"min": {"type": "number"}, "max": {"type": "number"}, "unit": {"type": "string"}},
+            "additionalProperties": false
+          },
+          "pressureUnit": {"type": "string"},
+          "provenance": {
+            "type": "object",
+            "required": ["citation", "publicationVersion", "reviewer", "reviewDate"],
+            "properties": {
+              "citation": {"type": "string"},
+              "publicationVersion": {"type": "string"},
+              "reviewer": {"type": "string"},
+              "reviewDate": {"type": ["string", "null"]}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

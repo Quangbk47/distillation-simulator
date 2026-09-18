@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/distillation-simulator/validation-case.schema.json",
+  "title": "Distillation validation case",
+  "type": "object",
+  "required": ["caseId", "sourceCitation", "sourceType", "sourceConditions", "observed", "validationAcceptance"],
+  "properties": {
+    "caseId": {"type": "string"},
+    "sourceCitation": {"type": "string"},
+    "sourceType": {"enum": ["experimental", "literature"]},
+    "sourceConditions": {"type": "object"},
+    "mappedInput": {"type": "object"},
+    "observed": {"type": "object"},
+    "validationAcceptance": {
+      "type": "object",
+      "required": ["metric", "threshold", "value", "pass", "status"],
+      "properties": {
+        "metric": {"type": ["string", "null"]},
+        "threshold": {"type": ["number", "null"]},
+        "value": {"type": ["number", "null"]},
+        "pass": {"type": ["boolean", "null"]},
+        "status": {"enum": ["PENDING_THRESHOLD", "EVALUATED"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

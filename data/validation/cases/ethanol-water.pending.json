@@ -1,0 +1,15 @@
+{
+  "caseId": "ethanol-water-pending-001",
+  "sourceCitation": "PENDING_SOURCE_CITATION",
+  "sourceType": "literature",
+  "sourceConditions": {},
+  "mappedInput": {},
+  "observed": {},
+  "validationAcceptance": {
+    "metric": "PENDING_EXPERT_THRESHOLD",
+    "threshold": null,
+    "value": null,
+    "pass": null,
+    "status": "PENDING_THRESHOLD"
+  }
+}

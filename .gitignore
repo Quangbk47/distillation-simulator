@@ -10,6 +10,21 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 .venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Environment and local runtime files
+.env
+!.env.example
+*.log
+
+# Project-local generated files
+coverage.xml
+.coverage
 
 # Node.js
 node_modules/

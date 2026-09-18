@@ -1,5 +1,86 @@
 # Distillation Simulator
 
-Đây là dự án mô phỏng quá trình chưng cất.
+Khung nền cho mô phỏng chưng cất nhị phân Ethanol–Water ở trạng thái ổn định, phục vụ học tập, nghiên cứu và validation. V1 không nhằm trở thành bản thu nhỏ của Aspen/HYSYS.
 
-Dự án đang ở giai đoạn khởi tạo.
+## Phạm vi V1
+
+- Hệ nhị phân Ethanol–Water, steady-state, áp suất không đổi.
+- Cân bằng hơi–lỏng chính: Raoult + Antoine.
+- Phương pháp tháp: McCabe–Thiele.
+- Người dùng nhập trực tiếp `q`; `N` chỉ đếm số mâm trong thân tháp.
+- Hỗ trợ total condenser và partial condenser.
+- `QC`/`QR` dùng mô hình enthalpy đơn giản với dữ liệu Cp/ẩn nhiệt có provenance.
+- Tổn thất nhiệt là tải nhiệt tuyệt đối `heatLoss_kW`.
+- Kết quả chỉ thành công khi residual cân bằng tổng, residual cân bằng cấu tử và residual solver đều `< 1e-4`.
+- Ngoại suy dữ liệu nhiệt động được phép nhưng phải trả warning `THERMO_EXTRAPOLATION`, nêu nhiệt độ thực tế và miền nguồn.
+- Kiến trúc production: web client → backend/API → engine và data repository.
+
+Ngoài V1: optimization, AI/ML, dynamic simulation, thủy lực mâm chi tiết, dashboard phức tạp và Wilson trong đường chạy runtime. Ngưỡng/metric validation của câu 10A chưa được chuyên gia điền; mã và dữ liệu phải giữ `PENDING_EXPERT_THRESHOLD`, không tự gán tiêu chí PASS/FAIL.
+
+## Logic chuyên môn đã chốt
+
+Nguồn chuẩn là [`docs/EXPERT_CONFIRMATION.md`](docs/EXPERT_CONFIRMATION.md) và [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md). Các contract chi tiết nằm trong [`docs/PROCESS_MODEL.md`](docs/PROCESS_MODEL.md), [`docs/ALGORITHM_SPEC.md`](docs/ALGORITHM_SPEC.md), [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) và [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md). Dữ liệu Antoine/enthalpy chưa được coi là reviewed cho đến khi có citation, miền áp dụng, reviewer và ngày review.
+
+## Cấu trúc repository
+
+```text
+docs/                         Quyết định, spec, kế hoạch và tài liệu gốc đã nhập
+data/
+  thermodynamics/             Schema và record Antoine có provenance
+  validation/                 Schema/case validation, không tự tuyên bố PASS
+src/
+  thermodynamics/             Raoult–Antoine và contract dữ liệu nhiệt động
+  distillation/               McCabe–Thiele, condenser và energy contracts
+  solver/                     Residual/convergence gates
+  sensitivity/                Khung khảo sát đúng một biến R/N/NF
+  api/                        Backend/API contract và FastAPI app skeleton
+  ui/                         Placeholder cho web client; chưa có UI hoàn chỉnh
+tests/
+  unit/                       Unit tests cho contract và logic nhỏ
+  integration/                API/engine boundary tests
+  reference/                  Data/schema/provenance checks
+  validation/                 Tests giữ trạng thái pending của validation
+.github/workflows/            CI lint, type-check, test, build, secret scan
+```
+
+## Thứ tự đọc tài liệu
+
+1. [`docs/EXPERT_CONFIRMATION.md`](docs/EXPERT_CONFIRMATION.md)
+2. [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md)
+3. [`docs/PROCESS_MODEL.md`](docs/PROCESS_MODEL.md)
+4. [`docs/ALGORITHM_SPEC.md`](docs/ALGORITHM_SPEC.md)
+5. [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md)
+6. [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md)
+7. [`docs/UI_UX_SPEC.md`](docs/UI_UX_SPEC.md)
+8. [`docs/TEST_CASES.md`](docs/TEST_CASES.md)
+9. [`docs/ROADMAP.md`](docs/ROADMAP.md) và [`docs/TODO.md`](docs/TODO.md)
+
+Các file markdown, DOCX và hình ảnh đã copy ban đầu được giữ trong [`docs/archive/`](docs/archive/) hoặc [`docs/assets/`](docs/assets/); không file nào bị xóa vì nghi là trùng lặp.
+
+## Phát triển local
+
+Yêu cầu Python 3.11+:
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+Copy-Item .env.example .env
+python -m uvicorn api.app:app --reload --host 127.0.0.1 --port 8000
+```
+
+API skeleton có `/health`, `/api/thermo-data/version`, `/api/simulations` và `/api/sensitivity`. Endpoint mô phỏng đầy đủ sẽ chỉ được mở khi engine và data review hoàn tất; chưa có triển khai production trong bước tổ chức repository này.
+
+## Kiểm tra
+
+```powershell
+ruff format --check src tests scripts
+ruff check src tests scripts
+mypy src
+pytest tests/unit tests/integration tests/reference tests/validation
+python scripts/check_structure.py
+python -m build
+```
+
+Mỗi thay đổi model/dữ liệu khoa học cần cập nhật provenance, test regression và review của scientific lead. Không commit secret; dùng `.env.example` làm danh sách biến môi trường không nhạy cảm.
