@@ -19,7 +19,7 @@
         "threshold": {"type": ["number", "null"]},
         "value": {"type": ["number", "null"]},
         "pass": {"type": ["boolean", "null"]},
-        "status": {"enum": ["PENDING_THRESHOLD", "EVALUATED"]}
+        "status": {"enum": ["READY_FOR_EVALUATION", "EVALUATED"]}
       },
       "additionalProperties": false
     }

@@ -15,7 +15,7 @@ Khung nền cho mô phỏng chưng cất nhị phân Ethanol–Water ở trạng
 - Ngoại suy dữ liệu nhiệt động được phép nhưng phải trả warning `THERMO_EXTRAPOLATION`, nêu nhiệt độ thực tế và miền nguồn.
 - Kiến trúc production: web client → backend/API → engine và data repository.
 
-Ngoài V1: optimization, AI/ML, dynamic simulation, thủy lực mâm chi tiết, dashboard phức tạp và Wilson trong đường chạy runtime. Ngưỡng/metric validation của câu 10A chưa được chuyên gia điền; mã và dữ liệu phải giữ `PENDING_EXPERT_THRESHOLD`, không tự gán tiêu chí PASS/FAIL.
+Ngoài V1: optimization, AI/ML, dynamic simulation, thủy lực mâm chi tiết, dashboard phức tạp và Wilson trong đường chạy runtime. Validation V1 dùng MAE của `xD/xB` theo điểm phần trăm, ngưỡng chấp nhận là `5`; quyết định được ghi tại [`docs/VALIDATION_ACCEPTANCE.md`](docs/VALIDATION_ACCEPTANCE.md).
 
 ## Logic chuyên môn đã chốt
 
@@ -53,7 +53,8 @@ tests/
 6. [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md)
 7. [`docs/UI_UX_SPEC.md`](docs/UI_UX_SPEC.md)
 8. [`docs/TEST_CASES.md`](docs/TEST_CASES.md)
-9. [`docs/ROADMAP.md`](docs/ROADMAP.md) và [`docs/TODO.md`](docs/TODO.md)
+9. [`docs/VALIDATION_ACCEPTANCE.md`](docs/VALIDATION_ACCEPTANCE.md)
+10. [`docs/ROADMAP.md`](docs/ROADMAP.md) và [`docs/TODO.md`](docs/TODO.md)
 
 Các file markdown, DOCX và hình ảnh đã copy ban đầu được giữ trong [`docs/archive/`](docs/archive/) hoặc [`docs/assets/`](docs/assets/); không file nào bị xóa vì nghi là trùng lặp.
 

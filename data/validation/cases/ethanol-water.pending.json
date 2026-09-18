@@ -6,10 +6,10 @@
   "mappedInput": {},
   "observed": {},
   "validationAcceptance": {
-    "metric": "PENDING_EXPERT_THRESHOLD",
-    "threshold": null,
+    "metric": "MAE_xD_xB_percentage_points",
+    "threshold": 5,
     "value": null,
     "pass": null,
-    "status": "PENDING_THRESHOLD"
+    "status": "READY_FOR_EVALUATION"
   }
 }

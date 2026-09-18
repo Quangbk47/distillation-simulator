@@ -18,11 +18,11 @@ def test_pending_thermo_data_matches_schema_without_fabricated_coefficients() ->
     assert data["status"] == "PENDING_REVIEW"
 
 
-def test_validation_case_keeps_expert_threshold_pending() -> None:
+def test_validation_case_uses_accepted_v1_threshold() -> None:
     schema = load_json("data/validation/schema.json")
     case = load_json("data/validation/cases/ethanol-water.pending.json")
     validate(case, schema)
     acceptance = case["validationAcceptance"]
-    assert acceptance["metric"] == "PENDING_EXPERT_THRESHOLD"
-    assert acceptance["threshold"] is None
+    assert acceptance["metric"] == "MAE_xD_xB_percentage_points"
+    assert acceptance["threshold"] == 5
     assert acceptance["pass"] is None

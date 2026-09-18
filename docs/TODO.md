@@ -1,6 +1,5 @@
 # TODO Final
 
-P0 GVHD/Anh Đại: fill question 10A metric + percentage threshold.
 P0 Scientific lead: select/review Antoine and enthalpy data sources.
 P0 Backend: typed API, auth, audit/provenance.
 P0 Core: Raoult-Antoine, total/partial condenser, energy, residual gates.
