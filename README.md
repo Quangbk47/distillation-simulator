@@ -19,7 +19,9 @@ Ngoài V1: optimization, AI/ML, dynamic simulation, thủy lực mâm chi tiết
 
 ## Logic chuyên môn đã chốt
 
-Nguồn chuẩn là [`docs/EXPERT_CONFIRMATION.md`](docs/EXPERT_CONFIRMATION.md) và [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md). Các contract chi tiết nằm trong [`docs/PROCESS_MODEL.md`](docs/PROCESS_MODEL.md), [`docs/ALGORITHM_SPEC.md`](docs/ALGORITHM_SPEC.md), [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) và [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md). Dữ liệu Antoine/enthalpy chưa được coi là reviewed cho đến khi có citation, miền áp dụng, reviewer và ngày review.
+Nguồn chuẩn là [`docs/EXPERT_CONFIRMATION.md`](docs/EXPERT_CONFIRMATION.md) và [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md); quyết định metric/ngưỡng validation mới nhất nằm trong [`docs/VALIDATION_ACCEPTANCE.md`](docs/VALIDATION_ACCEPTANCE.md). Các contract chi tiết nằm trong [`docs/PROCESS_MODEL.md`](docs/PROCESS_MODEL.md), [`docs/ALGORITHM_SPEC.md`](docs/ALGORITHM_SPEC.md), [`docs/CALCULATION_FORMULAS.md`](docs/CALCULATION_FORMULAS.md), [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) và [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md). Dữ liệu Antoine/enthalpy chưa được coi là reviewed cho đến khi có citation, miền áp dụng, reviewer và ngày review.
+
+Audit và execution roadmap nằm trong [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md) và [`docs/ROADMAP.md`](docs/ROADMAP.md). Firebase Hosting chỉ host frontend/static assets; backend Python cần runtime riêng. Chưa có Firebase project/config được xác nhận trong repository.
 
 ## Cấu trúc repository
 
@@ -71,15 +73,15 @@ Copy-Item .env.example .env
 python -m uvicorn api.app:app --reload --host 127.0.0.1 --port 8000
 ```
 
-API skeleton có `/health`, `/api/thermo-data/version`, `/api/simulations` và `/api/sensitivity`. Endpoint mô phỏng đầy đủ sẽ chỉ được mở khi engine và data review hoàn tất; chưa có triển khai production trong bước tổ chức repository này.
+API skeleton có `/health`, `/api/thermo-data/version`, `/api/simulations` và `/api/sensitivity`. Endpoint mô phỏng đầy đủ sẽ chỉ được mở khi engine và data review hoàn tất; chưa có triển khai production trong bước audit này.
 
 ## Kiểm tra
 
 ```powershell
-ruff format --check src tests scripts
-ruff check src tests scripts
-mypy src
-pytest tests/unit tests/integration tests/reference tests/validation
+python -m ruff format --check src tests scripts
+python -m ruff check src tests scripts
+python -m mypy src
+python -m pytest tests/unit tests/integration tests/reference tests/validation
 python scripts/check_structure.py
 python -m build
 ```
