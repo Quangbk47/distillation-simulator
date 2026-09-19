@@ -16,6 +16,8 @@ Current phase: Phase 0/1 readiness. The repository is a tested skeleton, not a
 working simulator. The first implementation task is the Phase 1 minimum app
 and CI verification, followed by Firebase target confirmation for Phase 2.
 
-Remaining blockers: reviewed Antoine and enthalpy data, a partial-condenser
+Remaining blockers: reviewed Antoine data for Phase 3/4, the partial-condenser
 reference convention/case, validation source/mapping review, Firebase project
-and login confirmation, and a separate backend deployment runtime.
+and login confirmation, and a separate backend deployment runtime. Reviewed
+enthalpy data is a Phase 6 blocker only; it does not block Phase 3/4 VLE/stage
+work.

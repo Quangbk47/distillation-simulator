@@ -9,10 +9,11 @@ SOLVER_TOLERANCE = 1e-4
 class Residuals:
     total_mass: float
     ethanol_balance: float
+    outer: float
     solver: float
 
     def below_tolerance(self, tolerance: float = SOLVER_TOLERANCE) -> bool:
-        return max(self.total_mass, self.ethanol_balance, self.solver) < tolerance
+        return max(self.total_mass, self.ethanol_balance, self.outer, self.solver) < tolerance
 
 
 def residuals_pass(residuals: Residuals, tolerance: float = SOLVER_TOLERANCE) -> bool:

@@ -65,19 +65,19 @@ Tối thiểu:
 
 ``` text
 F > 0
-0 <= zF <= 1 (pure-component limits chỉ dùng cho sanity/input tests; recovery
-  phải báo không xác định khi feed ethanol bằng 0)
+0 < zF < 1 (pure-component limits chỉ dùng cho VLE sanity tests)
 P > 0
 N >= 1 và là số nguyên
 1 <= NF <= N
 R >= 0
-0 <= D <= F
+0 < D < F
 heatLoss_kW >= 0
 q là số hữu hạn
 ```
 
-Nếu người dùng nhập `D`, tính `B = F - D`. Nếu `D = F` thì không thể có
-dòng đáy hữu hạn cho bài toán thông thường → báo input không vật lý.
+Nếu người dùng nhập `D`, tính `B = F - D`. `D <= 0` làm `R=L/D` và
+recovery đỉnh không xác định; `D >= F` làm mất dòng đáy hữu hạn. Cả hai đều
+phải bị reject.
 
 Không âm thầm sửa input sai.
 
@@ -219,6 +219,49 @@ Luôn kiểm tra:
 
 cho bài toán tách ethanol về đỉnh thông thường. Nếu không thỏa, đánh dấu
 kết quả không vật lý.
+
+### 6.3 Calculation closure khi `xD` là output
+
+Với input `F, zF, q, P, N, NF, R, D`, engine không được tự coi `xD` là input.
+Total-condenser V1 dùng một outer scalar solve:
+
+``` text
+unknown: xD
+B = F-D
+xB = (F*zF-D*xD)/B
+```
+
+Bounds cho bài toán ethanol về đỉnh:
+
+``` text
+xD_low = zF
+xD_high = min(1, F*zF/D)
+```
+
+Với mỗi trial `xD`, dựng rectifying line, q-line, giao điểm `(xq,yq)` và
+stripping line qua `(xB,xB)` và `(xq,yq)`. Step đúng `N` body stages theo
+Mục 13. Sau stage `N`, gọi giá trị operating-line là `yN` và đóng equilibrium
+reboiler boundary bằng:
+
+``` text
+r_outer(xD) = yN - y_eq(xB,P)
+```
+
+Scan 101 điểm trong interval có guard, chọn bracket finite đầu tiên có đổi
+dấu, rồi dùng bisection/Brent. Nếu không có bracket, trả
+`ROOT_BRACKET_NOT_FOUND`; không chọn trial gần nhất làm nghiệm.
+
+Chấp nhận nghiệm chỉ khi:
+
+``` text
+abs(r_outer) < 1e-4
+r_mass < 1e-4
+r_ethanol < 1e-4
+NF_geo == NF
+```
+
+Reboiler là equilibrium boundary, không cộng vào `N`. `NF` không được tự thay
+đổi; nếu geometric transition khác `NF`, trả `INCONSISTENT_FEED_STAGE`.
 
 ------------------------------------------------------------------------
 
@@ -366,7 +409,7 @@ Nếu `xq ≈ xB`, phải xử lý singularity thay vì chia trực tiếp.
 
 ## 13. Stepping McCabe--Thiele
 
-Với total condenser, bắt đầu gần:
+Với total condenser, bắt đầu chính xác tại top boundary:
 
 ``` text
 (xD, xD)
@@ -377,7 +420,7 @@ Mỗi mâm gồm hai bước:
 1.  **Horizontal:** từ operating line sang equilibrium curve.
 2.  **Vertical:** từ equilibrium curve về operating line.
 
-Cách code ổn định:
+Cách code ổn định cho một trial `xD`:
 
 ``` text
 current_y = xD
@@ -388,18 +431,22 @@ for stage in 1..N:
 
     # lưu x_stage và bubble T tương ứng
 
-    # chọn operating line
-    if stage thuộc đoạn luyện:
+    # NF là input cứng, đếm từ top body tray
+    if stage < NF:
         next_y = yR(x_stage)
-    else:
+    else:  # stage NF..N là stripping section
         next_y = yS(x_stage)
 
     current_y = next_y
+
+# reboiler boundary, không tính vào N
+r_outer = current_y - y_eq(xB, P)
 ```
 
-Việc chuyển rectifying → stripping phải nhất quán với `NF`/feed
-intersection. Trong V1 khi `NF` là input, engine phải kiểm tra `NF` có
-phù hợp với stepping/feed intersection; không âm thầm thay đổi `NF`.
+`xD` phải được root-solve để `r_outer=0` theo Mục 6.3. Engine đồng thời tính
+`NF_geo`, là stage đầu tiên có horizontal equilibrium step ở phía stripping của
+feed intersection. Nếu `NF_geo != NF`, trả `INCONSISTENT_FEED_STAGE`; không âm
+thầm thay đổi `NF`.
 
 ### Điều kiện dừng/lỗi
 
@@ -410,7 +457,7 @@ Dừng và trả `non_converged` nếu:
 -   xuất hiện NaN/Inf;
 -   lặp không tiến triển (pinch);
 -   vượt giới hạn iteration;
--   kết quả cuối không thỏa residual.
+-   kết quả cuối không thỏa outer residual, balance residual hoặc NF check.
 
 ------------------------------------------------------------------------
 
@@ -473,10 +520,23 @@ Partial condenser là **nhánh thuật toán riêng**, vì condenser có thể
 equation rồi chỉ đổi nhãn UI.
 
 Total condenser được phép triển khai trước trong roadmap, nhưng partial
-condenser vẫn là deliverable bắt buộc của V1 theo quyết định chuyên gia. Chỉ
-bật partial condenser sau khi nhánh equilibrium-stage và reference case của
-nó đã được kiểm thử. Trong thời gian chưa hoàn tất, API/UI phải báo
-`NOT_IMPLEMENTED`; không trả số giả và không được tuyên bố V1 hoàn chỉnh.
+condenser vẫn là deliverable bắt buộc của V1 theo quyết định chuyên gia. Hiện
+formulation partial vẫn **OPEN/BLOCKING**, vì source-of-truth chưa chốt các
+điểm sau:
+
+1. `D` là sản phẩm lỏng, sản phẩm hơi, hay split hai pha; reflux là pha nào.
+2. Condenser có phải một equilibrium stage Raoult + Antoine ở áp suất `P` hay
+   không.
+3. Condenser stage có nằm ngoài `N` body stages hay có quy ước khác.
+4. Unknowns, phase fraction, flow equations và boundary conditions.
+5. Equilibrium/component/total-mass residual và outer solve residual.
+6. Golden/reference case có source, units, expected outputs và reviewer.
+
+Không được tự chọn một formulation để lấp chỗ trống. Trong thời gian chưa
+được chuyên gia chốt, API/UI phải trả `status=not_implemented` và
+`errorCode=NOT_IMPLEMENTED`; không trả số giả và không được tuyên bố V1 hoàn
+chỉnh. Sau khi chốt, cập nhật section này, `PROCESS_MODEL.md`,
+`ALGORITHM_SPEC.md`, `DATA_MODEL.md` và tests trước khi bật branch.
 
 ------------------------------------------------------------------------
 
@@ -616,12 +676,25 @@ r_solver = max(abs(f(root)))
 
 hoặc residual tương đương đã được document.
 
+### 20.4 Outer composition residual
+
+For the total-condenser closure:
+
+``` text
+r_outer = abs(y_N - y_eq(xB,P))
+```
+
+`r_outer` is recorded separately from `r_solver`; both must pass. It is the
+residual that proves the solved `xD` is consistent with the equilibrium
+reboiler boundary after exactly `N` body stages.
+
 ### Success gate
 
 ``` text
 success =
     r_mass < 1e-4
     AND r_ethanol < 1e-4
+    AND r_outer < 1e-4
     AND r_solver < 1e-4
     AND all physical checks pass
 ```
@@ -657,7 +730,7 @@ stage
 T_C
 x_ethanol
 y_ethanol
-section = rectifying | feed | stripping
+section = rectifying | stripping
 ```
 
 UI nhân `xD`, `xB`, `x`, `y` với `100` khi muốn hiển thị mol%.
@@ -702,16 +775,20 @@ simulate(input):
     build_or_prepare_VLE(P)
 
     B = F - D
+    determine physical xD bounds
+    scan for a finite sign-changing xD bracket
 
-    establish total-condenser rectifying line
-    establish q-line
-    determine feed intersection
+    for trial xD in outer solve:
+        xB = (F*zF-D*xD)/B
+        establish total-condenser rectifying line
+        establish q-line and feed intersection
+        establish stripping line through (xB,xB) and (xq,yq)
+        perform exactly N body-stage steps
+        calculate r_outer = yN - y_eq(xB,P)
 
-    solve/iterate composition boundary consistently
-    establish stripping line
-
-    perform McCabe-Thiele stepping
-    calculate xD, xB and stage profiles
+    solve r_outer=0 with bisection/Brent
+    verify NF_geo == NF; never change NF
+    return xD, xB and stage profiles
 
     for each stage:
         calculate bubble temperature
@@ -719,14 +796,16 @@ simulate(input):
 
     calculate recovery
 
-    calculate simple enthalpies
-    calculate QC
-    calculate QR using overall energy balance
+    if reviewed enthalpy data is available:
+        calculate simple enthalpies
+        calculate QC and QR using overall energy balance
+    else:
+        leave energy fields pending; do not fake values
 
     calculate residuals
     run physical checks
 
-    status = success only if all gates pass
+    status = success only if all gates and the outer root pass
 
     return result + warnings + thermo data version
 ```
@@ -793,9 +872,9 @@ làm `QR` tăng đúng bằng phần tổn thất bổ sung.
 
 ``` text
 F <= 0
-zF ngoài [0,1]
+zF ngoài (0,1)
 NF > N
-D > F
+D <= 0 hoặc D >= F
 heatLoss < 0
 ```
 
@@ -863,16 +942,19 @@ Calculation engine V1 được coi là đủ để nối UI khi:
 1.  Input validation hoạt động.
 2.  Antoine/Raoult tạo được VLE Ethanol--Water ở áp suất yêu cầu.
 3.  Bubble temperature và equilibrium inversion có test.
-4.  Rectifying line, q-line và stripping line có unit test.
-5.  McCabe--Thiele stepping trả stage profile hữu hạn/vật lý.
-6.  Cân bằng tổng và ethanol đạt residual `<1e-4`.
-7.  Recovery được tính đúng.
-8.  Stage temperature lấy từ VLE, không phải dữ liệu giả.
-9.  `QC/QR` dùng cùng một enthalpy/sign convention.
-10. Warning ngoại suy hoạt động.
-11. Có ít nhất một reference/golden case được chuyên gia hoặc nguồn tin
+4.  Outer scalar solve cho `xD` có bracket/method/residual/trace rõ ràng.
+5.  Rectifying line, q-line và stripping line có unit test.
+6.  McCabe--Thiele stepping trả stage profile hữu hạn/vật lý.
+7.  Cân bằng tổng, ethanol và outer residual đạt residual `<1e-4`.
+8.  `NF_geo == NF`; mismatch trả `INCONSISTENT_FEED_STAGE`.
+9.  Recovery được tính đúng.
+10. Stage temperature lấy từ VLE, không phải dữ liệu giả.
+11. `QC/QR` dùng cùng một enthalpy/sign convention khi Phase 6 hoàn tất.
+12. Warning ngoại suy hoạt động.
+13. Partial condenser chỉ bật sau khi contract/reference case được chốt.
+14. Có ít nhất một reference/golden case được chuyên gia hoặc nguồn tin
     cậy xác nhận.
-12. UI có thể nhận output và vẽ sơ đồ/bảng/đồ thị mà không tự tính lại
+15. UI có thể nhận output và vẽ sơ đồ/bảng/đồ thị mà không tự tính lại
     khoa học ở frontend.
 
 ------------------------------------------------------------------------

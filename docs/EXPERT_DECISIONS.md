@@ -1,5 +1,17 @@
 # Expert Decisions Final
 
-Nguồn chuẩn mới: `EXPERT_CONFIRMATION.md`. Các quyết định trước đây chỉ còn giá trị lịch sử khi mâu thuẫn với xác nhận này.
+Nguồn quyết định chuyên môn gốc là `EXPERT_CONFIRMATION.md`; quyết định
+validation cập nhật là `VALIDATION_ACCEPTANCE.md`. Các quyết định lịch sử trong
+`docs/archive/` không override các file này.
 
-V1 dùng Raoult + Antoine làm mô hình kết quả chính; Wilson không dùng để tạo kết quả chính. Nhóm được phép chọn nguồn dữ liệu nhưng phải review provenance. Ngoại suy dữ liệu nhiệt động được phép khi có warning. N là số mâm thân tháp. Total và partial condenser đều thuộc V1. q được nhập trực tiếp. QC/QR dùng enthalpy đơn giản; heat loss nhập tuyệt đối kW. Thành công cần đồng thời đạt residual balance và solver <1e-4. Validation dùng dataset/bài báo nếu chưa có thí nghiệm. Kiến trúc production là web app có backend/API.
+V1 dùng Raoult + Antoine làm model runtime chính; Wilson không chạy runtime.
+Nhóm được chọn nguồn dữ liệu nhưng phải có provenance/reviewer. Ngoại suy được
+phép với warning. `N` là body stages; total và partial condenser thuộc V1; q
+nhập trực tiếp; QC/QR dùng enthalpy đơn giản; heat loss là kW tuyệt đối;
+success cần các balance/outer/solver residual gates `<1e-4`; validation dùng literature/dataset;
+production là web app có backend/API.
+
+Các chi tiết cần code được khóa trong `PROCESS_MODEL.md`, đặc biệt outer solve
+cho xD/xB và NF consistency. Partial-condenser equations vẫn OPEN/BLOCKING vì
+phiếu quyết định chưa đủ để xác định duy nhất phase/product convention,
+equilibrium stage, flow equations và golden case. Không tự bịa phần này.

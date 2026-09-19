@@ -1,7 +1,9 @@
 """Pure energy-calculation boundary.
 
-The actual enthalpy implementation must be added with cited Cp/latent-heat data.
-It must treat heat loss as an absolute kW load and return an auditable breakdown.
+The actual enthalpy implementation is a Phase 6 feature and must be added with
+cited Cp/latent-heat data. It must treat heat loss as an absolute kW load and
+return an auditable breakdown. Its absence must not block Phase 3/4 VLE/stage
+work.
 """
 
 from collections.abc import Mapping

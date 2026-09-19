@@ -11,7 +11,7 @@ Khung nền cho mô phỏng chưng cất nhị phân Ethanol–Water ở trạng
 - Hỗ trợ total condenser và partial condenser.
 - `QC`/`QR` dùng mô hình enthalpy đơn giản với dữ liệu Cp/ẩn nhiệt có provenance.
 - Tổn thất nhiệt là tải nhiệt tuyệt đối `heatLoss_kW`.
-- Kết quả chỉ thành công khi residual cân bằng tổng, residual cân bằng cấu tử và residual solver đều `< 1e-4`.
+- Kết quả chỉ thành công khi residual cân bằng tổng, residual cân bằng cấu tử, residual outer và residual solver đều `< 1e-4`.
 - Ngoại suy dữ liệu nhiệt động được phép nhưng phải trả warning `THERMO_EXTRAPOLATION`, nêu nhiệt độ thực tế và miền nguồn.
 - Kiến trúc production: web client → backend/API → engine và data repository.
 
@@ -56,7 +56,16 @@ tests/
 7. [`docs/UI_UX_SPEC.md`](docs/UI_UX_SPEC.md)
 8. [`docs/TEST_CASES.md`](docs/TEST_CASES.md)
 9. [`docs/VALIDATION_ACCEPTANCE.md`](docs/VALIDATION_ACCEPTANCE.md)
-10. [`docs/ROADMAP.md`](docs/ROADMAP.md) và [`docs/TODO.md`](docs/TODO.md)
+10. [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md)
+11. [`docs/ROADMAP.md`](docs/ROADMAP.md) và [`docs/TODO.md`](docs/TODO.md)
+
+Calculation closure: in the total-condenser branch, `xD` is the scalar outer
+unknown, `xB` is derived from material balance, and the root residual closes
+the equilibrium reboiler boundary after exactly `N` body stages. `NF` is never
+silently changed; geometric mismatch returns `INCONSISTENT_FEED_STAGE`.
+Partial condenser is a V1 deliverable but remains `NOT_IMPLEMENTED` until its
+scientific formulation is approved. Enthalpy review blocks only Phase 6, not
+the Phase 3/4 VLE/stage work.
 
 Các file markdown, DOCX và hình ảnh đã copy ban đầu được giữ trong [`docs/archive/`](docs/archive/) hoặc [`docs/assets/`](docs/assets/); không file nào bị xóa vì nghi là trùng lặp.
 
@@ -84,6 +93,7 @@ python -m mypy src
 python -m pytest tests/unit tests/integration tests/reference tests/validation
 python scripts/check_structure.py
 python -m build
+python -m detect_secrets scan --force-use-all-plugins src tests data scripts .github pyproject.toml .env.example
 ```
 
 Mỗi thay đổi model/dữ liệu khoa học cần cập nhật provenance, test regression và review của scientific lead. Không commit secret; dùng `.env.example` làm danh sách biến môi trường không nhạy cảm.

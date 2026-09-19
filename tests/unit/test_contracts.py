@@ -12,7 +12,7 @@ def valid_input(**overrides: object) -> SimulationInput:
         "N": 10,
         "NF": 5,
         "R": 2.0,
-        "D": 20.0,
+        "D_kmol_h": 20.0,
         "heatLoss_kW": 0.0,
         "condenser": "total",
     }
@@ -36,9 +36,19 @@ def test_feed_stage_and_condenser_contract() -> None:
         raise AssertionError("NF > N must be rejected")
 
 
+def test_simulation_flow_constraints_are_not_degenerate() -> None:
+    for overrides in ({"D_kmol_h": 0.0}, {"D_kmol_h": 100.0}, {"zF_ethanol": 0.0}):
+        try:
+            valid_input(**overrides)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("degenerate simulation flow/composition must be rejected")
+
+
 def test_all_residuals_are_required_for_success() -> None:
-    assert residuals_pass(Residuals(0.0, 0.0, 0.0))
-    assert not residuals_pass(Residuals(0.0, 0.0, 1e-4))
+    assert residuals_pass(Residuals(0.0, 0.0, 0.0, 0.0))
+    assert not residuals_pass(Residuals(0.0, 0.0, 1e-4, 0.0))
 
 
 def test_antoine_extrapolation_is_structured_warning() -> None:

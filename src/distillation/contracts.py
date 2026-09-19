@@ -13,6 +13,6 @@ class SimulationCase:
     N: int
     NF: int
     R: float
-    D: float
+    D_kmol_h: float
     heatLoss_kW: float
     condenser: Literal["total", "partial"]

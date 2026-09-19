@@ -14,7 +14,9 @@ nhưng sinh viên có thể bắt đầu từ Phase 0/1 sau khi tuân thủ các
 
 Roadmap cũ chỉ có bốn câu mô tả phase, không đủ để giao việc tuần tự và không
 đưa Firebase vào giai đoạn sớm. Roadmap mới dùng Phase 0–10, có early
-deployment ở Phase 2 và iterative deployment ở Phase 5.
+deployment ở Phase 2 và iterative deployment ở Phase 5. Sau vòng audit này,
+calculation closure, NF behavior, UI semantics và pending golden cases cũng
+được khóa/đánh dấu rõ.
 
 ## Source-of-truth hierarchy
 
@@ -45,7 +47,7 @@ deployment ở Phase 2 và iterative deployment ở Phase 5.
 | N convention | `EXPERT_CONFIRMATION.md` | `N`/`NF` contract fields exist | `NF > N` test | ALIGNED CONTRACT | Add stage-count integration test; no condenser/reboiler in N. |
 | NF | `PROCESS_MODEL.md`, `DATA_MODEL.md` | Range `1..N` validated | `test_feed_stage...` | ALIGNED CONTRACT | Validate consistency with feed intersection in engine. |
 | Total condenser | `EXPERT_CONFIRMATION.md` | Mode accepted; no branch | Mode acceptance only | PARTIAL | Implement and reference-test. |
-| Partial condenser | `EXPERT_CONFIRMATION.md`, `SOFTWARE_ARCHITECTURE.md` | Mode accepted but no branch | No branch test | DOC/IMPLEMENTATION GAP | Keep explicit `NOT_IMPLEMENTED` until Phase 4 tests; do not return fake values. |
+| Partial condenser | `EXPERT_CONFIRMATION.md`, `PROCESS_MODEL.md` | Mode accepted; formulation is intentionally open | Explicit 501/API test | OPEN/BLOCKING | Ask scientific lead to choose phase/product convention, equations, stage count, residual and golden case; keep `NOT_IMPLEMENTED`. |
 | Material balance | `PROCESS_MODEL.md`, formulas §6 | No engine calculation | No balance test | MISSING | Implement F=D+B and reject physical violations. |
 | Ethanol balance | `PROCESS_MODEL.md`, formulas §6.2 | No engine calculation | No balance test | MISSING | Implement normalized component residual. |
 | Recovery | formulas §7 | No engine calculation | None | MISSING | Use `D*xD/(F*zF)`, guard zero ethanol feed. |
@@ -53,13 +55,13 @@ deployment ở Phase 2 và iterative deployment ở Phase 5.
 | QC | formulas §18 | `calcEnergy` reserved and raises | None | MISSING/BLOCKED | Review Cp/latent heat and implement signed convention. |
 | QR | formulas §18 | `calcEnergy` reserved and raises | None | MISSING/BLOCKED | Implement from overall energy balance and fixture tests. |
 | heatLoss_kW | `PROJECT_RULES.md` | Schema accepts non-negative absolute kW | Contract test | ALIGNED CONTRACT | Add API/engine negative and effect-on-QR tests. |
-| Residual `< 1e-4` | `PROJECT_RULES.md`, formulas §20 | `Residuals` gate exists | `test_all_residuals...` | ALIGNED CONTRACT | Return residuals from real engine and test each failure path. |
+| Residual `< 1e-4` | `PROJECT_RULES.md`, formulas §20 | `Residuals` gate now includes mass/component/outer/solver | `test_all_residuals...` | ALIGNED CONTRACT | Return all four residuals from real engine and test each failure path. |
 | Warnings | `THERMODYNAMIC_DATA_SPEC.md`, UI spec | Antoine helper returns code only | Extrapolation unit test | PARTIAL | Include component, actual T and source range in API/UI. |
 | Extrapolation | `PROJECT_RULES.md` | Helper marks extrapolation | Unit test | PARTIAL | Add physical rejection and smoke test. |
 | Sensitivity R | formulas §22 | Parameter validation only | None | MISSING | Implement one-variable sweep and output series. |
 | Sensitivity N | formulas §22 | Parameter validation only | None | MISSING | Implement integer validation and sweep tests. |
 | Sensitivity NF | formulas §22 | Parameter validation only | None | MISSING | Implement range validation and fixed-input preservation tests. |
-| API | `SOFTWARE_ARCHITECTURE.md`, `DATA_MODEL.md` | FastAPI health/version; simulation endpoints return 501 | API contract test | PARTIAL | Wire engine, typed result, auth decision, provenance. |
+| API | `SOFTWARE_ARCHITECTURE.md`, `DATA_MODEL.md` | FastAPI health/version; total is placeholder; partial is explicit 501 | API contract tests | PARTIAL | Wire engine, typed result, auth decision, provenance. |
 | UI | `UI_UX_SPEC.md`, `src/ui/README.md` | Placeholder README only | None | MISSING | Build minimum input→run→output UI in Phase 2/5. |
 | Testing | `CI_REQUIREMENTS.md`, `TEST_CASES.md` | Unit/integration/reference/pending validation tests | CI config | PARTIAL | Add engine, energy, condenser, smoke and golden tests. |
 | Validation | `VALIDATION_PLAN.md`, `VALIDATION_ACCEPTANCE.md` | Pending case and schema; no reviewed source | Pending tests | BLOCKED | Review literature case and only then evaluate/pass. |
@@ -89,6 +91,36 @@ deployment ở Phase 2 và iterative deployment ở Phase 5.
    the hosting boundary. The runbook now states that Firebase Hosting serves
    static frontend assets only; the Python API needs a separate runtime.
 
+## Calculation closure finding
+
+The original input list can determine a total-condenser solution only after an
+outer equation is made explicit. The contract is now:
+
+- unknown: scalar `xD`;
+- derived: `B=F-D`, `xB=(F*zF-D*xD)/B`;
+- trial construction: rectifying line, q-line, feed intersection and stripping
+  line;
+- stage solve: exactly `N` body trays, stage `1..NF-1` rectifying and
+  `NF..N` stripping;
+- bottom closure: equilibrium reboiler boundary
+  `r_outer=y_N-y_eq(xB,P)=0`;
+- bounds: `xD ∈ [zF, min(1,F*zF/D)]` with endpoint guard;
+- numerical method: deterministic finite-grid sign bracket then bisection/Brent;
+- acceptance: outer, mass, ethanol and solver residuals `<1e-4` plus physical
+  checks.
+
+`NF` is not adjusted. The engine computes `NF_geo` from the geometric feed
+transition and returns `INCONSISTENT_FEED_STAGE` when it differs from input
+`NF`. Partial condenser is not closed by this formulation and remains an
+explicit scientific blocker.
+
+## Documentation closure finding
+
+`UI_UX_SPEC.md` now defines field labels/ranges/defaults, three-column layout,
+process diagram, result semantics, stage table, graphs, sensitivity tab and
+demo/pending states. `TEST_CASES.md` now lists analytic cases and marks all
+numerical values without reviewed sources `PENDING_REFERENCE_REVIEW`.
+
 ## Baseline evidence
 
 - Repository structure check: PASS.
@@ -98,3 +130,5 @@ deployment ở Phase 2 và iterative deployment ở Phase 5.
   dev extra was installed.
 - Calculation engine, UI, reviewed thermo data, validation and Firebase are
   not complete; these are expected pending work, not false passes.
+- Reviewed Antoine data blocks Phase 3/4 scientific output. Enthalpy data blocks
+  only Phase 6 energy, not Phase 3/4 VLE/stage implementation.

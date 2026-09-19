@@ -11,6 +11,9 @@ phase before coding. Do not invent unresolved thermo/energy decisions. Keep
 engine separate from UI; every output must be computed and tested. Firebase
 Hosting is frontend-only and must not be treated as a Python backend runtime.
 
-Start with the first incomplete roadmap task. If Firebase login/project
-confirmation is required, stop and ask the owner to complete it; never handle
-or commit credentials.
+Start with the first incomplete roadmap task. Before Phase 4, verify the
+Calculation Closure Gate: xD outer solve, reboiler boundary, stage indexing and
+NF consistency. Do not invent partial-condenser equations; keep that branch
+NOT_IMPLEMENTED until expert decisions are recorded. Enthalpy review is only a
+Phase 6 blocker. If Firebase login/project confirmation is required, stop and
+ask the owner to complete it; never handle or commit credentials.

@@ -20,3 +20,8 @@ Ngày chốt: 2026-09-18. Trả lời của Anh Đại: 1A, 2C, 3B, 4A, 5B, 6A, 
 
 ## Một trường cần điền cuối
 `validation_acceptance_threshold_pct` và `validation_primary_metric` phải được GVHD/Anh Đại ghi rõ trước khi tuyên bố validation PASS/FAIL. Không tự gán giá trị số.
+
+**Lịch sử quyết định:** nội dung trên ghi lại phiếu xác nhận ngày 2026-09-18.
+Sau đó, `docs/VALIDATION_ACCEPTANCE.md` đã ghi quyết định cập nhật cho riêng
+metric/ngưỡng validation: `MAE_xD_xB_percentage_points`, threshold `5` điểm
+phần trăm. Không dùng dòng lịch sử này để mở lại quyết định đã cập nhật.

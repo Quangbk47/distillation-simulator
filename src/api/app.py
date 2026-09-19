@@ -19,7 +19,15 @@ def thermo_data_version() -> dict[str, str]:
 
 @app.post("/api/simulations", response_model=SimulationResult)
 def create_simulation(simulation_input: SimulationInput) -> SimulationResult:
-    del simulation_input
+    if simulation_input.condenser == "partial":
+        raise HTTPException(
+            status_code=status.HTTP_501_NOT_IMPLEMENTED,
+            detail={
+                "status": "not_implemented",
+                "errorCode": "NOT_IMPLEMENTED",
+                "message": "Partial-condenser calculation contract is open and blocked",
+            },
+        )
     raise HTTPException(
         status_code=status.HTTP_501_NOT_IMPLEMENTED,
         detail="V1 calculation engine is not implemented in the repository skeleton",

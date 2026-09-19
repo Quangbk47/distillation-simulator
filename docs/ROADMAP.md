@@ -24,6 +24,20 @@ must run on a separate suitable runtime.
 
 Freeze the V1 scope and calculation contract before scientific code is written.
 
+**Inputs**
+
+Existing final docs, current schemas/source/tests, signed decisions and the
+independent audit.
+
+**Files/modules expected to change**
+
+`docs/*.md`, `src/api/schemas.py` only when a documented contract mismatch is
+found, and contract tests.
+
+**Owner/role**
+
+Scientific lead + project owner; student developer records the result.
+
 **Tasks**
 
 - Read `PROJECT_SCOPE.md`, `PROJECT_RULES.md`, `EXPERT_CONFIRMATION.md`,
@@ -50,20 +64,39 @@ Freeze the V1 scope and calculation contract before scientific code is written.
 Student can start implementation without inventing a scientific model; every
 OPEN item has an owner and a blocking/deferred label.
 
+**What NOT to do**
+
+Do not select Antoine/enthalpy coefficients, partial-condenser equations or a
+Firebase project by guesswork. Do not start the main engine before closure.
+
 **Dependencies**
 
 Existing final documents and the calculation specification.
 
 **Blockers**
 
-Reviewed Antoine and enthalpy sources remain blocking for calculation output;
-the Firebase project/account target remains blocking for deployment.
+Reviewed Antoine data remains blocking for Phase 3/4 scientific output; reviewed
+enthalpy data blocks only Phase 6 energy. The Firebase project/account target
+remains blocking for deployment.
 
 ## Phase 1 — PROJECT SKELETON
 
 **Objective**
 
 Clone, install, test and run a minimal app locally.
+
+**Inputs**
+
+Phase 0 contract, `pyproject.toml`, existing `src/`, tests and CI workflow.
+
+**Files/modules expected to change**
+
+`src/ui/`, minimal static frontend files, `README.md`, `pyproject.toml` only if
+needed, and `.github/workflows/ci.yml`.
+
+**Owner/role**
+
+Student developer; reviewer checks CI.
 
 **Tasks**
 
@@ -89,6 +122,11 @@ Clone, install, test and run a minimal app locally.
 Fresh clone runs locally using documented commands; CI is green; no secret,
 thermo coefficient or fake simulation result is committed.
 
+**What NOT to do**
+
+Do not implement scientific placeholder values, add a frontend calculation
+copy, or introduce a framework/backend runtime without documenting it.
+
 **Dependencies**
 
 Phase 0.
@@ -103,6 +141,20 @@ Missing toolchain or an undocumented frontend choice.
 
 Prove the minimum frontend delivery path early, before the calculation engine
 is complete.
+
+**Inputs**
+
+Phase 1 status UI, `UI_UX_SPEC.md`, owner-confirmed Firebase target/account and
+deployment runbook.
+
+**Files/modules expected to change**
+
+Frontend shell, `firebase.json`, `.firebaserc` or documented equivalent,
+hosting workflow/config and deployment record.
+
+**Owner/role**
+
+DevOps/deployment owner with repository owner for login/project confirmation.
 
 **Tasks**
 
@@ -134,6 +186,11 @@ is complete.
 The minimum UI is reachable at a Firebase URL and can be redeployed from a
 known commit; CI remains a prerequisite for any automated deploy.
 
+**What NOT to do**
+
+Do not create/guess a Firebase project, commit credentials, deploy fake
+scientific numbers, or claim Firebase Hosting runs the Python API.
+
 **Dependencies**
 
 Phase 1 and owner confirmation of Firebase target/account.
@@ -143,11 +200,40 @@ Phase 1 and owner confirmation of Firebase target/account.
 Firebase login, project ID, billing/permissions, or hosting target not yet
 confirmed. This phase must stop at that boundary rather than inventing setup.
 
+## Parallel work after Phase 2
+
+These tracks may proceed in parallel after the UI shell is reachable:
+
+- scientific lead reviews the Antoine dataset for Phase 3/4;
+- backend team implements/tests the total-condenser calculation closure and
+  NF consistency contract;
+- scientific lead answers the partial-condenser OPEN/BLOCKING questions and
+  supplies a reviewed reference case;
+- frontend team keeps the Firebase UI shell labeled `DEMO`, `NOT CALCULATED`
+  and `ENGINE NOT CONNECTED` until a real API result exists.
+
+Enthalpy/Cp review is intentionally a Phase 6 track and does not block the
+Phase 3/4 VLE and stage implementation.
+
 ## Phase 3 — MINIMUM CALCULATION ENGINE
 
 **Objective**
 
 Produce a deterministic, testable material/VLE foundation without UI coupling.
+
+**Inputs**
+
+Phase 0 contract, reviewed Antoine dataset, `PROCESS_MODEL.md` and VLE test
+fixtures/reference sources.
+
+**Files/modules expected to change**
+
+`src/thermodynamics/`, material-balance/solver modules under
+`src/distillation/`/`src/solver/`, reviewed data files, unit/reference tests.
+
+**Owner/role**
+
+Backend student developer with scientific reviewer for data.
 
 **Tasks**
 
@@ -172,7 +258,13 @@ Produce a deterministic, testable material/VLE foundation without UI coupling.
 **Definition of Done**
 
 All Phase 3 functions are deterministic and independently tested; no result is
-reported as success without reviewed data and the three residual gates.
+reported as success without reviewed data and the mass/component/outer/solver
+residual gates defined by the calculation contract.
+
+**What NOT to do**
+
+Do not implement energy, partial-condenser assumptions or UI calculations here;
+do not hard-code unreviewed Antoine coefficients.
 
 **Dependencies**
 
@@ -182,11 +274,42 @@ Phase 0–1 and reviewed Antoine data.
 
 No approved coefficients, units, range, citation, reviewer and review date.
 
+## Calculation Closure Gate — required before Phase 4
+
+Phase 4 cannot start until a reviewer accepts the total-condenser formulation
+in `PROCESS_MODEL.md` and its tests cover:
+
+- scalar unknown `xD` and derived `xB`;
+- physical xD bounds and deterministic bracket/search interval;
+- outer residual `y_N - y_eq(xB,P)` and numerical method;
+- top total-condenser boundary, body-stage indexing and equilibrium reboiler
+  boundary;
+- `NF` transition, `NF_geo` comparison and `INCONSISTENT_FEED_STAGE` behavior;
+- no-bracket, pinch, out-of-range and non-convergence behavior.
+
+The gate is not satisfied by a document-only placeholder or by a test that
+uses invented thermo values. It is satisfied when the contract and analytic
+tests are reviewed and the engine implementation can be written directly.
+
 ## Phase 4 — MCCABE–THIELE ENGINE
 
 **Objective**
 
 Implement the stage solver and explicit condenser branches.
+
+**Inputs**
+
+Phase 3 VLE/balance functions, the calculation-closure gate, approved NF
+convention and (for partial) an approved scientific contract.
+
+**Files/modules expected to change**
+
+`src/distillation/mccabe_thiele.py`, operating-line/stage modules,
+`src/solver/`, condenser tests and reference tests.
+
+**Owner/role**
+
+Backend student developer; scientific lead approves partial formulation.
 
 **Tasks**
 
@@ -212,6 +335,11 @@ Implement the stage solver and explicit condenser branches.
 Both modes have independent tests; `N` excludes condenser/reboiler; all
 stages are finite/physical; residual and solver gates are enforced.
 
+**What NOT to do**
+
+Do not begin before the Calculation Closure Gate, silently adjust NF, count
+the reboiler/condenser in N, or enable partial with an invented equation.
+
 **Dependencies**
 
 Phase 3 and the explicit partial-condenser reference contract.
@@ -225,6 +353,20 @@ Partial-condenser equilibrium convention or reference case not approved.
 **Objective**
 
 Make the complete basic user flow usable: input → Run Simulation → output.
+
+**Inputs**
+
+Stable typed API result, `UI_UX_SPEC.md`, process visualization requirements
+and the early Firebase shell.
+
+**Files/modules expected to change**
+
+`src/ui/`, frontend build/config, API integration tests and hosting deployment
+record.
+
+**Owner/role**
+
+Frontend student developer with backend reviewer.
 
 **Tasks**
 
@@ -253,6 +395,11 @@ A student can enter a valid case, run it, and see numbers, diagram, stage
 table, graph, warnings and residuals at a deployed URL without frontend
 recalculation.
 
+**What NOT to do**
+
+Do not add tray efficiency/Tfeed/reboiler controls, fake demo values, 3D
+animation, or duplicated calculation logic in the browser.
+
 **Dependencies**
 
 Phases 2–4.
@@ -266,6 +413,19 @@ No stable API result contract or no Firebase target/config.
 **Objective**
 
 Add the simple, auditable QC/QR model without changing the core VLE scope.
+
+**Inputs**
+
+Phase 5 solution/stage output and reviewed Cp/latent-heat data with provenance.
+
+**Files/modules expected to change**
+
+`src/distillation/energy.py`, enthalpy data/schema, energy unit tests and API
+result serialization.
+
+**Owner/role**
+
+Backend student developer with scientific reviewer.
 
 **Tasks**
 
@@ -288,6 +448,11 @@ Add the simple, auditable QC/QR model without changing the core VLE scope.
 Energy outputs are reproducible, sourced, unit-tested and exposed only from
 the engine/API.
 
+**What NOT to do**
+
+Do not block Phase 3/4 on enthalpy, invent constants, change QC/QR signs, or
+infer q from Tfeed.
+
 **Dependencies**
 
 Phase 3–4 and reviewed enthalpy data.
@@ -301,6 +466,19 @@ No approved Cp/latent heat data or unresolved sign convention.
 **Objective**
 
 Provide simple R/N/NF sweeps with one changed variable at a time.
+
+**Inputs**
+
+Stable simulation API and the base-case input/result contract.
+
+**Files/modules expected to change**
+
+`src/sensitivity/runner.py`, API sensitivity schema/handler, UI sensitivity tab
+and sensitivity tests.
+
+**Owner/role**
+
+Backend/frontend pair; reviewer checks invariant preservation.
 
 **Tasks**
 
@@ -321,6 +499,11 @@ Provide simple R/N/NF sweeps with one changed variable at a time.
 Each supported sweep changes exactly one variable and produces traceable,
 chartable results; no optimizer is introduced.
 
+**What NOT to do**
+
+Do not sweep multiple variables, optimize a result, or change q/condenser/heat
+loss implicitly.
+
 **Dependencies**
 
 Phase 5–6.
@@ -334,6 +517,20 @@ Unstable base simulation or missing output series contract.
 **Objective**
 
 Evaluate reviewed reference cases without claiming validation prematurely.
+
+**Inputs**
+
+Stable engine, reviewed thermo/enthalpy data as applicable, literature or
+experimental source and mapping review.
+
+**Files/modules expected to change**
+
+`data/validation/`, validation scripts/tests, `VALIDATION_PLAN.md` and review
+report.
+
+**Owner/role**
+
+Scientific lead/reviewer; student prepares reproducible runs.
 
 **Tasks**
 
@@ -357,6 +554,11 @@ Evaluate reviewed reference cases without claiming validation prematurely.
 At least one reviewed case is reproducibly evaluated; validation status is
 evidence-backed and never inferred from the configured threshold alone.
 
+**What NOT to do**
+
+Do not use the UI mockup as evidence, mark pending data PASS, or change the
+accepted metric/threshold without a new decision.
+
 **Dependencies**
 
 Phases 3–7 and scientific reviewer.
@@ -370,6 +572,20 @@ Missing source citation, condition mapping, observed values or reviewer.
 **Objective**
 
 Make normal, invalid and failure paths safe and understandable.
+
+**Inputs**
+
+All prior outputs, release checklist, selected backend runtime and staging
+Firebase deployment.
+
+**Files/modules expected to change**
+
+API error/auth/configuration, frontend error states, CI/workflow, tests and
+deployment documentation.
+
+**Owner/role**
+
+Release/DevOps owner with backend/frontend reviewers.
 
 **Tasks**
 
@@ -395,6 +611,11 @@ Make normal, invalid and failure paths safe and understandable.
 All known failure modes return typed errors/warnings; CI is green; staging
 smoke tests pass; no secret or unreviewed scientific data is shipped.
 
+**What NOT to do**
+
+Do not add enterprise infrastructure, bypass failing CI, or deploy production
+from a failing/unreviewed branch.
+
 **Dependencies**
 
 Phases 5–8 and a chosen backend runtime.
@@ -408,6 +629,20 @@ Unresolved authorization/runtime/deployment ownership or failing tests.
 **Objective**
 
 Publish a traceable production release with rollback information.
+
+**Inputs**
+
+Green CI commit, reviewed data versions, owner approval, Firebase target and
+approved backend runtime credentials.
+
+**Files/modules expected to change**
+
+Production deployment record, version metadata and rollback documentation; no
+scientific source file should change during a release-only deployment.
+
+**Owner/role**
+
+Release owner; repository owner approves production.
 
 **Tasks**
 
@@ -430,6 +665,11 @@ Publish a traceable production release with rollback information.
 
 Production is reachable, traceable to a green commit and can be rolled back
 with frontend/API/data versions kept compatible.
+
+**What NOT to do**
+
+Do not force-push, deploy with failing tests, expose credentials, or treat a
+frontend URL as proof that the Python backend is deployed.
 
 **Dependencies**
 
