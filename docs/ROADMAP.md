@@ -206,7 +206,7 @@ These tracks may proceed in parallel after the UI shell is reachable:
 
 - scientific lead reviews the Antoine dataset for Phase 3/4;
 - backend team implements/tests the total-condenser calculation closure and
-  NF consistency contract;
+  direct NF section-switch contract;
 - scientific lead answers the partial-condenser OPEN/BLOCKING questions and
   supplies a reviewed reference case;
 - frontend team keeps the Firebase UI shell labeled `DEMO`, `NOT CALCULATED`
@@ -284,7 +284,8 @@ in `PROCESS_MODEL.md` and its tests cover:
 - outer residual `y_N - y_eq(xB,P)` and numerical method;
 - top total-condenser boundary, body-stage indexing and equilibrium reboiler
   boundary;
-- `NF` transition, `NF_geo` comparison and `INCONSISTENT_FEED_STAGE` behavior;
+- `NF` transition uses the direct input index; q-line intersection is
+  diagnostic geometry, not an additional success gate;
 - no-bracket, pinch, out-of-range and non-convergence behavior.
 
 The gate is not satisfied by a document-only placeholder or by a test that
@@ -338,7 +339,8 @@ stages are finite/physical; residual and solver gates are enforced.
 **What NOT to do**
 
 Do not begin before the Calculation Closure Gate, silently adjust NF, count
-the reboiler/condenser in N, or enable partial with an invented equation.
+the reboiler/condenser in N, or enable partial with an invented equation. Do
+not add a geometric-stage rejection mechanism to V1.
 
 **Dependencies**
 
@@ -682,6 +684,9 @@ backend runtime.
 
 ## Current starting point
 
-Start at Phase 0 documentation freeze, then Phase 1 skeleton verification. The
-first student coding task is to make the local minimum app and CI green while
-leaving pending scientific data and simulation endpoints explicitly pending.
+Phase 0 is frozen and the Phase 1 local skeleton/UI shell is implemented and
+verified. The next single action is Phase 2 Firebase target confirmation:
+the owner must log in/select the intended Firebase project, after which the
+minimum shell can be configured and manually deployed. Scientific Antoine data
+review and total-condenser engine work can proceed in parallel, while all
+simulation outputs remain explicitly pending until the backend is implemented.

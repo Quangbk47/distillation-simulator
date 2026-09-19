@@ -45,7 +45,7 @@ calculation closure, NF behavior, UI semantics và pending golden cases cũng
 | Rectifying line | `CALCULATION_FORMULAS.md` §9 | Not implemented | None | MISSING | Add slope/intercept tests. |
 | Stripping line | `CALCULATION_FORMULAS.md` §12 | Not implemented | None | MISSING | Define singularity/pinch behavior and tests. |
 | N convention | `EXPERT_CONFIRMATION.md` | `N`/`NF` contract fields exist | `NF > N` test | ALIGNED CONTRACT | Add stage-count integration test; no condenser/reboiler in N. |
-| NF | `PROCESS_MODEL.md`, `DATA_MODEL.md` | Range `1..N` validated | `test_feed_stage...` | ALIGNED CONTRACT | Validate consistency with feed intersection in engine. |
+| NF | `PROCESS_MODEL.md`, `DATA_MODEL.md` | Range `1..N` validated | `test_feed_stage...` | ALIGNED CONTRACT | Use direct section switch; q-line intersection is diagnostic only. |
 | Total condenser | `EXPERT_CONFIRMATION.md` | Mode accepted; no branch | Mode acceptance only | PARTIAL | Implement and reference-test. |
 | Partial condenser | `EXPERT_CONFIRMATION.md`, `PROCESS_MODEL.md` | Mode accepted; formulation is intentionally open | Explicit 501/API test | OPEN/BLOCKING | Ask scientific lead to choose phase/product convention, equations, stage count, residual and golden case; keep `NOT_IMPLEMENTED`. |
 | Material balance | `PROCESS_MODEL.md`, formulas §6 | No engine calculation | No balance test | MISSING | Implement F=D+B and reject physical violations. |
@@ -62,7 +62,7 @@ calculation closure, NF behavior, UI semantics và pending golden cases cũng
 | Sensitivity N | formulas §22 | Parameter validation only | None | MISSING | Implement integer validation and sweep tests. |
 | Sensitivity NF | formulas §22 | Parameter validation only | None | MISSING | Implement range validation and fixed-input preservation tests. |
 | API | `SOFTWARE_ARCHITECTURE.md`, `DATA_MODEL.md` | FastAPI health/version; total is placeholder; partial is explicit 501 | API contract tests | PARTIAL | Wire engine, typed result, auth decision, provenance. |
-| UI | `UI_UX_SPEC.md`, `src/ui/README.md` | Placeholder README only | None | MISSING | Build minimum input→run→output UI in Phase 2/5. |
+| UI | `UI_UX_SPEC.md`, `src/ui/README.md` | Dependency-free shell in `web/`; no engine/API integration yet | Static build/server smoke test | PARTIAL | Connect real API after total engine; keep pending states until then. |
 | Testing | `CI_REQUIREMENTS.md`, `TEST_CASES.md` | Unit/integration/reference/pending validation tests | CI config | PARTIAL | Add engine, energy, condenser, smoke and golden tests. |
 | Validation | `VALIDATION_PLAN.md`, `VALIDATION_ACCEPTANCE.md` | Pending case and schema; no reviewed source | Pending tests | BLOCKED | Review literature case and only then evaluate/pass. |
 | Deployment | `DEPLOYMENT_RUNBOOK.md` | No deployment files/workflow | Repository inventory | MISSING | Establish backend/frontend separation and release gates. |
@@ -109,10 +109,10 @@ outer equation is made explicit. The contract is now:
 - acceptance: outer, mass, ethanol and solver residuals `<1e-4` plus physical
   checks.
 
-`NF` is not adjusted. The engine computes `NF_geo` from the geometric feed
-transition and returns `INCONSISTENT_FEED_STAGE` when it differs from input
-`NF`. Partial condenser is not closed by this formulation and remains an
-explicit scientific blocker.
+`NF` is not adjusted. The engine uses the requested `NF` directly for section
+switching; q-line intersection is diagnostic geometry only and does not create
+a geometric-stage rejection gate. Partial condenser is not closed by this formulation
+and remains an explicit scientific blocker.
 
 ## Documentation closure finding
 

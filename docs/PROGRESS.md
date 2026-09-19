@@ -12,9 +12,18 @@ early/iterative Firebase milestones, and clarified that Firebase Hosting serves
 frontend/static assets while the Python API needs a separate runtime. No
 Firebase project was selected or credentials handled.
 
-Current phase: Phase 0/1 readiness. The repository is a tested skeleton, not a
-working simulator. The first implementation task is the Phase 1 minimum app
-and CI verification, followed by Firebase target confirmation for Phase 2.
+Current phase: Phase 1 local readiness. The repository has a tested backend
+skeleton and a static UI shell, but is not yet a working simulator. The next
+deployment task is Firebase target confirmation for Phase 2.
+
+2026-09-19 — Phase 1 implementation advanced: added a dependency-free static
+UI shell in `web/`, a reproducible `scripts/build_frontend.py` build, and a CI
+frontend-build step. The local backend served `/health` and thermo-version with
+HTTP 200; the built frontend served HTTP 200 and visibly reported
+`ENGINE NOT CONNECTED`/`NOT CALCULATED`. No scientific values are fabricated.
+
+Phase 1 is locally ready. Phase 2 is blocked only at Firebase project/account
+confirmation and login; do not guess a project or create credentials.
 
 Remaining blockers: reviewed Antoine data for Phase 3/4, the partial-condenser
 reference convention/case, validation source/mapping review, Firebase project

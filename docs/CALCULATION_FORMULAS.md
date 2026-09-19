@@ -257,11 +257,10 @@ Chấp nhận nghiệm chỉ khi:
 abs(r_outer) < 1e-4
 r_mass < 1e-4
 r_ethanol < 1e-4
-NF_geo == NF
 ```
 
 Reboiler là equilibrium boundary, không cộng vào `N`. `NF` không được tự thay
-đổi; nếu geometric transition khác `NF`, trả `INCONSISTENT_FEED_STAGE`.
+đổi; geometric transition giữa các tray không phải là success gate trong V1.
 
 ------------------------------------------------------------------------
 
@@ -443,10 +442,9 @@ for stage in 1..N:
 r_outer = current_y - y_eq(xB, P)
 ```
 
-`xD` phải được root-solve để `r_outer=0` theo Mục 6.3. Engine đồng thời tính
-`NF_geo`, là stage đầu tiên có horizontal equilibrium step ở phía stripping của
-feed intersection. Nếu `NF_geo != NF`, trả `INCONSISTENT_FEED_STAGE`; không âm
-thầm thay đổi `NF`.
+`xD` phải được root-solve để `r_outer=0` theo Mục 6.3. Engine dùng `NF` trực
+tiếp cho section switch; `xq,yq` chỉ là operating-line metadata, không tạo ra
+geometric-stage rejection hay lỗi stage mismatch.
 
 ### Điều kiện dừng/lỗi
 
@@ -457,7 +455,7 @@ Dừng và trả `non_converged` nếu:
 -   xuất hiện NaN/Inf;
 -   lặp không tiến triển (pinch);
 -   vượt giới hạn iteration;
--   kết quả cuối không thỏa outer residual, balance residual hoặc NF check.
+-   kết quả cuối không thỏa outer residual hoặc balance residual.
 
 ------------------------------------------------------------------------
 
@@ -787,7 +785,7 @@ simulate(input):
         calculate r_outer = yN - y_eq(xB,P)
 
     solve r_outer=0 with bisection/Brent
-    verify NF_geo == NF; never change NF
+    keep user NF unchanged; geometric crossing is diagnostic only
     return xD, xB and stage profiles
 
     for each stage:
@@ -946,7 +944,7 @@ Calculation engine V1 được coi là đủ để nối UI khi:
 5.  Rectifying line, q-line và stripping line có unit test.
 6.  McCabe--Thiele stepping trả stage profile hữu hạn/vật lý.
 7.  Cân bằng tổng, ethanol và outer residual đạt residual `<1e-4`.
-8.  `NF_geo == NF`; mismatch trả `INCONSISTENT_FEED_STAGE`.
+8.  `NF` section switch dùng đúng stage input, không tự điều chỉnh.
 9.  Recovery được tính đúng.
 10. Stage temperature lấy từ VLE, không phải dữ liệu giả.
 11. `QC/QR` dùng cùng một enthalpy/sign convention khi Phase 6 hoàn tất.

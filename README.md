@@ -36,7 +36,8 @@ src/
   solver/                     Residual/convergence gates
   sensitivity/                Khung khảo sát đúng một biến R/N/NF
   api/                        Backend/API contract và FastAPI app skeleton
-  ui/                         Placeholder cho web client; chưa có UI hoàn chỉnh
+  ui/                         Boundary notes cho web client
+web/                          Static V1 UI shell, không phụ thuộc framework
 tests/
   unit/                       Unit tests cho contract và logic nhỏ
   integration/                API/engine boundary tests
@@ -62,7 +63,8 @@ tests/
 Calculation closure: in the total-condenser branch, `xD` is the scalar outer
 unknown, `xB` is derived from material balance, and the root residual closes
 the equilibrium reboiler boundary after exactly `N` body stages. `NF` is never
-silently changed; geometric mismatch returns `INCONSISTENT_FEED_STAGE`.
+silently changed; it directly controls the section switch. Q-line geometry is
+diagnostic only in V1.
 Partial condenser is a V1 deliverable but remains `NOT_IMPLEMENTED` until its
 scientific formulation is approved. Enthalpy review blocks only Phase 6, not
 the Phase 3/4 VLE/stage work.
@@ -80,9 +82,11 @@ python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 Copy-Item .env.example .env
 python -m uvicorn api.app:app --reload --host 127.0.0.1 --port 8000
+python scripts/build_frontend.py
+python -m http.server 5173 --directory build/frontend
 ```
 
-API skeleton có `/health`, `/api/thermo-data/version`, `/api/simulations` và `/api/sensitivity`. Endpoint mô phỏng đầy đủ sẽ chỉ được mở khi engine và data review hoàn tất; chưa có triển khai production trong bước audit này.
+API skeleton có `/health`, `/api/thermo-data/version`, `/api/simulations` và `/api/sensitivity`. Static UI shell build vào `build/frontend` và hiện hiển thị `ENGINE NOT CONNECTED`/`NOT CALCULATED`; endpoint mô phỏng đầy đủ sẽ chỉ được mở khi engine và data review hoàn tất.
 
 ## Kiểm tra
 

@@ -99,17 +99,16 @@ numbers. Stage temperature is calculated from bubble-point VLE.
 
 ## 4. Feed/solver metadata
 
-The result trace must expose:
+The result trace/operating-line metadata may expose:
 
 - `NF` requested by the user;
-- `NF_geo` calculated from the feed intersection;
-- `xq`, `yq`;
+- `xq`, `yq` feed intersection for operating-line visualization;
 - `xD` search bounds, bracket, numerical method and iterations;
 - final outer residual;
 - warnings and data provenance.
 
-When `NF_geo != NF`, return `failed` with `INCONSISTENT_FEED_STAGE`. Never
-rewrite the user's `NF`.
+The feed intersection is diagnostic only. Never rewrite the user's `NF` and do
+not fail a case merely because the geometric crossing lies between stages.
 
 ## 5. Partial condenser status
 

@@ -12,8 +12,8 @@ class SimulationEngineNotReady(NotImplementedError):
 def solve_mccabe_thiele(simulation_input: SimulationCase) -> NoReturn:
     """Reserve the deterministic V1 engine entry point.
 
-    The implementation must solve the scalar xD outer residual and enforce
-    NF consistency as documented in ``docs/PROCESS_MODEL.md``. Energy data is
+    The implementation must solve the scalar xD outer residual and use the
+    direct NF section switch documented in ``docs/PROCESS_MODEL.md``. Energy data is
     not a prerequisite for this VLE/stage boundary.
     """
 

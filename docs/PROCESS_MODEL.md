@@ -187,27 +187,26 @@ liquid has composition `xB` and its equilibrium vapor is `y_eq(xB,P)`. The
 outer residual in Section 4 closes these values. The reboiler is not included
 in the returned body-stage count.
 
-## 6. NF/feed-stage consistency
+## 6. NF/feed-stage convention
 
-`NF` is a hard input, never an output to be silently adjusted.
-
-For every trial, the engine also computes the geometric feed transition using
-the same q-line intersection. Define `NF_geo` as the first body-stage index
-whose equilibrium horizontal step reaches the stripping side of the feed
-intersection (`x_i <= xq` using the implementation's documented tolerance).
-If no such step occurs in `1..N`, use `NF_geo = N+1`.
-
-The result is valid only when `NF_geo == NF`. Otherwise return:
+`NF` is a hard input, never an output and never silently adjusted. V1 keeps the
+simple user-facing convention even when the continuous q-line intersection
+does not land exactly on an integer stage:
 
 ```text
-status = "failed"
-errorCode = "INCONSISTENT_FEED_STAGE"
+stages 1 .. NF-1 : rectifying line
+stages NF .. N   : stripping line
 ```
 
-The engine must include `NF`, `NF_geo`, `xq`, `yq` and the tolerance in the
-trace. It must not move the feed, change `NF`, or substitute another operating
-line to force a match. A root failure before this check remains
-`NON_CONVERGED`, not `INCONSISTENT_FEED_STAGE`.
+The q-line/feed intersection is still used to construct the operating lines.
+It is diagnostic geometry, not an additional success gate. The engine may
+return `xq`/`yq` in developer trace or operating-line metadata, but it must not
+derive a separate geometric stage index, reject the case, or move the user's feed stage merely
+because the geometric crossing lies between trays.
+
+Only ordinary physical/non-convergence checks can fail a trial: impossible
+compositions/flows, failed equilibrium inversion, pinch, NaN/Inf, no outer
+root bracket, iteration limit or residual failure.
 
 ## 7. Total-condenser stepping algorithm
 
@@ -226,7 +225,7 @@ for i in 1..N:
     store stage i
 r_outer = current_y - equilibrium_y(xB, P)
 root-solve r_outer(xD) = 0
-check NF_geo == NF, balances, physical bounds and all residual gates
+check balances, physical bounds and all residual gates
 return typed result, trace, warnings and provenance
 ```
 
@@ -239,14 +238,12 @@ same observable convention and trace information.
   required reviewed data exists.
 - `warning`: only when the calculation succeeds but a structured warning such
   as `THERMO_EXTRAPOLATION` is present; success must not hide the warning.
-- `failed`: invalid physical input, inconsistent NF, non-convergence or failed
-  residual gate.
+- `failed`: invalid physical input, non-convergence or failed residual gate.
 - `not_implemented`: a valid partial-condenser request while the partial
   contract is still OPEN/BLOCKING.
 
 Required error codes include `INVALID_INPUT`, `ROOT_BRACKET_NOT_FOUND`,
-`NON_CONVERGED`, `INCONSISTENT_FEED_STAGE`, `THERMO_EXTRAPOLATION` and
-`NOT_IMPLEMENTED`.
+`NON_CONVERGED`, `THERMO_EXTRAPOLATION` and `NOT_IMPLEMENTED`.
 
 ## 9. Partial condenser — OPEN/BLOCKING contract
 

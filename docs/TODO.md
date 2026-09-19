@@ -14,13 +14,15 @@
 
 ## P1 — implementation sequence
 
-- Skeleton: keep local app, CI, lint, type-check, tests and build green.
+- Skeleton: keep local app, CI, lint, type-check, tests and build green. The
+  dependency-free UI shell/build is now in place.
 - Firebase: add minimum static status UI and early hosting deploy after target
   confirmation.
 - Core: implement Antoine/Raoult, bubble temperature, material/component
   balance, recovery and residual gates.
 - Calculation closure: implement the total-condenser outer xD solve, bottom
-  equilibrium boundary and NF consistency gate before McCabe–Thiele UI work.
+  equilibrium boundary and direct NF section switch before McCabe–Thiele UI
+  work.
 - McCabe–Thiele: implement q-line, operating lines, stepping, N/NF and both
   condenser branches with separate tests.
 - UI: direct q, absolute heat loss, warnings, results, stage table, column

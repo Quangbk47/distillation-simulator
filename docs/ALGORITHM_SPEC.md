@@ -32,8 +32,8 @@ branch is total condenser. Partial condenser remains a separate
    stages `1..NF-1`, stripping line for stages `NF..N`; calculate each stage
    temperature from VLE.
 7. Close the equilibrium reboiler boundary without adding the reboiler to `N`.
-   Require `NF_geo == NF`; otherwise return `INCONSISTENT_FEED_STAGE` and never
-   change the requested `NF`.
+   Use the requested `NF` directly; the q-line intersection is diagnostic
+   geometry and is not an additional stage-index success gate.
 8. Compute `D`, `B`, `xD`, `xB`, recovery, stage profile, operating-line data,
    warnings, provenance and residuals.
 9. Compute energy only when reviewed enthalpy data is available. Energy is a
@@ -104,8 +104,9 @@ trace[]
 ```
 
 `stages[]` contains `stage`, `T_C`, `x_ethanol`, `y_ethanol` and
-`section=rectifying|stripping`. Feed transition metadata contains `NF`,
-`NF_geo`, `xq`, `yq` and any consistency error.
+`section=rectifying|stripping`. Feed transition metadata contains `NF`, `xq`
+and `yq` as diagnostic geometry; it does not contain a mandatory geometric
+stage-match error.
 
 ## 6. Status/error behavior
 

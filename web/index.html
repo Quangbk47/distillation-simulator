@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Distillation Simulator — mô phỏng chưng cất Ethanol–Water"
+    />
+    <title>Distillation Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div>
+        <p class="eyebrow">NCKH · V1</p>
+        <h1>Distillation Simulator</h1>
+        <p class="subtitle">Mô phỏng chưng cất nhị phân Ethanol–Water</p>
+      </div>
+      <div class="connection-badge" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="connection-status">ENGINE NOT CONNECTED</span>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Các chức năng chính">
+      <button class="tab is-active" type="button" data-tab="simulation">Mô phỏng</button>
+      <button class="tab" type="button" data-tab="sensitivity">Khảo sát độ nhạy</button>
+    </nav>
+
+    <main>
+      <section class="tab-panel is-active" id="simulation-panel" data-panel="simulation">
+        <form class="workspace" id="simulation-form" novalidate>
+          <section class="panel input-panel" aria-labelledby="input-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">01 · INPUT</p>
+                <h2 id="input-title">Điều kiện vận hành</h2>
+              </div>
+              <span class="system-chip">Ethanol–Water</span>
+            </div>
+
+            <div class="field-grid">
+              <label class="field">
+                <span>Thành phần nhẹ trong feed <code>zF</code></span>
+                <small>mol/mol · 0 &lt; zF &lt; 1</small>
+                <input name="zF_ethanol" type="number" min="0.001" max="0.999" step="0.01" value="0.50" required />
+              </label>
+              <label class="field">
+                <span>Lưu lượng feed <code>F</code></span>
+                <small>kmol/h · F &gt; 0</small>
+                <input name="F_kmol_h" type="number" min="0.001" step="1" value="100" required />
+              </label>
+              <label class="field">
+                <span>Áp suất tháp <code>P</code></span>
+                <small>bar · P &gt; 0</small>
+                <input name="P_bar" type="number" min="0.001" step="0.01" value="1.0" required />
+              </label>
+              <label class="field">
+                <span>Trạng thái nhiệt feed <code>q</code></span>
+                <small>q là input trực tiếp</small>
+                <input name="q" type="number" step="0.1" value="1.0" required />
+              </label>
+              <label class="field">
+                <span>Số mâm thân tháp <code>N</code></span>
+                <small>mâm lý thuyết · N ≥ 1</small>
+                <input name="N" type="number" min="1" step="1" value="10" required />
+              </label>
+              <label class="field">
+                <span>Vị trí mâm feed <code>NF</code></span>
+                <small>đếm từ trên xuống · 1..N</small>
+                <input name="NF" type="number" min="1" step="1" value="5" required />
+              </label>
+              <label class="field">
+                <span>Tỷ số hồi lưu <code>R</code></span>
+                <small>R = L/D · R ≥ 0</small>
+                <input name="R" type="number" min="0" step="0.1" value="2.0" required />
+              </label>
+              <label class="field">
+                <span>Lưu lượng sản phẩm đỉnh <code>D</code></span>
+                <small>kmol/h · 0 &lt; D &lt; F</small>
+                <input name="D_kmol_h" type="number" min="0.001" step="1" value="20" required />
+              </label>
+              <label class="field">
+                <span>Loại condenser</span>
+                <small>Total là đường chính V1</small>
+                <select name="condenser">
+                  <option value="total">Total condenser</option>
+                  <option value="partial" disabled>Partial — Chưa hỗ trợ</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Tổn thất nhiệt <code>heatLoss_kW</code></span>
+                <small>kW tuyệt đối · ≥ 0</small>
+                <input name="heatLoss_kW" type="number" min="0" step="0.1" value="0" required />
+              </label>
+            </div>
+
+            <p class="form-note">xD và xB là kết quả tính toán, không phải input.</p>
+            <div class="form-error" id="form-error" role="alert"></div>
+            <div class="form-actions">
+              <button class="button primary" type="submit">Chạy mô phỏng</button>
+              <button class="button secondary" id="reset-button" type="button">Đặt lại</button>
+            </div>
+          </section>
+
+          <section class="panel process-panel" aria-labelledby="process-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">02 · PROCESS</p>
+                <h2 id="process-title">Sơ đồ mô phỏng</h2>
+              </div>
+              <span class="model-chip">Raoult + Antoine</span>
+            </div>
+
+            <div class="column-diagram" aria-label="Sơ đồ tháp chưng cất">
+              <div class="stream top-stream"><span>Reflux L / xD</span><span>Distillate D / xD →</span></div>
+              <div class="equipment condenser"><strong>Condenser</strong><small>Total condenser</small></div>
+              <div class="column-shell">
+                <div class="column-label">COLUMN</div>
+                <div class="tray-stack" aria-label="Thân tháp với các mâm lý thuyết">
+                  <span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="feed-stream">← Feed F / zF · NF</div>
+              </div>
+              <div class="equipment reboiler"><strong>Reboiler</strong><small>Không tính vào N</small></div>
+              <div class="stream bottom-stream"><span>Bottoms B / xB ↓</span><span>QR: NOT CALCULATED</span></div>
+              <p class="diagram-note">Sơ đồ là visualization của kết quả backend. Chưa có dữ liệu khoa học để hiển thị.</p>
+            </div>
+
+            <div class="plot-card">
+              <div class="plot-heading"><h3>McCabe–Thiele</h3><span>NOT CALCULATED</span></div>
+              <div class="empty-plot" aria-label="Đồ thị chưa có dữ liệu"><span>ENGINE NOT CONNECTED</span></div>
+            </div>
+          </section>
+
+          <section class="panel results-panel" aria-labelledby="results-title">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">03 · RESULTS</p>
+                <h2 id="results-title">Kết quả</h2>
+              </div>
+              <span class="pending-badge" id="result-status">NOT CALCULATED</span>
+            </div>
+
+            <div class="result-grid">
+              <article class="result-card"><span>xD · Ethanol sản phẩm đỉnh</span><strong id="result-xd">—</strong><small>mol fraction</small></article>
+              <article class="result-card"><span>xB · Ethanol sản phẩm đáy</span><strong id="result-xb">—</strong><small>mol fraction</small></article>
+              <article class="result-card"><span>Recovery ethanol</span><strong id="result-recovery">—</strong><small>%</small></article>
+              <article class="result-card"><span>D · Sản phẩm đỉnh</span><strong id="result-d">—</strong><small>kmol/h</small></article>
+              <article class="result-card"><span>B · Sản phẩm đáy</span><strong id="result-b">—</strong><small>kmol/h</small></article>
+              <article class="result-card"><span>QC / QR</span><strong id="result-duty">— / —</strong><small>kW · energy pending</small></article>
+            </div>
+
+            <div class="warning-box" id="warning-box"><strong>Warnings</strong><span id="warning-text">ENGINE NOT CONNECTED</span></div>
+
+            <div class="metadata-list">
+              <div><span>Mô hình VLE</span><strong>Raoult + Antoine</strong></div>
+              <div><span>Thermo data version</span><strong>PENDING_REVIEW</strong></div>
+              <div><span>Residuals</span><strong id="residuals">NOT CALCULATED</strong></div>
+            </div>
+
+            <div class="table-card">
+              <div class="plot-heading"><h3>Stage table</h3><span>Body stages only</span></div>
+              <div class="table-empty">NOT CALCULATED · Chưa có engine output</div>
+            </div>
+          </section>
+        </form>
+      </section>
+
+      <section class="tab-panel" id="sensitivity-panel" data-panel="sensitivity">
+        <div class="panel sensitivity-shell">
+          <div class="panel-heading">
+            <div><p class="eyebrow">SENSITIVITY</p><h2>Khảo sát độ nhạy</h2></div>
+            <span class="pending-badge">ENGINE NOT CONNECTED</span>
+          </div>
+          <p>Chọn đúng một biến để khảo sát. q, condenser, heatLoss và các input còn lại sẽ được giữ nguyên.</p>
+          <div class="sensitivity-controls">
+            <label class="field"><span>Biến khảo sát</span><select disabled><option>R</option><option>N</option><option>NF</option></select></label>
+            <label class="field"><span>Giá trị khảo sát</span><input type="text" value="NOT CALCULATED" disabled /></label>
+            <button class="button primary" type="button" disabled>Chạy khảo sát</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">V1 shell · Calculation authority belongs to the backend/API · No scientific values are fabricated</footer>
+    <script src="app.js" defer></script>
+  </body>
+</html>

@@ -13,6 +13,7 @@ REQUIRED_DIRECTORIES = (
     "src/sensitivity",
     "src/api",
     "src/ui",
+    "web",
     "tests/unit",
     "tests/integration",
     "tests/reference",
@@ -27,6 +28,8 @@ def main() -> None:
         raise SystemExit(f"Missing required directories: {', '.join(missing)}")
     if not (ROOT / ".env.example").is_file():
         raise SystemExit("Missing .env.example")
+    if not (ROOT / "scripts/build_frontend.py").is_file():
+        raise SystemExit("Missing scripts/build_frontend.py")
     print("Repository structure is complete.")
 
 

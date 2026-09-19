@@ -29,6 +29,8 @@ jobs:
         run: ruff check src tests scripts
       - name: Type check
         run: mypy src
+      - name: Build frontend shell
+        run: python scripts/build_frontend.py
       - name: Unit, integration, reference and validation tests
         run: pytest tests/unit tests/integration tests/reference tests/validation
       - name: Build production package

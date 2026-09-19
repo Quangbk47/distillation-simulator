@@ -51,8 +51,8 @@ solver < 1e-4
 | O-03 | Rectifying line | `mR=R/(R+1)`, `bR=xD/(R+1)` for a trial xD | Analytic expected structure |
 | O-04 | Stripping line | Passes through `(xB,xB)` and `(xq,yq)`; singular case rejected | Analytic expected structure |
 | O-05 | Outer closure | Scan physical xD bounds, bracket, root-solve `yN-y_eq(xB,P)` | Numeric value pending thermo/reference review |
-| O-06 | Valid NF | `NF_geo == NF`, sections are `1..NF-1` rectifying and `NF..N` stripping | Analytic expected structure |
-| O-07 | Inconsistent NF | Return `INCONSISTENT_FEED_STAGE`; never change NF | Required |
+| O-06 | NF section switch | Sections are `1..NF-1` rectifying and `NF..N` stripping | Analytic expected structure |
+| O-07 | q-line crossing between trays | Keep direct NF section switch; do not reject or invent a geometric stage index | Required |
 | O-08 | No xD sign-changing bracket | Return `ROOT_BRACKET_NOT_FOUND`/`NON_CONVERGED` | Required |
 | O-09 | Pinch, out-of-range, NaN/Inf, iteration limit | Non-success with trace and reason | Required |
 
