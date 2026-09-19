@@ -4,9 +4,143 @@ These rules are binding for V1. Detailed calculation closure is in
 `PROCESS_MODEL.md`, formulas in `CALCULATION_FORMULAS.md`, algorithm order in
 `ALGORITHM_SPEC.md`, and the UI contract in `UI_UX_SPEC.md`.
 
+## Team workflow
+
+The mandatory repository rule is:
+
+> **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.**
+
+A meaningful unit of work is complete only after this sequence:
+
+```text
+IMPLEMENT
+→ TEST
+→ UPDATE PROJECT DOCUMENTATION
+→ COMMIT
+→ PUSH
+```
+
+If implementation, required tests, documentation, commit, or push is missing,
+the work is not complete. A documentation-only change must still update the
+relevant project-management files, pass its consistency checks, and be
+committed and pushed.
+
+`TASK DONE` does not mean `PHASE DONE`. A phase remains incomplete until its
+entire Definition of Done is satisfied. A completed task inside an incomplete
+phase may be marked `DONE`, while the phase remains `IN PROGRESS` or
+`BLOCKED`. Work intentionally moved to another phase is labelled `DEFERRED`
+on the task/item and recorded in `ROADMAP.md`/`TODO.md`; `DEFERRED` is not a
+fifth phase status.
+
+## Allowed status values
+
+Phases use exactly these four primary statuses:
+
+- `NOT STARTED`: work has not begun.
+- `IN PROGRESS`: work has begun and in-scope work remains.
+- `BLOCKED`: work cannot continue because it awaits a dependency, decision,
+  data, account, access or external action.
+- `DONE`: the complete phase Definition of Done is met, required tests pass,
+  documentation is current, and the change is committed and pushed.
+
+Tasks may additionally use the label `DEFERRED` when work is deliberately
+moved to a later phase. A blocked task is not a failed task; it must record
+what is complete, what remains, the blocker, who/what can unblock it, and the
+next action after unblocking.
+
+## Source of truth and documentation ownership
+
+- `ROADMAP.md` — where the project is going: phase scope, dependencies,
+  ordering and Definitions of Done. It is not a task diary.
+- `PROGRESS.md` — where the project is now: current phase status, completed
+  work, remaining work, blockers, evidence and next action.
+- `TODO.md` — what remains: actionable work, dependencies and acceptance
+  conditions. Unresolved TODOs must not be deleted for cosmetic reasons.
+- Specification files — how the system must work. Update them only when a
+  requirement, scientific decision, formula/algorithm, API/data contract,
+  UI contract or test/acceptance contract changes.
+- `HANDOVER.md` — what the next person needs to know at a milestone or
+  significant handoff.
+- `NEXT_SESSION_PROMPT.md` — where the next working session starts; it must
+  not describe already-completed work as the next task.
+
+Do not maintain the same fact independently in multiple files in a way that
+can diverge. If implementation and specification disagree, first decide
+whether the implementation or the source-of-truth specification is wrong;
+then update the appropriate source and record a meaningful change in
+`PROGRESS.md`/`HANDOVER.md`.
+
+## Required progress and evidence
+
+Update `PROGRESS.md` after every meaningful unit of work: a task or substantial
+part is completed, a phase changes status, a blocker appears or is resolved,
+work is handed to a later session, or a milestone is reached.
+
+Each phase entry must contain:
+
+```text
+Phase
+Status
+Completed
+Remaining
+Blockers
+Next Action
+Evidence
+Last Updated
+```
+
+`DONE` requires evidence rather than description alone:
+
+- code: relevant tests and commit SHA;
+- deployment: build, URL, smoke test and commit SHA;
+- scientific/data work: source/citation, reviewer when required and reference
+  result;
+- UI: build, relevant manual/test verification and commit SHA;
+- documentation: files updated, consistency check and commit SHA.
+
+Keep completed and remaining items cumulative. When a later contributor
+finishes one remaining item, add it to `Completed` but preserve all other
+unfinished items in `Remaining`.
+
+## Before and after a working session
+
+Before coding, every contributor must:
+
+1. `git pull`;
+2. read `PROJECT_RULES.md`;
+3. read the relevant `ROADMAP.md` phase;
+4. read `PROGRESS.md`;
+5. read related `TODO.md` items;
+6. read the relevant specifications;
+7. identify the current `Next Action`;
+8. only then change the repository.
+
+Before ending work:
+
+1. run relevant tests/checks;
+2. update `PROGRESS.md`;
+3. update `TODO.md` for new, deferred or completed work;
+4. update `ROADMAP.md` only if scope, dependency, ordering, Definition of Done
+   or a major task assignment changes;
+5. update specifications only if their contract changes;
+6. update `HANDOVER.md` for a milestone, significant handoff or important
+   blocker;
+7. update `NEXT_SESSION_PROMPT.md` when the next action changes;
+8. review `git diff` and `git status`;
+9. commit;
+10. push;
+11. confirm that the commit exists on the remote.
+
+One meaningful commit should include implementation, related tests and the
+progress update when practical. Do not create a cosmetic progress-only commit
+immediately after implementation if the files could have been updated in the
+same checkpoint.
+
+## V1 technical rules
+
 - System: binary Ethanol–Water, steady-state, constant pressure.
 - Runtime VLE: Raoult + Antoine only. Wilson/NRTL is not a V1 runtime feature.
-- q is a direct finite numeric input; do not infer it from `Tfeed`.
+- `q` is a direct finite numeric input; do not infer it from `Tfeed`.
 - `N` counts body trays only; condenser and reboiler are excluded.
 - Total and partial condenser belong to V1. Total is closed now; partial is
   `OPEN/BLOCKING` and must return `NOT_IMPLEMENTED` until approved equations

@@ -1,20 +1,33 @@
 # Next Session Prompt
 
-Continue Distillation Simulator from `docs/ROADMAP.md` and
-`docs/PROJECT_AUDIT.md`. Current status is Phase 1 local readiness: the
-dependency-free UI shell builds and the API health/version endpoints run, but
-there is no production calculation engine, reviewed thermo data or Firebase
-configuration.
+Start by running `git pull`, then read these files in order:
 
-Read `README.md`, `PROJECT_RULES.md`, `EXPERT_DECISIONS.md`,
-`CALCULATION_FORMULAS.md`, `ALGORITHM_SPEC.md`, `PROGRESS.md` and the relevant
-phase before coding. Do not invent unresolved thermo/energy decisions. Keep
-engine separate from UI; every output must be computed and tested. Firebase
-Hosting is frontend-only and must not be treated as a Python backend runtime.
+1. `docs/PROJECT_RULES.md`
+2. `docs/ROADMAP.md` for the phase being considered
+3. `docs/PROGRESS.md`
+4. the relevant `docs/TODO.md` items
+5. the relevant specification files
 
-Start with the first incomplete roadmap task. Before Phase 4, verify the
-Calculation Closure Gate: xD outer solve, reboiler boundary and direct NF stage
-indexing. Do not invent partial-condenser equations; keep that branch
-NOT_IMPLEMENTED until expert decisions are recorded. Enthalpy review is only a
-Phase 6 blocker. If Firebase login/project confirmation is required, stop and
-ask the owner to complete it; never handle or commit credentials.
+The repository rule is:
+
+> **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.**
+
+Use the checkpoint sequence `IMPLEMENT → TEST → UPDATE PROJECT DOCUMENTATION
+→ COMMIT → PUSH`. Do not call a task `DONE` a phase `DONE`; preserve every
+remaining item. Use only `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE` for
+phase status, with `DEFERRED` only as a task/item label.
+
+Current starting point: Phase 1 is `IN PROGRESS`; Phase 0 is `DONE`; Phase 2
+and Phase 3 are `BLOCKED`; later phases are `NOT STARTED` as recorded in
+`PROGRESS.md`.
+
+The immediate next action is to verify/record the remote CI result for the
+current checkpoint. Firebase work cannot proceed until the owner logs in and
+confirms the target project. If login is required, stop and ask the owner;
+never create or guess a project and never handle or commit credentials.
+
+Do not invent Antoine or enthalpy data, partial-condenser equations or
+validation mappings. Keep partial condenser `NOT_IMPLEMENTED`. Enthalpy is a
+Phase 6 blocker only. Before Phase 4, verify the total-condenser closure gate:
+outer `xD`, reboiler boundary and direct `NF` stage indexing, with no
+geometric-stage rejection gate.

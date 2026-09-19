@@ -1,23 +1,70 @@
 # Handover
 
-Đọc `README.md`, `PROJECT_AUDIT.md`, `PROJECT_RULES.md`,
-`EXPERT_DECISIONS.md`, `ALGORITHM_SPEC.md`, `CALCULATION_FORMULAS.md` và
-`PROGRESS.md`. Phiếu trong `docs/archive/` chỉ là lịch sử. Không đổi giả thiết
-chuyên môn mà không cập nhật source-of-truth, calculation contract, tests và
-version.
+## Current Phase
 
-Roadmap hiện hành là `docs/ROADMAP.md`: Phase 0 đã freeze, Phase 1 local shell
-đã build được; bước tiếp theo là xác nhận Firebase ở Phase 2, chạy Calculation
-Closure Gate trước Phase 4, deploy lại ở Phase 5 và production ở Phase 10.
-Firebase Hosting chỉ host frontend/static assets; backend Python phải có
-runtime riêng.
+Phase 1 — PROJECT SKELETON
 
-Total-condenser closure đã được document: outer unknown là `xD`, `xB` suy ra
-từ balance, bottom residual là `y_to_reboiler-y_eq(xB,P)`, và `NF` được dùng
-trực tiếp để chuyển section. Q-line intersection chỉ là geometry; không có
-geometric-stage success gate. Partial condenser vẫn OPEN/BLOCKING và phải trả
-`NOT_IMPLEMENTED`; enthalpy review chỉ chặn Phase 6.
+## Current Status
 
-Nếu gặp login Firebase/GitHub hoặc thao tác deployment ảnh hưởng tài khoản,
-dừng tại bước đó và yêu cầu chủ repo đăng nhập/xác nhận. Không tự tạo project,
-không lưu credential, không force-push.
+`IN PROGRESS`. Phase 0 is `DONE`. Phase 2 and Phase 3 are `BLOCKED`; later
+phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
+
+## What is completed
+
+- V1 contracts and direct-`NF` section-switch convention are documented.
+- Backend/API skeleton, tests and local development commands exist.
+- Dependency-free static UI shell and reproducible frontend build exist.
+- Local structure, formatting, lint, type-check, tests, package build, secret
+  scan, backend health and static frontend checks passed at `afb7bfa`.
+- Total condenser remains the primary path; partial condenser remains
+  `NOT_IMPLEMENTED`.
+
+## What remains
+
+- Verify/record the remote CI result for the Phase 1 checkpoint.
+- Review Antoine data before Phase 3/4 scientific output.
+- Implement the minimum calculation engine and closure gate.
+- Confirm Firebase account/project before any hosting configuration.
+- Keep all unresolved items in `PROGRESS.md` and `TODO.md`.
+
+## Known blockers
+
+- Firebase owner login and target project selection block Phase 2 deployment.
+- Reviewed Antoine records block Phase 3/4 scientific implementation.
+- Partial-condenser equations/reference case are `DEFERRED` and blocked by a
+  scientific decision.
+- Reviewed enthalpy data blocks Phase 6 only.
+- A separate backend runtime is required; Firebase Hosting is frontend-only.
+
+## Important decisions
+
+- `ROADMAP.md` describes where the project is going; `PROGRESS.md` describes
+  where it is; `TODO.md` describes what remains.
+- `TASK DONE` is not `PHASE DONE`.
+- The mandatory rule is **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED**.
+- A phase uses only `NOT STARTED`, `IN PROGRESS`, `BLOCKED` or `DONE`.
+- Work intentionally moved later is labelled `DEFERRED`, never used as a phase
+  status.
+- Never guess scientific data, Firebase projects or credentials.
+
+## Files/modules involved
+
+- Project management: `docs/PROJECT_RULES.md`, `docs/ROADMAP.md`,
+  `docs/PROGRESS.md`, `docs/TODO.md`, `docs/NEXT_SESSION_PROMPT.md`.
+- Contracts: `docs/PROCESS_MODEL.md`, `docs/ALGORITHM_SPEC.md`,
+  `docs/CALCULATION_FORMULAS.md`, `docs/DATA_MODEL.md`.
+- Runtime skeleton: `src/`, `api/`, `tests/`.
+- Static shell: `web/`, `scripts/build_frontend.py`.
+
+## Last verified commit
+
+`afb7bfa` — `feat: add practical V1 frontend shell`, pushed to `origin/main`.
+
+## Next recommended action
+
+The next contributor must first run `git pull`, read `PROJECT_RULES.md`,
+`ROADMAP.md` for the relevant phase, `PROGRESS.md`, relevant `TODO.md` items,
+and the relevant specifications. The immediate external blocker is owner
+Firebase login/project confirmation; if login is required, stop and ask the
+owner to complete it. Do not begin Firebase configuration, calculation
+implementation or deployment in this documentation-only checkpoint.

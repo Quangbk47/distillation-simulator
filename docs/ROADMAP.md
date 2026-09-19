@@ -7,6 +7,11 @@ the engine independent from the UI, and do not mark a phase complete from a
 document-only claim. Every phase has an objective, tasks, deliverables, tests,
 definition of done, dependencies and blockers.
 
+Phase status and evidence are maintained in `PROGRESS.md`; unresolved work is
+maintained in `TODO.md`. This roadmap is not a task diary. Follow the mandatory
+workflow in `PROJECT_RULES.md`: **NO WORK IS COMPLETE UNTIL PROGRESS IS
+UPDATED.**
+
 The authoritative scope is Ethanol–Water, steady-state, binary, constant
 pressure, Raoult + Antoine, McCabe–Thiele, simple energy, and sensitivity of
 exactly one of `R`, `N` or `NF`. System 2, Wilson/NRTL, optimization, dynamic
