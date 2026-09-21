@@ -58,16 +58,6 @@ an unresolved item to make the queue look clean.
 
 ## P1 — implementation sequence
 
-### TODO-006 — Verify Phase 1 remote CI evidence
-
-- Phase: 1
-- Status: `IN PROGRESS`
-- Owner/role: Student developer / reviewer
-- Dependency/blocker: A pushed checkpoint and CI run.
-- Acceptance condition: GitHub Actions completes green for structure, format,
-  lint, type-check, tests, build and secret scan; run/commit is recorded in
-  `PROGRESS.md`.
-
 ### TODO-007 — Implement minimum calculation engine
 
 - Phase: 3
