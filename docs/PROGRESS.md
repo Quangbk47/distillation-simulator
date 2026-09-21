@@ -9,9 +9,9 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 ## Current project position
 
-Current working phase: **Phase 1 — PROJECT SKELETON**
+Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **IN PROGRESS**
+Current status: **BLOCKED**
 
 The repository has a tested backend/API skeleton and a dependency-free static
 UI shell. It is not yet a working scientific simulator. Phase 2 cannot proceed
@@ -48,7 +48,7 @@ Last Updated: 2026-09-19
 
 ### Phase 1 — PROJECT SKELETON
 
-Status: **IN PROGRESS**
+Status: **DONE**
 
 Completed:
 
@@ -57,23 +57,27 @@ Completed:
   input controls and explicit `ENGINE NOT CONNECTED`/`NOT CALCULATED` states.
 - `scripts/build_frontend.py` builds the static shell and CI invokes it.
 - Local backend health/thermo-version check and static frontend HTTP check pass.
+- The complete local Phase 1 gate passes: structure, format, lint, mypy,
+  frontend build, 11 unit/integration/reference/validation tests, package build
+  and secret scan.
+- GitHub Actions run `35499694516` is green at commit `86a0a1768ac50c926c83dd032ef7022c46e262ea`.
 
 Remaining:
 
-- Confirm a green remote CI run on the pushed checkpoint.
-- Keep the local skeleton/build/test contract green as implementation proceeds.
+- None for the Phase 1 Definition of Done. Keep the skeleton/build/test
+  contract green as later phases proceed.
 
-Blockers: None for local work; remote CI confirmation is still evidence to
-record.
+Blockers: None for Phase 1.
 
-Next Action: A future contributor may verify the remote CI result, then take
-the first incomplete roadmap task. Do not turn the shell into a calculator
-without completing the scientific phases.
+Next Action: Confirm the Firebase account and target project for Phase 2. Do
+not turn the shell into a calculator without completing the scientific phases.
 
-Evidence: `afb7bfa`; frontend build, static HTTP check, structure, format,
-lint, mypy, package build, secret scan and test suite passed locally.
+Evidence: `86a0a1768ac50c926c83dd032ef7022c46e262ea`; GitHub Actions run
+`35499694516` passed install, structure, format, lint, mypy, frontend build,
+tests, package build and secret scan. The same checks passed locally on
+2026-09-21, including 11 tests.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
