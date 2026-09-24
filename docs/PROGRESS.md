@@ -11,11 +11,11 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **BLOCKED**
+Current status: **IN PROGRESS**
 
 The repository has a tested backend/API skeleton and a dependency-free static
-UI shell. It is not yet a working scientific simulator. Phase 2 cannot proceed
-past planning until the owner confirms the Firebase account and target project.
+UI shell. It is not yet a working scientific simulator. The owner confirmed Firebase project `distillation-simulator` and completed
+CLI login on 2026-09-24. Hosting configuration is ready; CI/deploy verification is next.
 
 ## Phase status ledger
 
@@ -81,29 +81,31 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **BLOCKED**
+Status: **IN PROGRESS**
 
 Completed:
 
-- Frontend hosting scope and the owner-confirmation requirement are documented.
-- No project, credentials or deployment configuration has been guessed or
-  created.
+- Owner confirmed `distillation-simulator` and completed Firebase CLI login.
+- CLI project/site access verified on 2026-09-24; existing Hosting site selected.
+- Static-only Hosting configuration and deterministic public build metadata added.
+- Demo displays build/project information and preserves ENGINE NOT CONNECTED.
+- Local structure, format, lint, mypy, 13 tests, frontend/package builds and
+  secret scan pass. No credentials are stored in the repository.
 
 Remaining:
 
-- Owner confirms Firebase account/login and target project ID.
-- Add minimal Hosting configuration, deploy the static shell and record URL.
-- Run hosting smoke test and record the deployment evidence.
+- Obtain green PR CI before deployment, deploy Hosting, verify public URL and
+  record release/build evidence.
+- Push the verified checkpoint; reviewer approval is required before main merge.
 
-Blockers: Owner Firebase login/project selection and a confirmed target.
+Blockers: None for deployment preparation; merge requires reviewer approval.
 
-Next Action: Ask the repository owner to log in/select the intended Firebase
-project; stop at that external action.
+Next Action: Finish CI, manual Hosting deployment and HTTP/browser smoke tests.
 
-Evidence: Repository inventory shows no `firebase.json` or `.firebaserc`;
-local frontend build is PASS; no Firebase URL exists.
+Evidence: `firebase.json`, `.firebaserc`, `tests/integration/test_frontend_build.py`;
+CLI 15.31.0 lists project/site `distillation-simulator`; 13 tests pass locally.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-09-24
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 
@@ -268,6 +270,6 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Firebase account/project confirmation: blocks Phase 2 deployment work.
+- Phase 2 target/login confirmed; deployment verification remains in progress.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.

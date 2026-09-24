@@ -6,7 +6,7 @@ Phase 2 — FIREBASE EARLY CONNECTION
 
 ## Current Status
 
-`BLOCKED`. Phase 0 and Phase 1 are `DONE`. Phase 2 and Phase 3 are `BLOCKED`;
+`IN PROGRESS`. Phase 0 and Phase 1 are `DONE`. Phase 2 is `IN PROGRESS`; Phase 3 is `BLOCKED`;
 later phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
 
 ## What is completed
@@ -26,12 +26,12 @@ later phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
 
 - Review Antoine data before Phase 3/4 scientific output.
 - Implement the minimum calculation engine and closure gate.
-- Confirm Firebase account/project before any hosting configuration.
+- Finish Phase 2 CI, deployment and public smoke verification.
 - Keep all unresolved items in `PROGRESS.md` and `TODO.md`.
 
 ## Known blockers
 
-- Firebase owner login and target project selection block Phase 2 deployment.
+- Firebase target/login confirmed: `distillation-simulator`, 2026-09-24.
 - Reviewed Antoine records block Phase 3/4 scientific implementation.
 - Partial-condenser equations/reference case are `DEFERRED` and blocked by a
   scientific decision.
@@ -65,9 +65,7 @@ GitHub Actions run `35499694516`.
 
 ## Next recommended action
 
-The next contributor must first run `git pull`, read `PROJECT_RULES.md`,
-`ROADMAP.md` for the relevant phase, `PROGRESS.md`, relevant `TODO.md` items,
-and the relevant specifications. Phase 1 is complete. The immediate external
-blocker is owner Firebase login/project confirmation; if login is required,
-stop and ask the owner to complete it. Do not begin Firebase configuration,
-calculation implementation or deployment until its prerequisites are met.
+Read `PROGRESS.md` and `DEPLOYMENT_RUNBOOK.md`. Phase 2 configuration is ready.
+Wait for green PR CI, deploy only Hosting to `distillation-simulator`, verify the
+URL and record evidence. `CI_REQUIREMENTS.md` requires reviewer approval and
+green checks before merging into main. Credentials remain outside the repo.

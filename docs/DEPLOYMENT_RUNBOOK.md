@@ -46,3 +46,34 @@ unauthorized API request, energy case and each sensitivity sweep.
 Record production URL(s), Firebase project ID, API runtime, commit SHA,
 release/version and deployment date. Roll back frontend, API artifact and
 scientific data version together when a scientific defect is found.
+
+## Phase 2 static demo procedure
+
+Confirmed target/site: `distillation-simulator` (owner confirmed 2026-09-24).
+Install Firebase CLI from the official Firebase distribution (`npm install -g
+firebase-tools`; validated with 15.31.0). Run `firebase login` and complete the
+browser flow yourself. Never put credentials or CLI auth state in the repo.
+
+1. Check out the intended PR commit and run every README quality check.
+2. Require green GitHub PR CI (`CI_REQUIREMENTS.md`).
+3. `firebase projects:list` and `firebase hosting:sites:list --project distillation-simulator`.
+4. `python scripts/build_frontend.py`.
+5. `firebase deploy --only hosting --project distillation-simulator --non-interactive`.
+6. Verify HTTPS `/`, `/app.js`, `/styles.css`, `/build-info.json`; compare all
+   four response bytes with `build/frontend`. Unknown paths and `/api/health`
+   must return 404. Test tabs, reset, validation and the no-calculation state.
+7. Record source commit, CI run, build ID, URL, release and verification date.
+8. Update PROGRESS/TODO/HANDOVER and push the deployment evidence to the PR.
+   Obtain reviewer approval before merging; do not push directly to main.
+
+Only the four generated public files are deployed. There are no API rewrites,
+Functions, databases, credentials or scientific datasets in the Hosting bundle.
+Build IDs hash normalized asset bytes and paths, so Windows and Linux produce
+the same artifact. Unexpected output files cause build failure; inspect them
+before cleanup. The page reports Firebase connection OK only on the confirmed
+Hosting domains after public metadata loads; this is static delivery status.
+
+This early DEMO is distinct from the Phase 10 production release gate above.
+For rollback, use the Firebase Hosting release history to restore a previously
+verified release, or rebuild/redeploy its reviewed commit. Do not disable the
+site or modify other Firebase services as a rollback shortcut.

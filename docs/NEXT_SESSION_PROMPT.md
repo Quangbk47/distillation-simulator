@@ -17,13 +17,11 @@ Use the checkpoint sequence `IMPLEMENT → TEST → UPDATE PROJECT DOCUMENTATION
 remaining item. Use only `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE` for
 phase status, with `DEFERRED` only as a task/item label.
 
-Current starting point: Phase 0 and Phase 1 are `DONE`; Phase 2 and Phase 3 are
-`BLOCKED`; later phases are `NOT STARTED` as recorded in `PROGRESS.md`.
-
-The immediate next action is to confirm the Firebase account and target
-project for Phase 2. Firebase work cannot proceed until the owner logs in and
-confirms the target project. If login is required, stop and ask the owner;
-never create or guess a project and never handle or commit credentials.
+Current starting point: Phase 0/1 DONE, Phase 2 IN PROGRESS, Phase 3 BLOCKED.
+The Firebase target `distillation-simulator` and CLI login are confirmed.
+Finish CI, deploy Hosting only, smoke-test the public URL and update evidence.
+Use a PR: `CI_REQUIREMENTS.md` requires reviewer approval and green checks
+before merge to main. See `DEPLOYMENT_RUNBOOK.md` for commands.
 
 Do not invent Antoine or enthalpy data, partial-condenser equations or
 validation mappings. Keep partial condenser `NOT_IMPLEMENTED`. Enthalpy is a

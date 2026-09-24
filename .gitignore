@@ -28,3 +28,7 @@ coverage.xml
 
 # Node.js
 node_modules/
+
+# Firebase local cache and debug output
+.firebase/
+firebase-debug*.log
