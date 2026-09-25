@@ -80,3 +80,17 @@ This early DEMO is distinct from the Phase 10 production release gate above.
 For rollback, use the Firebase Hosting release history to restore a previously
 verified release, or rebuild/redeploy its reviewed commit. Do not disable the
 site or modify other Firebase services as a rollback shortcut.
+
+## Latest Phase 2 evidence
+
+Attempt date: 2026-09-25. Source/merge commit:
+`bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`. GitHub CI run `36154667511` passed.
+The production frontend build completed with build ID
+`3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
+
+Deployment result: `firebase deploy --only hosting --project
+distillation-simulator --non-interactive` failed before upload because the
+current authorized CLI session could not access the target project; Firebase
+returned a project-access/HTTP 403 error. Production URL and smoke-test result:
+not available. Phase 2 remains `BLOCKED`; do not record `DONE` until access,
+deployment and smoke verification succeed.
