@@ -12,13 +12,13 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **IN PROGRESS**
+Current status: **BLOCKED**
 
 The repository has a tested backend/API skeleton and a dependency-free static
-UI shell. It is not yet a working scientific simulator. The Firebase project
-`distillation-simulator` and authorized CLI access are available; deployment
-verification is the next technical gate and does not require a separate Owner
-approval.
+UI shell. It is not yet a working scientific simulator. The Firebase target is
+configured in the repository, but the current authorized CLI session cannot
+access the project/site; deployment verification is blocked by access, not by
+a separate Owner approval.
 
 ## Phase status ledger
 
@@ -84,34 +84,46 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **IN PROGRESS**
+Status: **BLOCKED**
 
 Completed:
 
-- Firebase target `distillation-simulator` and authorized CLI access are
-  available.
-- CLI project/site access verified on 2026-09-24; existing Hosting site selected.
+- Firebase target `distillation-simulator` is configured in the repository and
+  PR #2 is merged to `main`.
+- Target/site selection was recorded on 2026-09-24; re-verification on
+  2026-09-25 returned HTTP 403 for the current CLI session.
 - Static-only Hosting configuration and deterministic public build metadata added.
 - Demo displays build/project information and preserves ENGINE NOT CONNECTED.
 - Local structure, format, lint, mypy, 13 tests, frontend/package builds and
-  secret scan pass. No credentials are stored in the repository.
+  secret scan pass. GitHub PR CI run `36154667511` passed for merge commit
+  `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`. No credentials are stored in the
+  repository.
+- Production build from merge commit `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`
+  produced build ID
+  `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
 
 Remaining:
 
-- Obtain green PR CI before deployment, deploy Hosting, verify public URL and
-  record release/build evidence.
-- Push the verified checkpoint; required PR review and green CI are required
-  before main merge.
+- Obtain authorized access to Firebase project/site `distillation-simulator`,
+  then deploy Hosting and verify the public URL.
+- Record release/build evidence after a successful deployment and smoke test.
 
-Blockers: None for deployment preparation; merge requires PR review and green
-CI, not a separate Owner approval.
+Blockers: `firebase projects:list` does not expose `distillation-simulator` to
+the current CLI session; `firebase hosting:sites:list --project
+distillation-simulator` and the deployment attempt returned HTTP 403/no access.
+No production URL exists yet.
 
-Next Action: Finish CI, manual Hosting deployment and HTTP/browser smoke tests.
+Next Action: Restore authorized Firebase project/site access, rerun the
+production deploy, then run HTTP/browser smoke tests.
 
-Evidence: `firebase.json`, `.firebaserc`, `tests/integration/test_frontend_build.py`;
-CLI 15.31.0 lists project/site `distillation-simulator`; 13 tests pass locally.
+Evidence: `firebase.json`, `.firebaserc`,
+`tests/integration/test_frontend_build.py`; merge commit
+`bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`; CI run `36154667511`; CLI `15.19.0`;
+build ID `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`;
+deploy attempted 2026-09-25 and failed with project-access error; production
+URL: none.
 
-Last Updated: 2026-09-24
+Last Updated: 2026-09-25
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 
@@ -276,7 +288,7 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Phase 2 target/access are available; deployment verification remains in
-  progress.
+- Phase 2 deployment is blocked by missing authorized Firebase project/site
+  access; no URL or smoke-test PASS is claimed.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.
