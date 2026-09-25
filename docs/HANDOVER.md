@@ -31,7 +31,7 @@ later phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
 
 ## Known blockers
 
-- Firebase target/login confirmed: `distillation-simulator`, 2026-09-24.
+- Firebase target/access confirmed: `distillation-simulator`, 2026-09-24.
 - Reviewed Antoine records block Phase 3/4 scientific implementation.
 - Partial-condenser equations/reference case are `DEFERRED` and blocked by a
   scientific decision.
@@ -66,6 +66,6 @@ GitHub Actions run `35499694516`.
 ## Next recommended action
 
 Read `PROGRESS.md` and `DEPLOYMENT_RUNBOOK.md`. Phase 2 configuration is ready.
-Wait for green PR CI, deploy only Hosting to `distillation-simulator`, verify the
-URL and record evidence. `CI_REQUIREMENTS.md` requires reviewer approval and
-green checks before merging into main. Credentials remain outside the repo.
+Run green PR CI and required review, merge, deploy only Hosting to
+`distillation-simulator`, verify the URL and record evidence. No separate Owner
+approval is required at a Phase boundary. Credentials remain outside the repo.

@@ -11,16 +11,17 @@ Deploy the frontend and backend separately:
   reviewed thermo-data version, validation-store access, monitoring and
   allowed origins.
 
-Do not create a Firebase project or process credentials without the owner
-confirming the target project/account. Never commit tokens, passwords, service
-account private keys or API secrets.
+Do not create or guess a Firebase project. Use only the confirmed target and an
+authorized login/access path. Never commit tokens, passwords, service-account
+private keys or API secrets. A separate Owner approval is not required for the
+student team to execute the technical deployment workflow.
 
 ## Early and iterative deployment
 
 1. Phase 1: verify local build and status page.
-2. Phase 2: confirm Firebase target, add `firebase.json`/`.firebaserc` and
-   manually deploy the minimum static status page. Record URL, project ID and
-   commit only after owner login/confirmation.
+2. Phase 2: verify the confirmed Firebase target, add
+   `firebase.json`/`.firebaserc` and deploy the minimum static status page.
+   Record URL, project ID and commit after the authorized login/access check.
 3. Phase 5: deploy the minimum functional UI after CI passes. Use preview or
    staging if available; keep the backend URL in environment configuration.
 4. Phase 9: repeat deployment for hardening smoke tests.
@@ -64,7 +65,9 @@ browser flow yourself. Never put credentials or CLI auth state in the repo.
    must return 404. Test tabs, reset, validation and the no-calculation state.
 7. Record source commit, CI run, build ID, URL, release and verification date.
 8. Update PROGRESS/TODO/HANDOVER and push the deployment evidence to the PR.
-   Obtain reviewer approval before merging; do not push directly to main.
+   Complete the required PR review before merging; do not push directly to
+   `main`. The student team may perform the merge/deploy workflow without a
+   separate Owner approval step.
 
 Only the four generated public files are deployed. There are no API rewrites,
 Functions, databases, credentials or scientific datasets in the Hosting bundle.

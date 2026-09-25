@@ -3,7 +3,8 @@
 ## Operating rule
 
 **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.** Every meaningful checkpoint
-follows `IMPLEMENT → TEST → UPDATE PROJECT DOCUMENTATION → COMMIT → PUSH`.
+follows `CODE → TEST → UPDATE DOCS → COMMIT/PUSH → PR → CI/REVIEW → MERGE MAIN
+→ DEPLOY → SMOKE TEST → UPDATE EVIDENCE`.
 Task completion must not be reported as phase completion. The four allowed
 phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
@@ -14,8 +15,10 @@ Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 Current status: **IN PROGRESS**
 
 The repository has a tested backend/API skeleton and a dependency-free static
-UI shell. It is not yet a working scientific simulator. The owner confirmed Firebase project `distillation-simulator` and completed
-CLI login on 2026-09-24. Hosting configuration is ready; CI/deploy verification is next.
+UI shell. It is not yet a working scientific simulator. The Firebase project
+`distillation-simulator` and authorized CLI access are available; deployment
+verification is the next technical gate and does not require a separate Owner
+approval.
 
 ## Phase status ledger
 
@@ -69,8 +72,8 @@ Remaining:
 
 Blockers: None for Phase 1.
 
-Next Action: Confirm the Firebase account and target project for Phase 2. Do
-not turn the shell into a calculator without completing the scientific phases.
+Next Action: Continue the confirmed Phase 2 deployment workflow. Do not turn
+the shell into a calculator without completing the scientific phases.
 
 Evidence: `86a0a1768ac50c926c83dd032ef7022c46e262ea`; GitHub Actions run
 `35499694516` passed install, structure, format, lint, mypy, frontend build,
@@ -85,7 +88,8 @@ Status: **IN PROGRESS**
 
 Completed:
 
-- Owner confirmed `distillation-simulator` and completed Firebase CLI login.
+- Firebase target `distillation-simulator` and authorized CLI access are
+  available.
 - CLI project/site access verified on 2026-09-24; existing Hosting site selected.
 - Static-only Hosting configuration and deterministic public build metadata added.
 - Demo displays build/project information and preserves ENGINE NOT CONNECTED.
@@ -96,9 +100,11 @@ Remaining:
 
 - Obtain green PR CI before deployment, deploy Hosting, verify public URL and
   record release/build evidence.
-- Push the verified checkpoint; reviewer approval is required before main merge.
+- Push the verified checkpoint; required PR review and green CI are required
+  before main merge.
 
-Blockers: None for deployment preparation; merge requires reviewer approval.
+Blockers: None for deployment preparation; merge requires PR review and green
+CI, not a separate Owner approval.
 
 Next Action: Finish CI, manual Hosting deployment and HTTP/browser smoke tests.
 
@@ -255,7 +261,7 @@ Completed: Production acceptance criteria are documented.
 Remaining: Final build/deploy, backend runtime, production smoke test and
 recorded URL/release evidence.
 
-Blockers: All preceding phases and owner-managed deployment access.
+Blockers: All preceding phases and authorized deployment access.
 
 Next Action: Start only after Phase 9 is DONE.
 
@@ -270,6 +276,7 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Phase 2 target/login confirmed; deployment verification remains in progress.
+- Phase 2 target/access are available; deployment verification remains in
+  progress.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.

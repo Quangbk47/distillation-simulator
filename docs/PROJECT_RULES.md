@@ -10,20 +10,33 @@ The mandatory repository rule is:
 
 > **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.**
 
-A meaningful unit of work is complete only after this sequence:
+A meaningful technical unit of work follows this sequence:
 
 ```text
-IMPLEMENT
+CODE
 → TEST
-→ UPDATE PROJECT DOCUMENTATION
-→ COMMIT
-→ PUSH
+→ UPDATE DOCS
+→ COMMIT/PUSH
+→ PR
+→ CI/REVIEW
+→ MERGE MAIN
+→ DEPLOY FIREBASE PRODUCTION
+→ SMOKE TEST
+→ UPDATE EVIDENCE
 ```
 
-If implementation, required tests, documentation, commit, or push is missing,
-the work is not complete. A documentation-only change must still update the
-relevant project-management files, pass its consistency checks, and be
-committed and pushed.
+The student team may execute this workflow end-to-end without waiting for a
+separate Owner approval at each Phase. Owner approval is not a phase blocker.
+The PR review and green CI gate still happen before merging to `main`, and the
+deployment/smoke-test evidence is required before a phase or release is marked
+complete. A documentation-only change must still update the relevant
+project-management files, pass its consistency checks, and be committed and
+pushed.
+
+This autonomy does not authorize guessing scientific decisions, reviewed data,
+Firebase targets, credentials or production secrets. An unresolved scientific
+decision remains `BLOCKED` until the designated scientific decision is recorded;
+missing access is a blocker only when no authorized account/access path exists.
 
 `TASK DONE` does not mean `PHASE DONE`. A phase remains incomplete until its
 entire Definition of Done is satisfied. A completed task inside an incomplete
@@ -38,8 +51,9 @@ Phases use exactly these four primary statuses:
 
 - `NOT STARTED`: work has not begun.
 - `IN PROGRESS`: work has begun and in-scope work remains.
-- `BLOCKED`: work cannot continue because it awaits a dependency, decision,
-  data, account, access or external action.
+- `BLOCKED`: work cannot continue because it awaits an unresolved dependency,
+  scientific decision, required data, or authorized access. Lack of a separate
+  Owner approval is not sufficient to mark technical work blocked.
 - `DONE`: the complete phase Definition of Done is met, required tests pass,
   documentation is current, and the change is committed and pushed.
 
@@ -129,7 +143,10 @@ Before ending work:
 8. review `git diff` and `git status`;
 9. commit;
 10. push;
-11. confirm that the commit exists on the remote.
+11. open/update the PR and record the CI/review state;
+12. after merge, deploy the applicable production artifact, run the smoke test,
+    and update evidence with commit SHA, build ID, URL, date and result;
+13. confirm that the commit and evidence exist on the remote.
 
 One meaningful commit should include implementation, related tests and the
 progress update when practical. Do not create a cosmetic progress-only commit

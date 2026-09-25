@@ -33,7 +33,7 @@ an unresolved item to make the queue look clean.
 - Phase: 6
 - Status: `BLOCKED`
 - Owner/role: Phase 6 scientific owner
-- Dependency/blocker: Cp/latent-heat sources and reviewer approval are
+- Dependency/blocker: Cp/latent-heat sources and designated scientific review are
   missing.
 - Acceptance condition: Sources, reference state, sign convention, ranges and
   reviewer/date are recorded and `calcEnergy` reference tests pass.
@@ -42,7 +42,7 @@ an unresolved item to make the queue look clean.
 
 - Phase: 9/10
 - Status: `NOT STARTED`
-- Owner/role: Project owner / DevOps
+- Owner/role: Student developer / DevOps
 - Dependency/blocker: Functional backend and deployment constraints.
 - Acceptance condition: A separate Python API runtime is selected and its
   deploy/smoke-test procedure is documented.
@@ -112,7 +112,7 @@ an unresolved item to make the queue look clean.
 - Phase: 2/5/10
 - Status: `IN PROGRESS`
 - Owner/role: Deployment owner
-- Status for Phase 2: `IN PROGRESS`; target/login/site access confirmed 2026-09-24.
+- Status for Phase 2: `IN PROGRESS`; target/access/site selection confirmed 2026-09-24.
 - Dependency/blocker: Green CI, deployment and public smoke verification.
 - Acceptance condition: Static build is deployed, URL and commit are recorded,
   and a smoke test passes; no credentials are committed.
