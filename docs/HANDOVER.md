@@ -6,7 +6,7 @@ Phase 2 — FIREBASE EARLY CONNECTION
 
 ## Current Status
 
-`BLOCKED`. Phase 0 and Phase 1 are `DONE`. Phase 2 is `BLOCKED`; Phase 3 is `BLOCKED`;
+`IN PROGRESS`. Phase 0 and Phase 1 are `DONE`. Phase 2 is `IN PROGRESS`; Phase 3 is `BLOCKED`;
 later phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
 
 ## What is completed
@@ -30,15 +30,15 @@ later phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
 
 - Review Antoine data before Phase 3/4 scientific output.
 - Implement the minimum calculation engine and closure gate.
-- Restore Firebase project/site access, finish Phase 2 deployment and run the
-  public smoke verification.
+- Create/select a student-controlled Firebase project/site, update repository
+  configuration, finish Phase 2 deployment and run public smoke verification.
 - Keep all unresolved items in `PROGRESS.md` and `TODO.md`.
 
 ## Known blockers
 
-- Firebase target is configured as `distillation-simulator`, but the current
-  CLI session receives project/site permission failure (HTTP 403); no
-  production URL exists.
+- The legacy Firebase target `distillation-simulator` returns HTTP 403 to the
+  current CLI session; no production URL exists. This is not an Owner blocker:
+  create/select a student-controlled replacement and update the configuration.
 - Reviewed Antoine records block Phase 3/4 scientific implementation.
 - Partial-condenser equations/reference case are `DEFERRED` and blocked by a
   scientific decision.
@@ -54,7 +54,8 @@ later phases are `NOT STARTED` unless recorded otherwise in `PROGRESS.md`.
 - A phase uses only `NOT STARTED`, `IN PROGRESS`, `BLOCKED` or `DONE`.
 - Work intentionally moved later is labelled `DEFERRED`, never used as a phase
   status.
-- Never guess scientific data, Firebase projects or credentials.
+- Never guess scientific data or credentials. Firebase project/site selection
+  and creation are student-owned technical work and must be documented.
 
 ## Files/modules involved
 
@@ -73,9 +74,9 @@ failed before upload because the project was inaccessible.
 
 ## Next recommended action
 
-Read `PROGRESS.md` and `DEPLOYMENT_RUNBOOK.md`. Phase 2 configuration is ready.
-Restore authorized access to `distillation-simulator`, run
-`firebase deploy --only hosting --project distillation-simulator
---non-interactive`, verify the public URL and record evidence. Do not mark
-Phase 2 `DONE` until deployment and smoke tests pass. No separate Owner
-approval is required at a Phase boundary. Credentials remain outside the repo.
+Read `PROGRESS.md` and `DEPLOYMENT_RUNBOOK.md`. Create/select a
+student-controlled Firebase project/site, update `.firebaserc`/`firebase.json`,
+run the production deployment, verify the public URL and record evidence. Do
+not mark Phase 2 `DONE` until deployment and smoke tests pass. No separate
+Owner approval is required at a Phase boundary. Credentials remain outside the
+repo.

@@ -110,13 +110,15 @@ an unresolved item to make the queue look clean.
 ### TODO-013 — Firebase static hosting
 
 - Phase: 2/5/10
-- Status: `BLOCKED`
-- Owner/role: Deployment owner
-- Status for Phase 2: `BLOCKED`; repository configuration and PR merge are
-  complete, but Firebase project/site access is not available to the current
-  authorized CLI session.
-- Dependency/blocker: Authorized access to Firebase project/site
-  `distillation-simulator`, then deployment and public smoke verification.
+- Status: `IN PROGRESS`
+- Owner/role: Student developer / DevOps
+- Status for Phase 2: `IN PROGRESS`; repository configuration and PR merge are
+  complete, but the legacy project/site is unavailable to the current CLI
+  session. The student team may create/select a replacement Firebase project
+  and Hosting site, then update repo configuration.
+- Dependency/blocker: An accessible student-controlled Firebase account/project
+  or a successful self-service project/site creation, then deployment and
+  public smoke verification.
 - Acceptance condition: Static build is deployed, URL and commit are recorded,
   and a smoke test passes; no credentials are committed.
 

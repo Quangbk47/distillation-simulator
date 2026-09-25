@@ -13,14 +13,16 @@ install
 → secret scan
 ```
 
-`main` requires a completed PR review and green checks before merge. This is a
-review gate on the change, not a requirement to wait for a separate Owner
-approval at every Phase. A scientific model/data change also requires the
-designated scientific-lead review, provenance update and appropriate
-regression/reference tests. A pending reference case must remain pending; CI
-must not be changed to make it appear PASS.
+The technical team opens/reviews PRs and merges to `main` after the required
+review and green checks; Owner approval is not a technical gate. A scientific
+model/data change additionally requires the designated scientific-lead/expert
+decision, provenance update and appropriate regression/reference tests. A
+pending reference case must remain pending; CI must not be changed to make it
+appear PASS.
 
-Firebase deployment follows merge: frontend deploy runs only after the merged
-commit has passed CI, and production deploy is blocked when any check fails.
-The Python backend is deployed separately from Firebase Hosting. The production
-smoke test and evidence update are part of the same release workflow.
+After merge, build the production artifact and deploy Firebase Hosting using a
+student-controlled Firebase account/project/site when necessary. The frontend
+deploy runs only after the merged commit has passed CI, and deployment must
+stop when any check fails. The Python backend is deployed separately from
+Firebase Hosting. A release passes only after the public production URL is
+reachable, the production smoke test passes, and evidence is updated.

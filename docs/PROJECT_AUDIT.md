@@ -3,14 +3,22 @@
 Ngày audit: 2026-09-19
 Phạm vi: repository `Quangbk47/distillation-simulator`, branch `main`.
 
+> **Historical audit with policy addendum (2026-09-25):** the implementation
+> inventory below describes the 2026-09-19 baseline. Current technical process
+> is governed by `PROJECT_RULES.md`: students may create/use their own Firebase
+> project/site, update configuration, deploy and record evidence without Owner
+> approval. The inaccessible legacy target is a migration task, not an Owner
+> blocker. Scientific decisions remain unchanged and require the designated
+> scientific lead/expert.
+
 ## Kết luận điều hành
 
-Repository hiện là một skeleton có ranh giới module, API contract, schema dữ
-liệu, test contract và CI cơ bản. Chưa có calculation engine chạy được, UI
-hoàn chỉnh, dữ liệu Antoine/enthalpy đã review, Firebase configuration hoặc
-deployment workflow. Vì vậy dự án chưa ở trạng thái sẵn sàng cho người dùng,
-nhưng sinh viên có thể bắt đầu từ Phase 0/1 sau khi tuân thủ các blocker trong
-`ROADMAP.md`.
+At the 2026-09-19 baseline, the repository was a skeleton with module
+boundaries, API contracts, data schemas, contract tests and basic CI; it had
+no reviewed Antoine/enthalpy data or working calculation engine. The current
+repository now also has a static Firebase Hosting configuration/build path, but
+no verified public deployment. It remains unsuitable for scientific end users
+until the scientific and release gates in `ROADMAP.md` are met.
 
 Roadmap cũ chỉ có bốn câu mô tả phase, không đủ để giao việc tuần tự và không
 đưa Firebase vào giai đoạn sớm. Roadmap mới dùng Phase 0–10, có early
@@ -65,8 +73,8 @@ calculation closure, NF behavior, UI semantics và pending golden cases cũng
 | UI | `UI_UX_SPEC.md`, `src/ui/README.md` | Dependency-free shell in `web/`; no engine/API integration yet | Static build/server smoke test | PARTIAL | Connect real API after total engine; keep pending states until then. |
 | Testing | `CI_REQUIREMENTS.md`, `TEST_CASES.md` | Unit/integration/reference/pending validation tests | CI config | PARTIAL | Add engine, energy, condenser, smoke and golden tests. |
 | Validation | `VALIDATION_PLAN.md`, `VALIDATION_ACCEPTANCE.md` | Pending case and schema; no reviewed source | Pending tests | BLOCKED | Review literature case and only then evaluate/pass. |
-| Deployment | `DEPLOYMENT_RUNBOOK.md` | No deployment files/workflow | Repository inventory | MISSING | Establish backend/frontend separation and release gates. |
-| Firebase Hosting | user brief, `DEPLOYMENT_RUNBOOK.md` | No `firebase.json`, `.firebaserc`, frontend or Firebase workflow | Repository inventory | MISSING/BLOCKED | Add minimal hosting config after target project/account is confirmed; no credential guessing. |
+| Deployment | `DEPLOYMENT_RUNBOOK.md` | Static deployment config/build exist; no verified public release yet | PR #2, build evidence | PARTIAL | Student team selects/creates an accessible target, deploys and records real smoke evidence. |
+| Firebase Hosting | `DEPLOYMENT_RUNBOOK.md` | `firebase.json`, `.firebaserc` and static frontend build exist; legacy target returned HTTP 403 | PR #2/evidence | IN PROGRESS | Use or create student-controlled project/site, update configuration, deploy and smoke-test; no credential commit. |
 | CI/CD | `.github/workflows/ci.yml`, `CI_REQUIREMENTS.md` | install→structure→format→lint→mypy→pytest→build→secret scan | Workflow present | ALIGNED BASELINE | Protect main; add Firebase deploy only after CI and project setup. |
 
 ## Material inconsistencies found
