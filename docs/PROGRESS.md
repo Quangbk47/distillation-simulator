@@ -3,8 +3,10 @@
 ## Operating rule
 
 **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.** Every meaningful checkpoint
-follows `CODE → TEST → UPDATE DOCS → COMMIT/PUSH → PR → CI/REVIEW → MERGE MAIN
-→ DEPLOY → SMOKE TEST → UPDATE EVIDENCE`.
+follows `READ CURRENT STATE → IMPLEMENT → TEST → UPDATE DOCS → COMMIT/PUSH →
+PR → CI/REVIEW → MERGE MAIN → BUILD PRODUCTION → DEPLOY FIREBASE HOSTING →
+PRODUCTION SMOKE TEST → UPDATE EVIDENCE → CLOSE PHASE IF DoD PASSES → CONTINUE
+NEXT PHASE`.
 Task completion must not be reported as phase completion. The four allowed
 phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
@@ -12,13 +14,14 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **BLOCKED**
+Current status: **IN PROGRESS**
 
 The repository has a tested backend/API skeleton and a dependency-free static
 UI shell. It is not yet a working scientific simulator. The Firebase target is
-configured in the repository, but the current authorized CLI session cannot
-access the project/site; deployment verification is blocked by access, not by
-a separate Owner approval.
+configured in the repository, but the legacy project/site is inaccessible to
+the current CLI session. This is a technical migration task, not an Owner
+blocker: the student team may create/use a new Firebase project/site, update
+the configuration, deploy and verify it.
 
 ## Phase status ledger
 
@@ -84,7 +87,7 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **BLOCKED**
+Status: **IN PROGRESS**
 
 Completed:
 
@@ -104,24 +107,27 @@ Completed:
 
 Remaining:
 
-- Obtain authorized access to Firebase project/site `distillation-simulator`,
-  then deploy Hosting and verify the public URL.
-- Record release/build evidence after a successful deployment and smoke test.
+- Use an accessible student Firebase account/project/site, or create a new
+  project/site; update `.firebaserc`/`firebase.json` to the selected target.
+- Deploy Hosting, verify the public URL and record release/build evidence after
+  a successful production smoke test.
 
-Blockers: `firebase projects:list` does not expose `distillation-simulator` to
-the current CLI session; `firebase hosting:sites:list --project
-distillation-simulator` and the deployment attempt returned HTTP 403/no access.
-No production URL exists yet.
+Blockers: No scientific blocker. The legacy `distillation-simulator` target is
+inaccessible (`firebase projects:list` omits it and its Hosting/deploy commands
+returned HTTP 403), but the technical team is authorized to create or select a
+student-controlled replacement. No production URL exists yet.
 
-Next Action: Restore authorized Firebase project/site access, rerun the
-production deploy, then run HTTP/browser smoke tests.
+Next Action: Create/select a student-controlled Firebase project/site, update
+the repository target, deploy the static build, then run HTTP/browser production
+smoke tests.
 
 Evidence: `firebase.json`, `.firebaserc`,
 `tests/integration/test_frontend_build.py`; merge commit
 `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`; CI run `36154667511`; CLI `15.19.0`;
 build ID `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`;
 deploy attempted 2026-09-25 and failed with project-access error; production
-URL: none.
+URL: none. Autonomy policy updated 2026-09-25: create/select a replacement
+student-controlled target rather than waiting for legacy-project access.
 
 Last Updated: 2026-09-25
 
@@ -288,7 +294,8 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Phase 2 deployment is blocked by missing authorized Firebase project/site
-  access; no URL or smoke-test PASS is claimed.
+- Phase 2 has no production URL or smoke-test PASS yet. The legacy Firebase
+  target is inaccessible; create/select a student-controlled replacement and
+  update the repository configuration before deploying.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.

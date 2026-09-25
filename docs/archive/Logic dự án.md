@@ -1,5 +1,11 @@
 # LOGIC DỰ ÁN MÔ PHỎNG CHƯNG CẤT
 
+> **Tài liệu lịch sử, không phải quy tắc vận hành hiện hành.** Giữ nguyên để
+> truy vết nguồn gốc. Không dùng tài liệu này để override các specification và
+> quyết định hiện hành; quy trình kỹ thuật/Firebase do sinh viên tự chủ theo
+> `PROJECT_RULES.md`, còn quyết định khoa học mới chỉ do scientific lead/chuyên
+> gia chốt.
+
 **Tên tệp:** Logic dự án.md\
 **Vai trò:** Tài liệu logic lõi dùng làm nguồn chuẩn để viết tài liệu dự
 án và triển khai phần mềm về sau.\

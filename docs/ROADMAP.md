@@ -71,8 +71,10 @@ OPEN item has an owner and a blocking/deferred label.
 
 **What NOT to do**
 
-Do not select Antoine/enthalpy coefficients, partial-condenser equations or a
-Firebase project by guesswork. Do not start the main engine before closure.
+Do not select Antoine/enthalpy coefficients or partial-condenser equations by
+guesswork. Firebase project/site selection is a student-owned technical
+decision and must be recorded without secrets. Do not start the main engine
+before scientific closure.
 
 **Dependencies**
 
@@ -81,9 +83,9 @@ Existing final documents and the calculation specification.
 **Blockers**
 
 Reviewed Antoine data remains blocking for Phase 3/4 scientific output; reviewed
-enthalpy data blocks only Phase 6 energy. The confirmed Firebase target is not a
-phase blocker; authorized access and a successful deployment/smoke test are
-required evidence for Phase 2 and later release gates.
+enthalpy data blocks only Phase 6 energy. The student team may use or create a
+Firebase target; a successful deployment/smoke test is required evidence for
+Phase 2 and later release gates.
 
 ## Phase 1 — PROJECT SKELETON
 
@@ -150,8 +152,7 @@ is complete.
 
 **Inputs**
 
-Phase 1 status UI, `UI_UX_SPEC.md`, the confirmed Firebase target and deployment
-runbook.
+Phase 1 status UI, `UI_UX_SPEC.md` and the deployment runbook.
 
 **Files/modules expected to change**
 
@@ -160,24 +161,29 @@ hosting workflow/config and deployment record.
 
 **Owner/role**
 
-Student developer/deployment owner; a designated reviewer checks the PR and CI.
+Student developer/deployment owner; the technical team performs the required
+PR review and CI verification.
 
 **Tasks**
 
 - Inventory `firebase.json`, `.firebaserc`, hosting config, workflow and
-  environment variables. At audit time none exists.
-- Verify the confirmed target and use an authorized Firebase login. Do not
-  create a project, guess a project ID, or handle credentials automatically.
-  Never commit tokens, passwords, service-account keys or API secrets.
-- Add minimal hosting configuration and a static status page showing project,
-  build/commit and `Firebase connection OK` only after the target is known.
-- Use manual deploy first if automatic deploy is not yet appropriate.
+  environment variables.
+- Use an authorized student-controlled Firebase login. Reuse an accessible
+  project/site or create a new project/site when the old target is unavailable;
+  then update `.firebaserc`, `firebase.json` and deployment evidence. Never
+  commit tokens, passwords, service-account keys or API secrets.
+- Add/maintain minimal hosting configuration and a static status page showing
+  project, build/commit and `Firebase connection OK` only after public metadata
+  loads from the deployed target.
+- Build and deploy manually or automatically after green CI, then capture the
+  real production URL and smoke-test result.
 
 **Deliverables**
 
-- `firebase.json` and `.firebaserc` (or documented owner-managed equivalent).
-- Public test/staging URL, or a recorded blocker if login/project confirmation
-  is pending.
+- `firebase.json` and `.firebaserc` for the student-controlled deployment
+  target.
+- Public production URL, or a factual record of an objective deployment failure
+  and the next technical action.
 - A short deployment record with project ID and commit, without secrets.
 
 **Tests**
@@ -193,18 +199,20 @@ known commit; CI remains a prerequisite for any automated deploy.
 
 **What NOT to do**
 
-Do not create/guess a Firebase project, commit credentials, deploy fake
-scientific numbers, or claim Firebase Hosting runs the Python API.
+Do not commit credentials, deploy fake scientific numbers, claim Firebase
+Hosting runs the Python API, or claim deployment/smoke success without real
+URL evidence.
 
 **Dependencies**
 
-Phase 1 and the confirmed Firebase target, with authorized deployment access.
+Phase 1 and a student-controlled Firebase target/site.
 
 **Blockers**
 
-Missing authorized Firebase access, billing/permissions, or hosting target. A
-separate Owner approval is not a blocker once the target and access path are
-known.
+Only an objectively unavailable Firebase capability (for example account-wide
+service outage or exhausted/denied project-creation entitlement after a
+documented attempt). Missing access to a legacy Owner project is not a blocker:
+use or create a student-controlled target instead.
 
 ## Parallel work after Phase 2
 
@@ -593,7 +601,7 @@ deployment documentation.
 
 **Owner/role**
 
-Release/DevOps owner with backend/frontend reviewers.
+Student release/DevOps team with backend/frontend reviewers.
 
 **Tasks**
 
@@ -630,7 +638,9 @@ Phases 5–8 and a chosen backend runtime.
 
 **Blockers**
 
-Unresolved authorization/runtime/deployment ownership or failing tests.
+Unresolved backend runtime capability, objectively unavailable deployment
+capability, or failing tests. Deployment ownership is technical-team work, not
+an Owner gate.
 
 ## Phase 10 — PRODUCTION RELEASE
 
@@ -640,8 +650,8 @@ Publish a traceable production release with rollback information.
 
 **Inputs**
 
-Green CI commit, reviewed data versions, a designated PR review, Firebase
-target and approved backend runtime credentials/access.
+Green CI commit, reviewed data versions, required PR review, a
+student-controlled Firebase target and selected backend runtime credentials/access.
 
 **Files/modules expected to change**
 
@@ -650,8 +660,8 @@ scientific source file should change during a release-only deployment.
 
 **Owner/role**
 
-Student/release owner executes the release; designated reviewers verify CI and
-smoke evidence. Owner approval is optional for technical progression.
+Student/release team executes the release; designated reviewers verify CI and
+smoke evidence. Owner approval is not a technical progression gate.
 
 **Tasks**
 
@@ -682,19 +692,19 @@ frontend URL as proof that the Python backend is deployed.
 
 **Dependencies**
 
-Phases 0–9, designated review, and runtime credentials/access supplied through
-an authorized channel.
+Phases 0–9, designated review, and student-controlled runtime credentials/access
+supplied through an authorized channel.
 
 **Blockers**
 
-Any failed CI/smoke test, missing required review, missing Firebase target or
-missing backend runtime/access.
+Any failed CI/smoke test, missing required review, objectively unavailable
+Firebase capability, or missing backend runtime/access.
 
 ## Current starting point
 
 Phase 0 is frozen, Phase 1 is complete, and Phase 2 is the current technical
-workstream. The student team may configure, merge and deploy the confirmed
-Firebase target after CI/review without waiting for a separate Owner approval.
-Scientific Antoine data review and total-condenser engine work can proceed in
-parallel, while all simulation outputs remain explicitly pending until the
-backend is implemented.
+workstream. The student team may create/configure its own Firebase target,
+merge and deploy after CI/review without waiting for Owner approval. Scientific
+Antoine data review and total-condenser engine work can proceed in parallel,
+while all simulation outputs remain explicitly pending until the backend is
+implemented.

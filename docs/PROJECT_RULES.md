@@ -13,30 +13,39 @@ The mandatory repository rule is:
 A meaningful technical unit of work follows this sequence:
 
 ```text
-CODE
+READ CURRENT STATE
+→ IMPLEMENT
 → TEST
 → UPDATE DOCS
 → COMMIT/PUSH
 → PR
 → CI/REVIEW
 → MERGE MAIN
-→ DEPLOY FIREBASE PRODUCTION
-→ SMOKE TEST
+→ BUILD PRODUCTION
+→ DEPLOY FIREBASE HOSTING
+→ PRODUCTION SMOKE TEST
 → UPDATE EVIDENCE
+→ CLOSE PHASE IF DoD PASSES
+→ CONTINUE NEXT PHASE
 ```
 
-The student team may execute this workflow end-to-end without waiting for a
-separate Owner approval at each Phase. Owner approval is not a phase blocker.
-The PR review and green CI gate still happen before merging to `main`, and the
-deployment/smoke-test evidence is required before a phase or release is marked
-complete. A documentation-only change must still update the relevant
-project-management files, pass its consistency checks, and be committed and
-pushed.
+The student team owns this technical workflow end-to-end. It may create
+branches, commit/push, open/review PRs, merge green changes, select or create
+its own Google/Firebase account, Firebase project and Hosting site, update the
+repository configuration, deploy/redeploy production, smoke-test it, record
+the real URL and advance to the next phase. Owner approval is never a gate for
+these normal technical operations. PR review and green CI still happen before
+merging to `main`; deployment and real smoke-test evidence are required before
+a phase or release is marked complete.
 
-This autonomy does not authorize guessing scientific decisions, reviewed data,
-Firebase targets, credentials or production secrets. An unresolved scientific
-decision remains `BLOCKED` until the designated scientific decision is recorded;
-missing access is a blocker only when no authorized account/access path exists.
+Student autonomy does not authorize changing a scientific decision, formula,
+assumption, thermodynamic/VLE/Antoine/enthalpy data, or scientific validation
+baseline that has not been decided by the scientific lead/expert. Such a gap is
+`BLOCKED` and must state the precise scientific question to be decided. Do not
+turn an ordinary technical access or configuration problem into an Owner
+blocker: use an authorized student-controlled account/project/site or create a
+new one when appropriate. Never commit passwords, credentials, service-account
+keys, tokens or production secrets.
 
 `TASK DONE` does not mean `PHASE DONE`. A phase remains incomplete until its
 entire Definition of Done is satisfied. A completed task inside an incomplete
@@ -51,9 +60,10 @@ Phases use exactly these four primary statuses:
 
 - `NOT STARTED`: work has not begun.
 - `IN PROGRESS`: work has begun and in-scope work remains.
-- `BLOCKED`: work cannot continue because it awaits an unresolved dependency,
-  scientific decision, required data, or authorized access. Lack of a separate
-  Owner approval is not sufficient to mark technical work blocked.
+- `BLOCKED`: work cannot continue because it awaits an unresolved scientific
+  decision, required scientific data, or another objectively unavailable
+  dependency. Lack of a separate Owner approval, access to an old Firebase
+  project, or an ordinary technical/configuration task is not sufficient.
 - `DONE`: the complete phase Definition of Done is met, required tests pass,
   documentation is current, and the change is committed and pushed.
 
@@ -120,14 +130,14 @@ unfinished items in `Remaining`.
 
 Before coding, every contributor must:
 
-1. `git pull`;
+1. `git pull` and read the current state;
 2. read `PROJECT_RULES.md`;
 3. read the relevant `ROADMAP.md` phase;
 4. read `PROGRESS.md`;
 5. read related `TODO.md` items;
 6. read the relevant specifications;
 7. identify the current `Next Action`;
-8. only then change the repository.
+8. only then implement the change.
 
 Before ending work:
 
@@ -144,9 +154,13 @@ Before ending work:
 9. commit;
 10. push;
 11. open/update the PR and record the CI/review state;
-12. after merge, deploy the applicable production artifact, run the smoke test,
-    and update evidence with commit SHA, build ID, URL, date and result;
-13. confirm that the commit and evidence exist on the remote.
+12. after merge, build the applicable production artifact, deploy Firebase
+    Hosting, run the production smoke test, and update evidence with commit
+    SHA, build ID, real URL, date and result;
+13. close the phase only when its complete Definition of Done passes; otherwise
+    record the exact remaining work/blocker and continue the next unblocked
+    workstream;
+14. confirm that the commit and evidence exist on the remote.
 
 One meaningful commit should include implementation, related tests and the
 progress update when practical. Do not create a cosmetic progress-only commit
