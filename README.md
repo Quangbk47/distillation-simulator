@@ -21,9 +21,9 @@ Ngoài V1: optimization, AI/ML, dynamic simulation, thủy lực mâm chi tiết
 
 Nguồn chuẩn là [`docs/EXPERT_CONFIRMATION.md`](docs/EXPERT_CONFIRMATION.md) và [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md); quyết định metric/ngưỡng validation mới nhất nằm trong [`docs/VALIDATION_ACCEPTANCE.md`](docs/VALIDATION_ACCEPTANCE.md). Các contract chi tiết nằm trong [`docs/PROCESS_MODEL.md`](docs/PROCESS_MODEL.md), [`docs/ALGORITHM_SPEC.md`](docs/ALGORITHM_SPEC.md), [`docs/CALCULATION_FORMULAS.md`](docs/CALCULATION_FORMULAS.md), [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) và [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md). Dữ liệu Antoine/enthalpy chưa được coi là reviewed cho đến khi có citation, miền áp dụng, reviewer và ngày review.
 
-Audit và execution roadmap nằm trong [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md) và [`docs/ROADMAP.md`](docs/ROADMAP.md). Firebase Hosting chỉ host frontend/static assets; backend Python cần runtime riêng. Chưa có Firebase project/config được xác nhận trong repository.
+Audit và execution roadmap nằm trong [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md) và [`docs/ROADMAP.md`](docs/ROADMAP.md). Firebase Hosting chỉ host frontend/static assets; backend Python cần runtime riêng. Firebase project `distillation-simulator` đã được xác nhận; hướng dẫn Hosting nằm trong deployment runbook.
 
-Quy tắc vận hành team nằm trong [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md): **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.** Mỗi checkpoint phải theo chuỗi `IMPLEMENT → TEST → UPDATE PROJECT DOCUMENTATION → COMMIT → PUSH`; `PROGRESS.md` là nguồn trạng thái hiện tại, `TODO.md` là danh sách việc còn lại và `ROADMAP.md` là kế hoạch.
+Quy tắc vận hành team nằm trong [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md): **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.** Mỗi checkpoint kỹ thuật theo chuỗi `CODE → TEST → UPDATE DOCS → COMMIT/PUSH → PR → CI/REVIEW → MERGE MAIN → DEPLOY → SMOKE TEST → UPDATE EVIDENCE`; sinh viên không cần chờ Owner duyệt từng Phase, nhưng vẫn phải qua review/CI trước merge và giữ nguyên các blocker khoa học chưa được chốt. `PROGRESS.md` là nguồn trạng thái hiện tại, `TODO.md` là danh sách việc còn lại và `ROADMAP.md` là kế hoạch.
 
 ## Cấu trúc repository
 
@@ -98,6 +98,7 @@ python -m ruff check src tests scripts
 python -m mypy src
 python -m pytest tests/unit tests/integration tests/reference tests/validation
 python scripts/check_structure.py
+python scripts/build_frontend.py
 python -m build
 python -m detect_secrets scan --force-use-all-plugins src tests data scripts .github pyproject.toml .env.example
 ```

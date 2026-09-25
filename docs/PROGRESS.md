@@ -3,7 +3,8 @@
 ## Operating rule
 
 **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.** Every meaningful checkpoint
-follows `IMPLEMENT → TEST → UPDATE PROJECT DOCUMENTATION → COMMIT → PUSH`.
+follows `CODE → TEST → UPDATE DOCS → COMMIT/PUSH → PR → CI/REVIEW → MERGE MAIN
+→ DEPLOY → SMOKE TEST → UPDATE EVIDENCE`.
 Task completion must not be reported as phase completion. The four allowed
 phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
@@ -11,11 +12,13 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **BLOCKED**
+Current status: **IN PROGRESS**
 
 The repository has a tested backend/API skeleton and a dependency-free static
-UI shell. It is not yet a working scientific simulator. Phase 2 cannot proceed
-past planning until the owner confirms the Firebase account and target project.
+UI shell. It is not yet a working scientific simulator. The Firebase project
+`distillation-simulator` and authorized CLI access are available; deployment
+verification is the next technical gate and does not require a separate Owner
+approval.
 
 ## Phase status ledger
 
@@ -69,8 +72,8 @@ Remaining:
 
 Blockers: None for Phase 1.
 
-Next Action: Confirm the Firebase account and target project for Phase 2. Do
-not turn the shell into a calculator without completing the scientific phases.
+Next Action: Continue the confirmed Phase 2 deployment workflow. Do not turn
+the shell into a calculator without completing the scientific phases.
 
 Evidence: `86a0a1768ac50c926c83dd032ef7022c46e262ea`; GitHub Actions run
 `35499694516` passed install, structure, format, lint, mypy, frontend build,
@@ -81,29 +84,34 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **BLOCKED**
+Status: **IN PROGRESS**
 
 Completed:
 
-- Frontend hosting scope and the owner-confirmation requirement are documented.
-- No project, credentials or deployment configuration has been guessed or
-  created.
+- Firebase target `distillation-simulator` and authorized CLI access are
+  available.
+- CLI project/site access verified on 2026-09-24; existing Hosting site selected.
+- Static-only Hosting configuration and deterministic public build metadata added.
+- Demo displays build/project information and preserves ENGINE NOT CONNECTED.
+- Local structure, format, lint, mypy, 13 tests, frontend/package builds and
+  secret scan pass. No credentials are stored in the repository.
 
 Remaining:
 
-- Owner confirms Firebase account/login and target project ID.
-- Add minimal Hosting configuration, deploy the static shell and record URL.
-- Run hosting smoke test and record the deployment evidence.
+- Obtain green PR CI before deployment, deploy Hosting, verify public URL and
+  record release/build evidence.
+- Push the verified checkpoint; required PR review and green CI are required
+  before main merge.
 
-Blockers: Owner Firebase login/project selection and a confirmed target.
+Blockers: None for deployment preparation; merge requires PR review and green
+CI, not a separate Owner approval.
 
-Next Action: Ask the repository owner to log in/select the intended Firebase
-project; stop at that external action.
+Next Action: Finish CI, manual Hosting deployment and HTTP/browser smoke tests.
 
-Evidence: Repository inventory shows no `firebase.json` or `.firebaserc`;
-local frontend build is PASS; no Firebase URL exists.
+Evidence: `firebase.json`, `.firebaserc`, `tests/integration/test_frontend_build.py`;
+CLI 15.31.0 lists project/site `distillation-simulator`; 13 tests pass locally.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-09-24
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 
@@ -253,7 +261,7 @@ Completed: Production acceptance criteria are documented.
 Remaining: Final build/deploy, backend runtime, production smoke test and
 recorded URL/release evidence.
 
-Blockers: All preceding phases and owner-managed deployment access.
+Blockers: All preceding phases and authorized deployment access.
 
 Next Action: Start only after Phase 9 is DONE.
 
@@ -268,6 +276,7 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Firebase account/project confirmation: blocks Phase 2 deployment work.
+- Phase 2 target/access are available; deployment verification remains in
+  progress.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.

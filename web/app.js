@@ -42,3 +42,19 @@ resetButton.addEventListener("click", () => {
   form.reset();
   formError.textContent = "";
 });
+
+// Hosting status proves static delivery only; it does not imply an API connection.
+fetch("build-info.json", { cache: "no-store" })
+  .then((response) => {
+    if (!response.ok) throw new Error("Build metadata unavailable");
+    return response.json();
+  })
+  .then((info) => {
+    const project = "distillation-simulator";
+    if (info.project !== project || !/^[a-f0-9]{64}$/.test(info.build_id)) return;
+    document.querySelector("#build-status").textContent = `Project: ${project} · Build: ${info.build_id.slice(0, 12)} · DEMO`;
+    if ([`${project}.web.app`, `${project}.firebaseapp.com`].includes(location.hostname)) {
+      document.querySelector("#hosting-status").textContent = "Firebase connection OK · Static Hosting only";
+    }
+  })
+  .catch(() => {});

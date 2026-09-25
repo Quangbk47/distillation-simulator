@@ -81,8 +81,9 @@ Existing final documents and the calculation specification.
 **Blockers**
 
 Reviewed Antoine data remains blocking for Phase 3/4 scientific output; reviewed
-enthalpy data blocks only Phase 6 energy. The Firebase project/account target
-remains blocking for deployment.
+enthalpy data blocks only Phase 6 energy. The confirmed Firebase target is not a
+phase blocker; authorized access and a successful deployment/smoke test are
+required evidence for Phase 2 and later release gates.
 
 ## Phase 1 — PROJECT SKELETON
 
@@ -149,8 +150,8 @@ is complete.
 
 **Inputs**
 
-Phase 1 status UI, `UI_UX_SPEC.md`, owner-confirmed Firebase target/account and
-deployment runbook.
+Phase 1 status UI, `UI_UX_SPEC.md`, the confirmed Firebase target and deployment
+runbook.
 
 **Files/modules expected to change**
 
@@ -159,16 +160,15 @@ hosting workflow/config and deployment record.
 
 **Owner/role**
 
-DevOps/deployment owner with repository owner for login/project confirmation.
+Student developer/deployment owner; a designated reviewer checks the PR and CI.
 
 **Tasks**
 
 - Inventory `firebase.json`, `.firebaserc`, hosting config, workflow and
   environment variables. At audit time none exists.
-- Confirm the target Firebase project and account with the owner. Do not create
-  a project, guess a project ID, or handle credentials automatically.
-- If login is required, stop at the login step and ask the owner to complete
-  it. Never commit tokens, passwords, service-account keys or API secrets.
+- Verify the confirmed target and use an authorized Firebase login. Do not
+  create a project, guess a project ID, or handle credentials automatically.
+  Never commit tokens, passwords, service-account keys or API secrets.
 - Add minimal hosting configuration and a static status page showing project,
   build/commit and `Firebase connection OK` only after the target is known.
 - Use manual deploy first if automatic deploy is not yet appropriate.
@@ -198,12 +198,13 @@ scientific numbers, or claim Firebase Hosting runs the Python API.
 
 **Dependencies**
 
-Phase 1 and owner confirmation of Firebase target/account.
+Phase 1 and the confirmed Firebase target, with authorized deployment access.
 
 **Blockers**
 
-Firebase login, project ID, billing/permissions, or hosting target not yet
-confirmed. This phase must stop at that boundary rather than inventing setup.
+Missing authorized Firebase access, billing/permissions, or hosting target. A
+separate Owner approval is not a blocker once the target and access path are
+known.
 
 ## Parallel work after Phase 2
 
@@ -639,8 +640,8 @@ Publish a traceable production release with rollback information.
 
 **Inputs**
 
-Green CI commit, reviewed data versions, owner approval, Firebase target and
-approved backend runtime credentials.
+Green CI commit, reviewed data versions, a designated PR review, Firebase
+target and approved backend runtime credentials/access.
 
 **Files/modules expected to change**
 
@@ -649,7 +650,8 @@ scientific source file should change during a release-only deployment.
 
 **Owner/role**
 
-Release owner; repository owner approves production.
+Student/release owner executes the release; designated reviewers verify CI and
+smoke evidence. Owner approval is optional for technical progression.
 
 **Tasks**
 
@@ -680,18 +682,19 @@ frontend URL as proof that the Python backend is deployed.
 
 **Dependencies**
 
-Phases 0–9, owner approval and runtime credentials supplied by the owner.
+Phases 0–9, designated review, and runtime credentials/access supplied through
+an authorized channel.
 
 **Blockers**
 
-Any failed CI/smoke test, missing approval, missing Firebase target or missing
-backend runtime.
+Any failed CI/smoke test, missing required review, missing Firebase target or
+missing backend runtime/access.
 
 ## Current starting point
 
-Phase 0 is frozen and the Phase 1 local skeleton/UI shell is implemented and
-verified. The next single action is Phase 2 Firebase target confirmation:
-the owner must log in/select the intended Firebase project, after which the
-minimum shell can be configured and manually deployed. Scientific Antoine data
-review and total-condenser engine work can proceed in parallel, while all
-simulation outputs remain explicitly pending until the backend is implemented.
+Phase 0 is frozen, Phase 1 is complete, and Phase 2 is the current technical
+workstream. The student team may configure, merge and deploy the confirmed
+Firebase target after CI/review without waiting for a separate Owner approval.
+Scientific Antoine data review and total-condenser engine work can proceed in
+parallel, while all simulation outputs remain explicitly pending until the
+backend is implemented.
