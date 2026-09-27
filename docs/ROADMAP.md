@@ -702,9 +702,8 @@ Firebase capability, or missing backend runtime/access.
 
 ## Current starting point
 
-Phase 0 is frozen, Phase 1 is complete, and Phase 2 is the current technical
-workstream. The student team may create/configure its own Firebase target,
-merge and deploy after CI/review without waiting for Owner approval. Scientific
-Antoine data review and total-condenser engine work can proceed in parallel,
-while all simulation outputs remain explicitly pending until the backend is
-implemented.
+Phase 0–2 are complete; Phase 2 static Hosting evidence is recorded in
+`DEPLOYMENT_RUNBOOK.md`. Current work is Phase 3, blocked by reviewed Antoine
+records (TODO-001). The scientific lead must approve the data before scientific
+output is implemented. Later technical delivery remains autonomous under
+CI/review, with all simulation outputs pending until the backend is implemented.

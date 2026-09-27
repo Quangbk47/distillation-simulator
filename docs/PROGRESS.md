@@ -12,16 +12,15 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 ## Current project position
 
-Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
+Current working phase: **Phase 3 — MINIMUM CALCULATION ENGINE**
 
-Current status: **IN PROGRESS**
+Current status: **BLOCKED** (reviewed Antoine records required).
 
-The repository has a tested backend/API skeleton and a dependency-free static
-UI shell. It is not yet a working scientific simulator. The Firebase target is
-configured in the repository, but the legacy project/site is inaccessible to
-the current CLI session. This is a technical migration task, not an Owner
-blocker: the student team may create/use a new Firebase project/site, update
-the configuration, deploy and verify it.
+Phase 2 static Hosting is complete at https://distillation-simulator.web.app.
+The repository has a tested backend/API skeleton and a static UI shell, not
+an operational scientific simulator. See `DEPLOYMENT_RUNBOOK.md` for the
+2026-09-27 deployment and smoke evidence. Phase 3 cannot produce scientific
+output until the scientific lead approves the Antoine records.
 
 ## Phase status ledger
 
@@ -87,49 +86,41 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **IN PROGRESS**
+Status: **DONE**
 
 Completed:
 
-- Firebase target `distillation-simulator` is configured in the repository and
-  PR #2 is merged to `main`.
-- Target/site selection was recorded on 2026-09-24; re-verification on
-  2026-09-25 returned HTTP 403 for the current CLI session.
-- Static-only Hosting configuration and deterministic public build metadata added.
-- Demo displays build/project information and preserves ENGINE NOT CONNECTED.
-- Local structure, format, lint, mypy, 13 tests, frontend/package builds and
-  secret scan pass. GitHub PR CI run `36154667511` passed for merge commit
-  `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`. No credentials are stored in the
-  repository.
-- Production build from merge commit `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`
-  produced build ID
-  `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
+- Static Hosting configuration, deterministic build metadata and demo shell
+  were merged through PR #2; the demo preserves ENGINE NOT CONNECTED.
+- Reverified the existing project/site `distillation-simulator` on 2026-09-27.
+  The authorized CLI can access it; no replacement or configuration change was
+  required. The 2026-09-25 HTTP 403 is resolved for this session.
+- Main source `f09b299200cfec94c85139a97c4a98d0cc2a946f` passed GitHub CI
+  `36157068321`. Local structure, format, lint, mypy, 13 tests, frontend/package
+  builds and secret scan (zero findings) passed on 2026-09-27.
+- Deployed the static bundle to https://distillation-simulator.web.app;
+  Hosting version `e97991e487ddbb58`.
+- HTTPS `/`, `/app.js`, `/styles.css`, `/build-info.json` returned 200 and
+  matched local build bytes. Unknown route and `/api/health` returned 404.
+- Production browser smoke passed: hosting metadata, default submit with no
+  scientific output, invalid NF error, reset to NF=5/error cleared, sensitivity
+  tab and return to simulation. Controls were activated with Enter; pointer
+  automation was inconclusive. Partial condenser and sensitivity remain disabled.
 
-Remaining:
+Remaining: None for the Phase 2 Definition of Done. Functional simulation and
+later deployments remain assigned to their respective phases.
 
-- Use an accessible student Firebase account/project/site, or create a new
-  project/site; update `.firebaserc`/`firebase.json` to the selected target.
-- Deploy Hosting, verify the public URL and record release/build evidence after
-  a successful production smoke test.
+Blockers: None for Phase 2.
 
-Blockers: No scientific blocker. The legacy `distillation-simulator` target is
-inaccessible (`firebase projects:list` omits it and its Hosting/deploy commands
-returned HTTP 403), but the technical team is authorized to create or select a
-student-controlled replacement. No production URL exists yet.
+Next Action: Scientific lead approves Antoine data for Phase 3 (TODO-001).
 
-Next Action: Create/select a student-controlled Firebase project/site, update
-the repository target, deploy the static build, then run HTTP/browser production
-smoke tests.
-
-Evidence: `firebase.json`, `.firebaserc`,
-`tests/integration/test_frontend_build.py`; merge commit
-`bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`; CI run `36154667511`; CLI `15.19.0`;
+Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed source `f09b299200cfec94c85139a97c4a98d0cc2a946f`;
+CI https://github.com/Quangbk47/distillation-simulator/actions/runs/36157068321;
 build ID `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`;
-deploy attempted 2026-09-25 and failed with project-access error; production
-URL: none. Autonomy policy updated 2026-09-25: create/select a replacement
-student-controlled target rather than waiting for legacy-project access.
+Hosting version `e97991e487ddbb58`; production HTTP/browser checks PASS.
+This documentation checkpoint records closure and must pass PR CI/review.
 
-Last Updated: 2026-09-25
+Last Updated: 2026-09-27
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 
@@ -283,8 +274,8 @@ Blockers: All preceding phases and authorized deployment access.
 
 Next Action: Start only after Phase 9 is DONE.
 
-Evidence: `docs/ROADMAP.md`, `docs/DEPLOYMENT_RUNBOOK.md` and no production URL
-currently recorded.
+Evidence: `docs/ROADMAP.md` and `docs/DEPLOYMENT_RUNBOOK.md`; the Phase 2 static
+demo URL exists, but the full Phase 10 production release is not complete.
 
 Last Updated: 2026-09-19
 
@@ -294,8 +285,6 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Phase 2 has no production URL or smoke-test PASS yet. The legacy Firebase
-  target is inaccessible; create/select a student-controlled replacement and
-  update the repository configuration before deploying.
+- Phase 2 deployment and static smoke checks passed; no current Hosting blocker.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.

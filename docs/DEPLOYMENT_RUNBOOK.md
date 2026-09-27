@@ -52,12 +52,10 @@ scientific data version together when a scientific defect is found.
 
 ## Phase 2 static demo procedure
 
-Current legacy target/site: `distillation-simulator` (inaccessible to the
-current CLI session on 2026-09-25). The student team may create or select a
-replacement project/site in its own Firebase account and must update the repo
-configuration before deployment. Install Firebase CLI from the official Firebase distribution (`npm install -g
-firebase-tools`; validated with 15.31.0). Run `firebase login` and complete the
-browser flow yourself. Never put credentials or CLI auth state in the repo.
+Current verified target/site: `distillation-simulator`. Access was reverified
+on 2026-09-27 and deployment succeeded. Reuse this target while accessible;
+authorized replacement remains an option only when needed. Keep credentials
+outside the repository. Use the existing Firebase CLI and authorized login profile.
 
 1. Check out the intended PR commit and run every README quality check.
 2. Require green GitHub PR CI (`CI_REQUIREMENTS.md`).
@@ -91,15 +89,30 @@ site or modify other Firebase services as a rollback shortcut.
 
 ## Latest Phase 2 evidence
 
-Attempt date: 2026-09-25. Source/merge commit:
-`bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`. GitHub CI run `36154667511` passed.
-The production frontend build completed with build ID
-`3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
+- Verified: 2026-09-27.
+- Source: `f09b299200cfec94c85139a97c4a98d0cc2a946f` (main, PR #5 merge).
+- CI: https://github.com/Quangbk47/distillation-simulator/actions/runs/36157068321
+  — completed, success.
+- Local gate: structure, format, lint, mypy, 13 tests, frontend/package builds
+  passed; detect-secrets reported zero findings. TestClient emitted one upstream
+  deprecation warning; no failures.
+- Project/site: `distillation-simulator` (project number `654072668208`).
+- URL: https://distillation-simulator.web.app.
+- Build ID: `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
+- Deploy result: success; Hosting version
+  `projects/654072668208/sites/distillation-simulator/versions/e97991e487ddbb58`.
+- HTTPS asset checks: `/`, `/app.js`, `/styles.css`, `/build-info.json` returned
+  200; all bytes matched the source build. `/phase2-nonexistent` and `/api/health`
+  returned 404, confirming the static-only boundary.
+- Browser smoke: Firebase connection OK and expected build metadata visible;
+  valid default submission preserves NOT CALCULATED/ENGINE NOT CONNECTED with
+  the backend-unavailable warning; NF=11 with N=10 shows the expected error;
+  reset restores NF=5 and clears the error; sensitivity tab is disabled for
+  execution and switching back works; partial condenser is unavailable.
+  Controls were tested via keyboard Enter because pointer automation was
+  inconclusive. No scientific results are fabricated.
 
-Deployment result: `firebase deploy --only hosting --project
-distillation-simulator --non-interactive` failed before upload because the
-current authorized CLI session could not access the target project; Firebase
-returned a project-access/HTTP 403 error. Production URL and smoke-test result:
-not available. This legacy-target failure is not an Owner blocker: create/select
-a student-controlled replacement, update configuration, then deploy and smoke
-test. Do not record `DONE` until deployment and smoke verification succeed.
+The 2026-09-25 project-access failure is historical and resolved for the
+current authorized CLI session. No replacement project or configuration change
+was necessary. This evidence completes the Phase 2 static demo DoD, not the
+Phase 10 scientific production-release gate.
