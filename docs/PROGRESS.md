@@ -14,13 +14,14 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **IN PROGRESS** (deployment verified; evidence PR pending GitHub write access).
+Current status: **IN PROGRESS** (production deployment and smoke test pass;
+the required evidence commit/PR/CI/review/merge remains to be published).
 
-Phase 2 static Hosting is verified at https://distillation-simulator.web.app.
-The repository has a tested backend/API skeleton and a static UI shell, not
-an operational scientific simulator. See `DEPLOYMENT_RUNBOOK.md` for the
-2026-09-27 deployment and smoke evidence. Phase 3 cannot produce scientific
-output until the scientific lead approves the Antoine records.
+Phase 2 Hosting uses the Firebase project owned by
+`bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
+backend/API skeleton and a static UI shell, not an operational scientific
+simulator. Phase 3 cannot produce scientific output until the scientific lead
+approves the Antoine records.
 
 ## Phase status ledger
 
@@ -92,37 +93,37 @@ Completed:
 
 - Static Hosting configuration, deterministic build metadata and demo shell
   were merged through PR #2; the demo preserves ENGINE NOT CONNECTED.
-- Reverified the existing project/site `distillation-simulator` on 2026-09-27.
-  The authorized CLI can access it; no replacement or configuration change was
-  required. The 2026-09-25 HTTP 403 is resolved for this session.
+- Created a Google Cloud/Firebase project owned by `bichloannb06@gmail.com` on
+  2026-09-27: `delta-pagoda-509904-j8`. Firebase is enabled, the default
+  Hosting site exists, and Google Analytics is disabled for the static demo.
+  Repository deployment configuration now targets this project exclusively.
 - Main source `f09b299200cfec94c85139a97c4a98d0cc2a946f` passed GitHub CI
-  `36157068321`. Local structure, format, lint, mypy, 13 tests, frontend/package
-  builds and secret scan (zero findings) passed on 2026-09-27.
-- Deployed the static bundle to https://distillation-simulator.web.app;
-  Hosting version `e97991e487ddbb58`.
-- HTTPS `/`, `/app.js`, `/styles.css`, `/build-info.json` returned 200 and
-  matched local build bytes. Unknown route and `/api/health` returned 404.
-- Production browser smoke passed: hosting metadata, default submit with no
-  scientific output, invalid NF error, reset to NF=5/error cleared, sensitivity
-  tab and return to simulation. Controls were activated with Enter; pointer
-  automation was inconclusive. Partial condenser and sensitivity remain disabled.
+  `36157068321`. The current deployment worktree passed structure, format,
+  lint, mypy, 14 tests and a zero-finding secret scan on 2026-09-27.
+- The account owner deployed the static bundle successfully to
+  https://delta-pagoda-509904-j8.web.app on 2026-09-27.
+- Production browser smoke confirmed the metadata fix: `Firebase connection OK ·
+  Static Hosting only`, project `delta-pagoda-509904-j8`, and build ID
+  `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`.
+  A valid submission shows the backend-unavailable warning without fabricating
+  scientific output; NF=11 with N=10 is rejected; reset restores NF=5. Partial
+  condenser and sensitivity execution remain unavailable as designed.
 
-Remaining: Push this evidence checkpoint, complete PR CI/review and merge.
-The deployment and smoke gates are met; phase closure awaits the repository
-workflow. Functional simulation and later deployments remain in later phases.
+Remaining: Commit the configuration, metadata fix, tests and evidence; then
+push a PR, require CI/review and merge it according to `PROJECT_RULES.md`.
 
-Blockers: GitHub connector write returned HTTP 403 (Resource not accessible
-by integration); local Git push failed and browser is logged out. An authorized
-GitHub session with repository write access is required to publish evidence.
+Blockers: GitHub evidence publication requires a write-authorized session. No
+Firebase deployment blocker remains.
 
-Next Action: Publish/review/merge the evidence checkpoint, then close Phase 2.
-Scientific lead approval of Antoine data remains the Phase 3 next action.
+Next Action: Publish/review/merge the evidence checkpoint. Phase 3 remains
+blocked pending scientific-lead approval of the Antoine data.
 
-Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed source `f09b299200cfec94c85139a97c4a98d0cc2a946f`;
-CI https://github.com/Quangbk47/distillation-simulator/actions/runs/36157068321;
-build ID `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`;
-Hosting version `e97991e487ddbb58`; production HTTP/browser checks PASS.
-This documentation checkpoint records closure and must pass PR CI/review.
+Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed working tree based on
+`f09b299200cfec94c85139a97c4a98d0cc2a946f`; build ID
+`70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`;
+production browser smoke PASS. The sandbox denied terminal HTTP socket access,
+so byte-for-byte asset and 404 checks were not repeated after this deployment.
+This checkpoint still requires PR CI/review before Phase 2 is marked DONE.
 
 Last Updated: 2026-09-27
 

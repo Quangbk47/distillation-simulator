@@ -50,8 +50,8 @@ fetch("build-info.json", { cache: "no-store" })
     return response.json();
   })
   .then((info) => {
-    const project = "distillation-simulator";
-    if (info.project !== project || !/^[a-f0-9]{64}$/.test(info.build_id)) return;
+    const project = info.project;
+    if (typeof project !== "string" || !/^[a-z0-9-]+$/.test(project) || !/^[a-f0-9]{64}$/.test(info.build_id)) return;
     document.querySelector("#build-status").textContent = `Project: ${project} · Build: ${info.build_id.slice(0, 12)} · DEMO`;
     if ([`${project}.web.app`, `${project}.firebaseapp.com`].includes(location.hostname)) {
       document.querySelector("#hosting-status").textContent = "Firebase connection OK · Static Hosting only";

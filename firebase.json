@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "distillation-simulator",
+    "site": "delta-pagoda-509904-j8",
     "public": "build/frontend",
     "ignore": [
       "firebase.json",

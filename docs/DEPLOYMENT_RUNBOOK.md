@@ -52,10 +52,11 @@ scientific data version together when a scientific defect is found.
 
 ## Phase 2 static demo procedure
 
-Current verified target/site: `distillation-simulator`. Access was reverified
-on 2026-09-27 and deployment succeeded. Reuse this target while accessible;
-authorized replacement remains an option only when needed. Keep credentials
-outside the repository. Use the existing Firebase CLI and authorized login profile.
+Current target/site: `delta-pagoda-509904-j8`, created under
+`bichloannb06@gmail.com` on 2026-09-27. Firebase is enabled and the default
+Hosting site exists. Use this target for every future Firebase Hosting phase;
+do not rely on another person's Firebase project. Google Analytics is disabled
+for the static demo. Keep credentials outside the repository.
 
 1. Check out the intended PR commit and run every README quality check.
 2. Require green GitHub PR CI (`CI_REQUIREMENTS.md`).
@@ -90,29 +91,30 @@ site or modify other Firebase services as a rollback shortcut.
 ## Latest Phase 2 evidence
 
 - Verified: 2026-09-27.
-- Source: `f09b299200cfec94c85139a97c4a98d0cc2a946f` (main, PR #5 merge).
+- Source baseline: `f09b299200cfec94c85139a97c4a98d0cc2a946f` (main, PR #5
+  merge); the deployed metadata fix is awaiting its evidence PR.
 - CI: https://github.com/Quangbk47/distillation-simulator/actions/runs/36157068321
   — completed, success.
-- Local gate: structure, format, lint, mypy, 13 tests, frontend/package builds
-  passed; detect-secrets reported zero findings. TestClient emitted one upstream
-  deprecation warning; no failures.
-- Project/site: `distillation-simulator` (project number `654072668208`).
-- URL: https://distillation-simulator.web.app.
-- Build ID: `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
-- Deploy result: success; Hosting version
-  `projects/654072668208/sites/distillation-simulator/versions/e97991e487ddbb58`.
-- HTTPS asset checks: `/`, `/app.js`, `/styles.css`, `/build-info.json` returned
-  200; all bytes matched the source build. `/phase2-nonexistent` and `/api/health`
-  returned 404, confirming the static-only boundary.
-- Browser smoke: Firebase connection OK and expected build metadata visible;
+- Local gate: structure, format, lint, mypy and 14 tests passed; detect-secrets
+  reported zero findings. TestClient emitted one upstream deprecation warning;
+  no failures. A package build could not be repeated because the sandbox blocks
+  outbound setup access and the local virtual environment lacks setuptools.
+- Project/site: `delta-pagoda-509904-j8` (account-owned default Hosting site).
+- URL: https://delta-pagoda-509904-j8.web.app.
+- Build ID: `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`.
+- Deploy result: success, confirmed by the account owner on 2026-09-27.
+- Browser smoke: Firebase connection OK with project
+  `delta-pagoda-509904-j8` and expected build metadata visible;
   valid default submission preserves NOT CALCULATED/ENGINE NOT CONNECTED with
   the backend-unavailable warning; NF=11 with N=10 shows the expected error;
   reset restores NF=5 and clears the error; sensitivity tab is disabled for
   execution and switching back works; partial condenser is unavailable.
   Controls were tested via keyboard Enter because pointer automation was
-  inconclusive. No scientific results are fabricated.
+  inconclusive. No scientific results are fabricated. The sandbox denied the
+  terminal's post-deploy HTTP socket test, so asset-byte and 404 checks were
+  not repeated for this deployment.
 
-The 2026-09-25 project-access failure is historical and resolved for the
-current authorized CLI session. No replacement project or configuration change
-was necessary. This evidence completes the Phase 2 static demo DoD, not the
-Phase 10 scientific production-release gate.
+The former project access issue is historical. This account-owned deployment
+passes the Phase 2 production and browser-smoke gates; its evidence still needs
+the required commit, PR CI/review and merge. It is not the Phase 10 scientific
+production-release gate.

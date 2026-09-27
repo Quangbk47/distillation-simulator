@@ -112,13 +112,15 @@ an unresolved item to make the queue look clean.
 - Phase: 2/5/10 (Phase 2 deployment/smoke verified on 2026-09-27).
 - Status: `IN PROGRESS`
 - Owner/role: Student developer / DevOps
-- Phase 2 remaining: push the evidence checkpoint and complete PR CI/review/merge;
-  an authorized GitHub write session is required (connector returned HTTP 403).
+- Phase 2 deployment and browser smoke passed at
+  https://delta-pagoda-509904-j8.web.app (build
+  `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`).
+  Remaining: commit, push, PR CI/review and merge the evidence checkpoint.
 - Dependency/blocker: Validated API/UI for Phase 5 and full release gates for
   Phase 10. Existing project/site access and static demo are verified.
 - Acceptance condition: Deploy the functional UI and final release after their
   respective CI/review gates; record source/build/URL and smoke evidence.
-- Phase 2 evidence: `DEPLOYMENT_RUNBOOK.md`, https://distillation-simulator.web.app.
+- Phase 2 evidence: `DEPLOYMENT_RUNBOOK.md`, https://delta-pagoda-509904-j8.web.app.
 
 ### TODO-014 — Product hardening and production release
 

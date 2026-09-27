@@ -3,12 +3,15 @@
 Pull latest main, then read `PROJECT_RULES.md`, the relevant `ROADMAP.md`
 phase, `PROGRESS.md`, `TODO.md`, `HANDOVER.md` and related specifications.
 
-Phase 0/1 are DONE. Phase 2 deployment and smoke gates pass, but the evidence
-PR is pending GitHub write access. Phase 3 is BLOCKED by TODO-001.
-The static demo is live at https://distillation-simulator.web.app. The prior
-Firebase HTTP 403 was resolved for the authorized session on 2026-09-27;
-no new project/site is needed. Deployment and smoke evidence are recorded in
-`DEPLOYMENT_RUNBOOK.md`. Do not repeat deployment as unfinished work; publish the evidence PR first.
+Phase 0/1 are DONE. Phase 2 production deployment and browser smoke gates pass,
+but the evidence PR is pending GitHub write access. Phase 3 is BLOCKED by
+TODO-001.
+Firebase now uses the account-owned project/site `delta-pagoda-509904-j8`
+under `bichloannb06@gmail.com`. The deployed URL is
+https://delta-pagoda-509904-j8.web.app and its browser metadata reports project
+`delta-pagoda-509904-j8` with build
+`70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`. Do not
+use another person's Firebase project for future phases.
 
 Next action: publish/review/merge the local evidence checkpoint, then close
 Phase 2. Afterward, the scientific lead must approve component coefficients, units,

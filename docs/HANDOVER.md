@@ -8,15 +8,17 @@ Phase 4–10 are `NOT STARTED`.
 
 ## Completed checkpoint — 2026-09-27
 
-- Existing Firebase project/site access reverified; no migration needed.
-- Deployed main `f09b299200cfec94c85139a97c4a98d0cc2a946f` after green CI
-  `36157068321` and local quality gates (13 tests; zero secret findings).
-- Public static demo: https://distillation-simulator.web.app.
-- Hosting version `e97991e487ddbb58`; build
-  `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
-- HTTP asset-byte/404 checks and keyboard browser interaction smoke passed.
-  Full evidence and redeploy steps are in `DEPLOYMENT_RUNBOOK.md`.
-- No runtime, scientific data or configuration change was required.
+- Firebase project/site `delta-pagoda-509904-j8` was created under
+  `bichloannb06@gmail.com`; all future Hosting work uses this target.
+- Production static demo deployed successfully: https://delta-pagoda-509904-j8.web.app.
+  The deployment build is
+  `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`.
+- Browser smoke confirmed `Firebase connection OK · Static Hosting only` and
+  project `delta-pagoda-509904-j8`; valid submit keeps scientific output absent,
+  invalid NF is rejected, and reset restores NF=5. The worktree passed 14 tests
+  and a zero-finding secret scan. Full evidence is in `DEPLOYMENT_RUNBOOK.md`.
+- The terminal sandbox denied HTTP socket access, so post-deploy byte/404 checks
+  were not repeated; the direct browser smoke passed.
 
 ## Remaining and scientific blockers
 
@@ -31,9 +33,9 @@ Phase 4–10 are `NOT STARTED`.
 
 ## Next action
 
-Publish the local deployment-evidence checkpoint through PR CI/review and
-merge; current GitHub integration cannot write (HTTP 403), and the browser
-requires an authorized login. Then close Phase 2 and proceed to the scientific gate.
+Commit and publish the local deployment-evidence checkpoint through PR
+CI/review and merge. Then obtain the scientific-lead data approval before
+starting Phase 3.
 
 Read `PROJECT_RULES.md`, `ROADMAP.md`, `PROGRESS.md`, TODO-001 and
 `THERMODYNAMIC_DATA_SPEC.md`. Obtain the scientific-lead decision on Antoine
