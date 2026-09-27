@@ -702,7 +702,8 @@ Firebase capability, or missing backend runtime/access.
 
 ## Current starting point
 
-Phase 0–2 are complete; Phase 2 static Hosting evidence is recorded in
+Phase 0–1 are complete; Phase 2 deployment/smoke gates pass and its evidence
+PR awaits GitHub write access. Static Hosting evidence is recorded in
 `DEPLOYMENT_RUNBOOK.md`. Current work is Phase 3, blocked by reviewed Antoine
 records (TODO-001). The scientific lead must approve the data before scientific
 output is implemented. Later technical delivery remains autonomous under

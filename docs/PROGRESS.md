@@ -12,11 +12,11 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 ## Current project position
 
-Current working phase: **Phase 3 — MINIMUM CALCULATION ENGINE**
+Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **BLOCKED** (reviewed Antoine records required).
+Current status: **IN PROGRESS** (deployment verified; evidence PR pending GitHub write access).
 
-Phase 2 static Hosting is complete at https://distillation-simulator.web.app.
+Phase 2 static Hosting is verified at https://distillation-simulator.web.app.
 The repository has a tested backend/API skeleton and a static UI shell, not
 an operational scientific simulator. See `DEPLOYMENT_RUNBOOK.md` for the
 2026-09-27 deployment and smoke evidence. Phase 3 cannot produce scientific
@@ -86,7 +86,7 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **DONE**
+Status: **IN PROGRESS**
 
 Completed:
 
@@ -107,12 +107,16 @@ Completed:
   tab and return to simulation. Controls were activated with Enter; pointer
   automation was inconclusive. Partial condenser and sensitivity remain disabled.
 
-Remaining: None for the Phase 2 Definition of Done. Functional simulation and
-later deployments remain assigned to their respective phases.
+Remaining: Push this evidence checkpoint, complete PR CI/review and merge.
+The deployment and smoke gates are met; phase closure awaits the repository
+workflow. Functional simulation and later deployments remain in later phases.
 
-Blockers: None for Phase 2.
+Blockers: GitHub connector write returned HTTP 403 (Resource not accessible
+by integration); local Git push failed and browser is logged out. An authorized
+GitHub session with repository write access is required to publish evidence.
 
-Next Action: Scientific lead approves Antoine data for Phase 3 (TODO-001).
+Next Action: Publish/review/merge the evidence checkpoint, then close Phase 2.
+Scientific lead approval of Antoine data remains the Phase 3 next action.
 
 Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed source `f09b299200cfec94c85139a97c4a98d0cc2a946f`;
 CI https://github.com/Quangbk47/distillation-simulator/actions/runs/36157068321;

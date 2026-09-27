@@ -107,11 +107,13 @@ an unresolved item to make the queue look clean.
 - Acceptance condition: Reference/literature case is reviewed, executed and
   reported using the accepted MAE threshold of 5 percentage points.
 
-### TODO-013 — Functional UI and final Firebase releases
+### TODO-013 — Firebase evidence and later releases
 
-- Phase: 5/10 (Phase 2 static Hosting completed on 2026-09-27).
-- Status: `NOT STARTED`
+- Phase: 2/5/10 (Phase 2 deployment/smoke verified on 2026-09-27).
+- Status: `IN PROGRESS`
 - Owner/role: Student developer / DevOps
+- Phase 2 remaining: push the evidence checkpoint and complete PR CI/review/merge;
+  an authorized GitHub write session is required (connector returned HTTP 403).
 - Dependency/blocker: Validated API/UI for Phase 5 and full release gates for
   Phase 10. Existing project/site access and static demo are verified.
 - Acceptance condition: Deploy the functional UI and final release after their

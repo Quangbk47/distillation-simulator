@@ -3,7 +3,8 @@
 ## Current Phase and Status
 
 Phase 3 — MINIMUM CALCULATION ENGINE: `BLOCKED` by TODO-001 reviewed Antoine
-records. Phase 0/1/2 are `DONE`; Phase 4–10 are `NOT STARTED`.
+records. Phase 0/1 are `DONE`; Phase 2 is `IN PROGRESS` until its evidence PR is merged;
+Phase 4–10 are `NOT STARTED`.
 
 ## Completed checkpoint — 2026-09-27
 
@@ -29,6 +30,10 @@ records. Phase 0/1/2 are `DONE`; Phase 4–10 are `NOT STARTED`.
   unfinished. Firebase Hosting serves static files, not the Python API.
 
 ## Next action
+
+Publish the local deployment-evidence checkpoint through PR CI/review and
+merge; current GitHub integration cannot write (HTTP 403), and the browser
+requires an authorized login. Then close Phase 2 and proceed to the scientific gate.
 
 Read `PROJECT_RULES.md`, `ROADMAP.md`, `PROGRESS.md`, TODO-001 and
 `THERMODYNAMIC_DATA_SPEC.md`. Obtain the scientific-lead decision on Antoine
