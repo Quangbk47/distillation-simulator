@@ -13,6 +13,13 @@ def test_health_and_data_version_endpoints() -> None:
     }
 
 
+def test_frontend_is_served_by_local_api() -> None:
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "Distillation Simulator" in response.text
+
+
 def test_total_condenser_simulation_returns_results() -> None:
     response = client.post(
         "/api/simulations",

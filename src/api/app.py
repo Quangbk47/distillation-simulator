@@ -1,6 +1,9 @@
 """FastAPI boundary; calculation authority stays in the backend engine."""
 
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException, status
+from fastapi.staticfiles import StaticFiles
 
 from distillation.contracts import SimulationCase
 from distillation.mccabe_thiele import SimulationEngineNotReady, solve_mccabe_thiele
@@ -8,6 +11,8 @@ from distillation.mccabe_thiele import SimulationEngineNotReady, solve_mccabe_th
 from .schemas import SensitivityRequest, SimulationInput, SimulationResult
 
 app = FastAPI(title="Distillation Simulator API", version="0.1.0")
+ROOT = Path(__file__).resolve().parents[2]
+FRONTEND_BUILD = ROOT / "build/frontend"
 
 
 @app.get("/health")
@@ -47,3 +52,7 @@ def create_sensitivity(request: SensitivityRequest) -> dict[str, str]:
         status_code=status.HTTP_501_NOT_IMPLEMENTED,
         detail="Sensitivity runner is reserved for the V1 engine implementation",
     )
+
+
+if (FRONTEND_BUILD / "index.html").exists():
+    app.mount("/", StaticFiles(directory=FRONTEND_BUILD, html=True), name="frontend")
