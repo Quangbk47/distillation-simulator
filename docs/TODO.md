@@ -9,10 +9,9 @@ an unresolved item to make the queue look clean.
 ### TODO-001 — Review Antoine records
 
 - Phase: 3/4
-- Status: `BLOCKED`
+- Status: `DONE`
 - Owner/role: Scientific lead
-- Dependency/blocker: Component, units, ranges, citation, reviewer and review
-  date are not approved.
+- Dependency/blocker: Resolved by GVHD approval on 2026-10-04.
 - Acceptance condition: Reviewed records are committed in the agreed schema;
   provenance and applicable ranges are explicit; reference tests consume the
   approved records.
@@ -52,40 +51,49 @@ an unresolved item to make the queue look clean.
 ### TODO-007 — Implement minimum calculation engine
 
 - Phase: 3
-- Status: `BLOCKED`
+- Status: `DONE`
 - Owner/role: Student developer
-- Dependency/blocker: TODO-001 reviewed Antoine data.
+- Dependency/blocker: TODO-001 resolved.
 - Acceptance condition: VLE, bubble temperature, balances, recovery and
   residual gates pass the relevant tests without fabricated values.
 
 ### TODO-008 — Complete calculation closure
 
 - Phase: 3/4
-- Status: `BLOCKED`
+- Status: `IN PROGRESS`
 - Owner/role: Student developer with scientific reviewer
-- Dependency/blocker: TODO-001 and TODO-007.
+- Dependency/blocker: Numerical reference cases and residual validation.
 - Acceptance condition: Total-condenser outer `xD` solve, reboiler boundary,
   direct `NF` section switch and reference residuals pass; no `NF_geo` gate is
   introduced.
+- Progress: Outer residual gate is enforced and non-converged cases return
+  failure instead of clamped results; golden/reference validation is still
+  required.
 
 ### TODO-009 — Implement McCabe–Thiele path
 
 - Phase: 4
-- Status: `NOT STARTED`
+- Status: `IN PROGRESS`
 - Owner/role: Student developer
-- Dependency/blocker: TODO-008.
+- Dependency/blocker: TODO-008 validation remains.
 - Acceptance condition: q-line, operating lines, stepping, `N/NF`, total
   condenser and both section branches have tested outputs; partial condenser
   remains unavailable until TODO-002 is complete.
+- Progress: q-line, feed intersection, rectifying/stripping lines, stage table
+  and graph-ready response are implemented for total condenser. Partial
+  condenser remains `NOT_IMPLEMENTED`.
 
 ### TODO-010 — Connect functional UI
 
 - Phase: 5
-- Status: `NOT STARTED`
+- Status: `IN PROGRESS`
 - Owner/role: Student developer
 - Dependency/blocker: TODO-009 and API contract completion.
 - Acceptance condition: UI consumes backend results, warnings and stage data;
   no client-side scientific authority or fake result is introduced.
+- Progress: Simulation tab consumes backend output and renders xD/xB/recovery,
+  stage table and McCabe--Thiele plot from API data. Sensitivity remains
+  disabled.
 
 ### TODO-011 — Implement sensitivity
 

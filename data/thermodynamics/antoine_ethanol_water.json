@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0",
+  "dataVersion": "NIST-SRD69-2026-10-04",
+  "model": "raoult-antoine",
+  "status": "REVIEWED",
+  "records": [
+    {"component":"ethanol","A":5.24677,"B":1598.673,"C":-46.424,"formula":"log10(P) = A - B/(T + C)","temperatureRange":{"min":292.77,"max":366.63,"unit":"K"},"pressureUnit":"bar","provenance":{"citation":"NIST Chemistry WebBook SRD 69, Ethanol, Ambrose and Sprake (1970)","url":"https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4&Type=ANTOINE","publicationVersion":"NIST SRD 69","reviewer":"GVHD/Anh Đại","reviewDate":"2026-10-04"}},
+    {"component":"ethanol","A":4.92531,"B":1432.526,"C":-61.819,"formula":"log10(P) = A - B/(T + C)","temperatureRange":{"min":364.80,"max":513.91,"unit":"K"},"pressureUnit":"bar","provenance":{"citation":"NIST Chemistry WebBook SRD 69, Ethanol, Ambrose, Sprake and Townsend (1975)","url":"https://webbook.nist.gov/cgi/cbook.cgi?ID=C64175&Mask=4&Type=ANTOINE","publicationVersion":"NIST SRD 69","reviewer":"GVHD/Anh Đại","reviewDate":"2026-10-04"}},
+    {"component":"water","A":4.65430,"B":1435.264,"C":-64.848,"formula":"log10(P) = A - B/(T + C)","temperatureRange":{"min":255.90,"max":373.00,"unit":"K"},"pressureUnit":"bar","provenance":{"citation":"NIST Chemistry WebBook SRD 69, Water, Stull (1947)","url":"https://webbook.nist.gov/cgi/cbook.cgi?ID=C7732185&Mask=4&Type=ANTOINE","publicationVersion":"NIST SRD 69","reviewer":"GVHD/Anh Đại","reviewDate":"2026-10-04"}}
+  ]
+}

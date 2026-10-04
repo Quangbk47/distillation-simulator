@@ -64,22 +64,22 @@
               <label class="field">
                 <span>Số mâm thân tháp <code>N</code></span>
                 <small>mâm lý thuyết · N ≥ 1</small>
-                <input name="N" type="number" min="1" step="1" value="10" required />
+                <input name="N" type="number" min="1" step="1" value="5" required />
               </label>
               <label class="field">
                 <span>Vị trí mâm feed <code>NF</code></span>
                 <small>đếm từ trên xuống · 1..N</small>
-                <input name="NF" type="number" min="1" step="1" value="5" required />
+                <input name="NF" type="number" min="1" step="1" value="2" required />
               </label>
               <label class="field">
                 <span>Tỷ số hồi lưu <code>R</code></span>
                 <small>R = L/D · R ≥ 0</small>
-                <input name="R" type="number" min="0" step="0.1" value="2.0" required />
+                <input name="R" type="number" min="0" step="0.1" value="3.0" required />
               </label>
               <label class="field">
                 <span>Lưu lượng sản phẩm đỉnh <code>D</code></span>
                 <small>kmol/h · 0 &lt; D &lt; F</small>
-                <input name="D_kmol_h" type="number" min="0.001" step="1" value="20" required />
+                <input name="D_kmol_h" type="number" min="0.001" step="1" value="80" required />
               </label>
               <label class="field">
                 <span>Loại condenser</span>
@@ -125,12 +125,12 @@
               </div>
               <div class="equipment reboiler"><strong>Reboiler</strong><small>Không tính vào N</small></div>
               <div class="stream bottom-stream"><span>Bottoms B / xB ↓</span><span>QR: NOT CALCULATED</span></div>
-              <p class="diagram-note">Sơ đồ là visualization của kết quả backend. Chưa có dữ liệu khoa học để hiển thị.</p>
+              <p class="diagram-note" id="diagram-note">Sơ đồ là visualization của kết quả backend.</p>
             </div>
 
             <div class="plot-card">
-              <div class="plot-heading"><h3>McCabe–Thiele</h3><span>NOT CALCULATED</span></div>
-              <div class="empty-plot" aria-label="Đồ thị chưa có dữ liệu"><span>ENGINE NOT CONNECTED</span></div>
+              <div class="plot-heading"><h3>McCabe–Thiele</h3><span id="plot-status">NOT CALCULATED</span></div>
+              <div class="empty-plot" id="mccabe-plot" aria-label="Đồ thị chưa có dữ liệu"><span>ENGINE NOT CONNECTED</span></div>
             </div>
           </section>
 
@@ -154,15 +154,15 @@
 
             <div class="warning-box" id="warning-box"><strong>Warnings</strong><span id="warning-text">ENGINE NOT CONNECTED</span></div>
 
-            <div class="metadata-list">
+              <div class="metadata-list">
               <div><span>Mô hình VLE</span><strong>Raoult + Antoine</strong></div>
-              <div><span>Thermo data version</span><strong>PENDING_REVIEW</strong></div>
+              <div><span>Thermo data version</span><strong id="thermo-version">NOT CALCULATED</strong></div>
               <div><span>Residuals</span><strong id="residuals">NOT CALCULATED</strong></div>
             </div>
 
             <div class="table-card">
               <div class="plot-heading"><h3>Stage table</h3><span>Body stages only</span></div>
-              <div class="table-empty">NOT CALCULATED · Chưa có engine output</div>
+              <div class="table-empty" id="stage-table">NOT CALCULATED · Chưa có engine output</div>
             </div>
           </section>
         </form>

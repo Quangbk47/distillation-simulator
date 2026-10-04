@@ -29,9 +29,10 @@
           "pressureUnit": {"type": "string"},
           "provenance": {
             "type": "object",
-            "required": ["citation", "publicationVersion", "reviewer", "reviewDate"],
+            "required": ["citation", "url", "publicationVersion", "reviewer", "reviewDate"],
             "properties": {
               "citation": {"type": "string"},
+              "url": {"type": "string", "format": "uri"},
               "publicationVersion": {"type": "string"},
               "reviewer": {"type": "string"},
               "reviewDate": {"type": ["string", "null"]}

@@ -68,6 +68,16 @@ code { color: #334155; font-size: 0.9em; }
 .plot-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
 .plot-heading span { color: var(--muted); font-size: 0.68rem; font-weight: 800; }
 .empty-plot { display: grid; min-height: 170px; place-items: center; border: 1px dashed #b8c7db; border-radius: 8px; color: var(--muted); font-size: 0.75rem; background: repeating-linear-gradient(135deg, #fbfdff, #fbfdff 10px, #f4f7fb 10px, #f4f7fb 20px); }
+.plot-surface { min-height: 170px; border: 1px solid #d9e3ef; border-radius: 8px; padding: 8px; background: #fbfdff; }
+.plot-surface svg { display: block; width: 100%; height: auto; }
+.plot-surface text { fill: var(--muted); font-size: 13px; font-weight: 700; }
+.plot-axis { stroke: #94a3b8; stroke-width: 1.4; }
+.plot-diagonal { fill: none; stroke: #94a3b8; stroke-dasharray: 5 5; stroke-width: 1.4; }
+.plot-equilibrium { fill: none; stroke: #2563eb; stroke-width: 3; }
+.plot-rectifying, .plot-stripping { fill: none; stroke: #0f766e; stroke-width: 2.2; }
+.plot-qline { fill: none; stroke: #a16207; stroke-dasharray: 6 4; stroke-width: 2; }
+.plot-stages { fill: none; stroke: #dc2626; stroke-width: 2.3; }
+.plot-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--muted); font-size: 0.68rem; font-weight: 800; }
 .result-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .result-card { display: grid; gap: 5px; min-height: 92px; border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: #fbfcff; }
 .result-card span { color: var(--muted); font-size: 0.72rem; line-height: 1.35; }
@@ -79,6 +89,10 @@ code { color: #334155; font-size: 0.9em; }
 .metadata-list span { color: var(--muted); }
 .metadata-list strong { text-align: right; }
 .table-empty { display: grid; min-height: 100px; place-items: center; color: var(--muted); font-size: 0.75rem; background: #fbfcfe; }
+.table-card table { width: 100%; border-collapse: collapse; font-size: 0.74rem; }
+.table-card th, .table-card td { border-bottom: 1px solid #edf1f5; padding: 7px 5px; text-align: right; }
+.table-card th:first-child, .table-card td:first-child, .table-card th:nth-child(2), .table-card td:nth-child(2) { text-align: left; }
+.table-card th { color: var(--muted); font-size: 0.68rem; }
 .sensitivity-shell { max-width: 820px; margin: 0 auto; }
 .sensitivity-controls { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 12px; align-items: end; }
 .site-footer { width: min(1800px, calc(100% - 40px)); margin: 0 auto; padding: 0 0 28px; color: var(--muted); font-size: 0.72rem; text-align: center; }

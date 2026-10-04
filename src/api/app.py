@@ -2,6 +2,9 @@
 
 from fastapi import FastAPI, HTTPException, status
 
+from distillation.contracts import SimulationCase
+from distillation.mccabe_thiele import SimulationEngineNotReady, solve_mccabe_thiele
+
 from .schemas import SensitivityRequest, SimulationInput, SimulationResult
 
 app = FastAPI(title="Distillation Simulator API", version="0.1.0")
@@ -14,7 +17,7 @@ def health() -> dict[str, str]:
 
 @app.get("/api/thermo-data/version")
 def thermo_data_version() -> dict[str, str]:
-    return {"model": "raoult-antoine", "version": "PENDING_REVIEW"}
+    return {"model": "raoult-antoine", "version": "NIST-SRD69-2026-10-04"}
 
 
 @app.post("/api/simulations", response_model=SimulationResult)
@@ -28,10 +31,13 @@ def create_simulation(simulation_input: SimulationInput) -> SimulationResult:
                 "message": "Partial-condenser calculation contract is open and blocked",
             },
         )
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="V1 calculation engine is not implemented in the repository skeleton",
-    )
+    try:
+        data = solve_mccabe_thiele(SimulationCase(**simulation_input.model_dump()))
+    except (ValueError, SimulationEngineNotReady) as error:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(error)
+        ) from error
+    return SimulationResult.model_validate(data)
 
 
 @app.post("/api/sensitivity")

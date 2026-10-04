@@ -1,4 +1,5 @@
 from api.schemas import SimulationInput
+from distillation.mccabe_thiele import q_line_intersection, select_ethanol_record
 from solver.convergence import Residuals, residuals_pass
 from thermodynamics.antoine_raoult import AntoineRecord, evaluate_antoine
 
@@ -70,3 +71,51 @@ def test_antoine_extrapolation_is_structured_warning() -> None:
     assert result.is_extrapolated
     assert result.warnings == ("THERMO_EXTRAPOLATION",)
     assert result.source_range == (20.0, 80.0)
+
+
+def test_q_line_intersection_uses_approved_formula() -> None:
+    xq, yq = q_line_intersection(z_feed=0.5, q=0.8, rect_slope=2 / 3, rect_intercept=0.3)
+
+    assert round(xq, 12) == round((0.5 + (0.8 - 1.0) * 0.3) / (0.8 - (0.8 - 1.0) * 2 / 3), 12)
+    assert round(yq, 12) == round((2 / 3) * xq + 0.3, 12)
+
+
+def test_q_line_intersection_handles_saturated_liquid_without_division() -> None:
+    xq, yq = q_line_intersection(z_feed=0.5, q=1.0, rect_slope=2 / 3, rect_intercept=0.3)
+
+    assert xq == 0.5
+    assert round(yq, 12) == round((2 / 3) * 0.5 + 0.3, 12)
+
+
+def test_ethanol_record_selection_prefers_record_one_in_overlap() -> None:
+    record_one = AntoineRecord(
+        component="ethanol",
+        A=5.24677,
+        B=1598.673,
+        C=-46.424,
+        temperature_min=292.77,
+        temperature_max=366.63,
+        temperature_unit="K",
+        pressure_unit="bar",
+        citation="record one",
+        publication_version="fixture",
+        reviewer="fixture reviewer",
+        review_date="2026-10-04",
+    )
+    record_two = AntoineRecord(
+        component="ethanol",
+        A=4.92531,
+        B=1432.526,
+        C=-61.819,
+        temperature_min=364.80,
+        temperature_max=513.91,
+        temperature_unit="K",
+        pressure_unit="bar",
+        citation="record two",
+        publication_version="fixture",
+        reviewer="fixture reviewer",
+        review_date="2026-10-04",
+    )
+
+    assert select_ethanol_record([record_one, record_two], 365.0) is record_one
+    assert select_ethanol_record([record_one, record_two], 370.0) is record_two

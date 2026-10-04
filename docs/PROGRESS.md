@@ -12,10 +12,11 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 ## Current project position
 
-Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
+Current working phase: **Phase 4 — MCCABE–THIELE ENGINE**
 
-Current status: **IN PROGRESS** (production deployment and smoke test pass;
-the required evidence commit/PR/CI/review/merge remains to be published).
+Current status: **IN PROGRESS** (Phase 2 is merged and deployed; the reviewed
+thermodynamic data and minimum total-condenser calculation path are now wired
+locally, while UI integration and scientific reference validation remain).
 
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
@@ -87,7 +88,7 @@ Last Updated: 2026-09-21
 
 ### Phase 2 — FIREBASE EARLY CONNECTION
 
-Status: **IN PROGRESS**
+Status: **DONE**
 
 Completed:
 
@@ -115,15 +116,12 @@ Completed:
 - Repeated every local quality gate, including 14 tests, isolated package
   build and zero-finding secret scan; all passed.
 
-Remaining: Publish the committed configuration/metadata/evidence branch,
-require PR CI/review and merge; build/deploy the green merged source and repeat
-production verification according to `PROJECT_RULES.md`.
+Remaining: None for the Phase 2 Definition of Done.
 
-Blockers: GitHub evidence publication requires a write-authorized session. No
-Firebase deployment blocker remains.
+Blockers: None for Phase 2.
 
-Next Action: Publish/review/merge the evidence checkpoint. Phase 3 remains
-blocked pending scientific-lead approval of the Antoine data.
+Next Action: Keep the functional engine changes behind tests; do not broaden
+the deployment scope before the calculation path is validated.
 
 Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed working tree based on
 `f09b299200cfec94c85139a97c4a98d0cc2a946f`; build ID
@@ -137,52 +135,65 @@ Last Updated: 2026-10-04
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 
-Status: **BLOCKED**
+Status: **DONE**
 
 Completed:
 
 - API schemas, Raoult–Antoine contracts, residual gates and calculation
   closure requirements are documented.
+- NIST SRD 69 Ethanol–Water records were approved by GVHD on 2026-10-04 and
+  committed with provenance in `data/thermodynamics/antoine_ethanol_water.json`.
+- Bubble-point, Raoult equilibrium and controlled extrapolation warnings are
+  implemented and covered by the existing contract tests.
+- Ethanol record selection is deterministic: Record 1 is preferred in the
+  approved overlap and Record 2 is used above Record 1 when in range.
+- Total-mass and ethanol-balance outputs, recovery and outer residual metadata
+  are returned by the minimum API calculation path.
+- The total-condenser path rejects non-converged cases instead of clamping
+  off-curve McCabe--Thiele steps into a fabricated result.
 - The implementation boundary remains explicit; no fake result is exposed.
 
 Remaining:
 
-- Review and approve Antoine component records, units, ranges, citation,
-  reviewer and date.
-- Implement/test VLE, bubble temperature, balances, recovery and residual
-  gates, followed by the total-condenser outer solve and reboiler boundary.
+- Add dedicated numerical reference cases against GVHD-approved examples.
 
-Blockers: Reviewed Antoine data is required for scientific output.
+Blockers: No data blocker remains. Scientific reference validation is still
+required before claiming the engine is validated.
 
-Next Action: Scientific lead reviews the Antoine records; then implement only
-against the approved data contract.
+Next Action: Validate the total-condenser closure against approved reference
+cases, then keep improving the UI path without adding new scientific models.
 
 Evidence: `docs/THERMODYNAMIC_DATA_SPEC.md`, `docs/CALCULATION_FORMULAS.md`,
 current pending-data tests and the API skeleton.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-10-04
 
 ### Phase 4 — MCCABE–THIELE ENGINE
 
-Status: **NOT STARTED**
+Status: **IN PROGRESS**
 
 Completed:
 
 - Required direct `NF` section-switch convention and calculation closure gate
   are specified.
+- Minimum total-condenser stepping and stage records are wired to the API.
+- Rectifying line, q-line including `q=1`, stripping line and feed
+  intersection are returned for graph rendering.
+- The UI renders backend-calculated xD/xB/recovery, stage table and a
+  McCabe--Thiele SVG plot from API data.
 
 Remaining:
 
-- Complete Phase 3 first, then implement stepping, operating lines, stage
-  count, feed split and total-condenser path with reference tests.
+- Add GVHD-approved golden/reference cases for stage profile and plot geometry.
 
-Blockers: Phase 3 output/data and the calculation closure gate.
+Blockers: Reference validation.
 
-Next Action: Start only after Phase 3 and closure-gate evidence are complete.
+Next Action: Validate total-condenser stage profile against an approved
+reference case; keep partial condenser `NOT_IMPLEMENTED`.
 
 Evidence: `docs/ROADMAP.md`, `docs/ALGORITHM_SPEC.md` and `docs/TEST_CASES.md`.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-10-04
 
 ### Phase 5 — MINIMUM FUNCTIONAL UI
 
