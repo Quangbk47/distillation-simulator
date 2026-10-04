@@ -1,0 +1,56 @@
+{
+  "verified_local_time": "2026-10-04T20:37:00+07:00",
+  "scope": "Phase 3/4 local functional smoke for reviewed Ethanol-Water Antoine data and total-condenser McCabe-Thiele path",
+  "source_commit": "226107d",
+  "runtime": {
+    "command": ".\\.venv\\Scripts\\python.exe -m uvicorn api.app:app --app-dir src --reload",
+    "url": "http://127.0.0.1:8000/",
+    "status": "PASS: FastAPI served the static frontend and accepted a simulation request"
+  },
+  "input_case": {
+    "system": "Ethanol-Water",
+    "zF": 0.5,
+    "F": 100.0,
+    "P": 1.0,
+    "q": 1.0,
+    "N": 5,
+    "NF": 2,
+    "R": 3.0,
+    "D": 80.0,
+    "condenserType": "total",
+    "heatLoss_kW": 0.0
+  },
+  "observed_results": {
+    "xD": 0.6191,
+    "xB": 0.0235,
+    "ethanolRecovery_percent": 99.06,
+    "D_kmol_per_h": 80.0,
+    "B_kmol_per_h": 20.0,
+    "qc_qr": "pending: Phase 6 energy is not implemented"
+  },
+  "ui_checks": {
+    "result_cards": "PASS: xD, xB, recovery, D and B rendered from backend output",
+    "mccabe_thiele_plot": "PASS: equilibrium, operating, stage and q-line geometry rendered",
+    "warning_display": "PASS: thermodynamic warning detail rendered in the Results warning box",
+    "stage_table": "PASS: stage table available below the Results section"
+  },
+  "warnings": [
+    {
+      "code": "THERMO_EXTRAPOLATION",
+      "component": "water",
+      "actualTemperature_K_observed": 373.22,
+      "sourceRange_K": {
+        "min": 255.9,
+        "max": 373.0
+      },
+      "interpretation": "Allowed by the Phase 3 contract: extrapolation is permitted only with explicit warning details."
+    }
+  ],
+  "quality_gates": {
+    "ruff": "PASS",
+    "mypy": "PASS",
+    "pytest": "PASS: 18 passed",
+    "frontend_syntax": "PASS: node --check web/app.js"
+  },
+  "status": "PASS for local smoke only; scientific golden/reference validation remains required before claiming validated engineering accuracy."
+}

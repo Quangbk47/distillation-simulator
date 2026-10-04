@@ -67,7 +67,8 @@ an unresolved item to make the queue look clean.
   direct `NF` section switch and reference residuals pass; no `NF_geo` gate is
   introduced.
 - Progress: Outer residual gate is enforced and non-converged cases return
-  failure instead of clamped results; golden/reference validation is still
+  failure instead of clamped results. Local smoke passes from input through
+  xD/xB/recovery/D/B and warning details; golden/reference validation is still
   required.
 
 ### TODO-009 — Implement McCabe–Thiele path
@@ -80,8 +81,9 @@ an unresolved item to make the queue look clean.
   condenser and both section branches have tested outputs; partial condenser
   remains unavailable until TODO-002 is complete.
 - Progress: q-line, feed intersection, rectifying/stripping lines, stage table
-  and graph-ready response are implemented for total condenser. Partial
-  condenser remains `NOT_IMPLEMENTED`.
+  and graph-ready response are implemented for total condenser. Local UI smoke
+  rendered the McCabe--Thiele plot and stage data. Partial condenser remains
+  `NOT_IMPLEMENTED`.
 
 ### TODO-010 — Connect functional UI
 
@@ -92,8 +94,8 @@ an unresolved item to make the queue look clean.
 - Acceptance condition: UI consumes backend results, warnings and stage data;
   no client-side scientific authority or fake result is introduced.
 - Progress: Simulation tab consumes backend output and renders xD/xB/recovery,
-  stage table and McCabe--Thiele plot from API data. Sensitivity remains
-  disabled.
+  stage table, McCabe--Thiele plot and detailed thermodynamic warnings from API
+  data. Sensitivity remains disabled.
 
 ### TODO-011 — Implement sensitivity
 

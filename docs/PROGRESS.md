@@ -152,6 +152,8 @@ Completed:
 - The total-condenser path rejects non-converged cases instead of clamping
   off-curve McCabe--Thiele steps into a fabricated result.
 - The implementation boundary remains explicit; no fake result is exposed.
+- Local smoke on 2026-10-04 confirmed the reviewed data path can run from
+  input through xD/xB/recovery and controlled thermodynamic warning details.
 
 Remaining:
 
@@ -164,7 +166,8 @@ Next Action: Validate the total-condenser closure against approved reference
 cases, then keep improving the UI path without adding new scientific models.
 
 Evidence: `docs/THERMODYNAMIC_DATA_SPEC.md`, `docs/CALCULATION_FORMULAS.md`,
-current pending-data tests and the API skeleton.
+current pending-data tests, the API skeleton and
+`docs/evidence/phase3-4-local-2026-10-04.json`.
 
 Last Updated: 2026-10-04
 
@@ -181,6 +184,9 @@ Completed:
   intersection are returned for graph rendering.
 - The UI renders backend-calculated xD/xB/recovery, stage table and a
   McCabe--Thiele SVG plot from API data.
+- Local smoke on 2026-10-04 rendered the end-to-end total-condenser flow at
+  `http://127.0.0.1:8000/`: input -> xD/xB/recovery/D/B -> stage data ->
+  McCabe--Thiele plot -> detailed `THERMO_EXTRAPOLATION` warning.
 
 Remaining:
 
@@ -191,30 +197,38 @@ Blockers: Reference validation.
 Next Action: Validate total-condenser stage profile against an approved
 reference case; keep partial condenser `NOT_IMPLEMENTED`.
 
-Evidence: `docs/ROADMAP.md`, `docs/ALGORITHM_SPEC.md` and `docs/TEST_CASES.md`.
+Evidence: `docs/ROADMAP.md`, `docs/ALGORITHM_SPEC.md`,
+`docs/TEST_CASES.md` and
+`docs/evidence/phase3-4-local-2026-10-04.json`.
 
 Last Updated: 2026-10-04
 
 ### Phase 5 — MINIMUM FUNCTIONAL UI
 
-Status: **NOT STARTED**
+Status: **IN PROGRESS**
 
 Completed:
 
-- Static presentation shell only; it deliberately does not calculate.
+- Static presentation shell exists.
+- Local UI now submits to the local API and renders backend-calculated
+  xD/xB/recovery/D/B, stage table, McCabe--Thiele plot and warning details.
 
 Remaining:
 
-- Connect the UI to the validated API, render real results/warnings/stages and
-  add the required manual/API smoke evidence.
+- Add approved reference validation evidence before calling the UI scientifically
+  validated.
+- Production deployment still needs a backend runtime decision; Firebase Hosting
+  alone remains static.
 
-Blockers: Phase 4 engine and API contract completion.
+Blockers: Scientific reference validation and later backend runtime decision.
 
-Next Action: Begin after Phase 4 is DONE.
+Next Action: Keep the local functional UI path stable while reference cases are
+reviewed; do not add sensitivity or new scientific models yet.
 
-Evidence: `web/` shell build in `afb7bfa`; no engine connection exists.
+Evidence: `web/` shell build in `afb7bfa` and
+`docs/evidence/phase3-4-local-2026-10-04.json`.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-10-04
 
 ### Phase 6 — ENERGY
 
