@@ -2,9 +2,9 @@
 
 ## Current Phase and Status
 
-Phase 3 — MINIMUM CALCULATION ENGINE: `BLOCKED` by TODO-001 reviewed Antoine
-records. Phase 0/1 are `DONE`; Phase 2 is `IN PROGRESS` until its evidence PR is merged;
-Phase 4–10 are `NOT STARTED`.
+Phase 2: `IN PROGRESS` pending evidence publication, CI/review/merge and
+post-merge deployment. Phase 3 is `BLOCKED` by TODO-001 reviewed Antoine
+records. Phase 0/1 are `DONE`; Phase 4-10 are `NOT STARTED`.
 
 ## Completed checkpoint — 2026-09-27
 
@@ -33,9 +33,14 @@ Phase 4–10 are `NOT STARTED`.
 
 ## Next action
 
-Commit and publish the local deployment-evidence checkpoint through PR
-CI/review and merge. Then obtain the scientific-lead data approval before
-starting Phase 3.
+Publish the committed deployment-evidence branch through PR CI/review and
+merge, then deploy and verify the green merged source. A GitHub account with
+repository write access must authenticate; the available browser is signed
+out and noninteractive push fails. No Firebase account action is required.
+The 2026-10-04 verification passed HTTP asset equality, 404 routes, browser
+smoke, all 14 tests, package build and secret scan; see the latest runbook
+entry and `docs/evidence/phase2-2026-10-04.json`. Then obtain the scientific-lead
+data approval before starting Phase 3.
 
 Read `PROJECT_RULES.md`, `ROADMAP.md`, `PROGRESS.md`, TODO-001 and
 `THERMODYNAMIC_DATA_SPEC.md`. Obtain the scientific-lead decision on Antoine

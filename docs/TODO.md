@@ -115,7 +115,10 @@ an unresolved item to make the queue look clean.
 - Phase 2 deployment and browser smoke passed at
   https://delta-pagoda-509904-j8.web.app (build
   `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`).
-  Remaining: commit, push, PR CI/review and merge the evidence checkpoint.
+  Reverified on 2026-10-04: asset equality, 404 routes, browser smoke and all
+  local quality gates pass. Remaining: publish the committed branch using a
+  write-authorized GitHub session, PR CI/review/merge, then deploy and verify
+  the green merged source.
 - Dependency/blocker: Validated API/UI for Phase 5 and full release gates for
   Phase 10. Existing project/site access and static demo are verified.
 - Acceptance condition: Deploy the functional UI and final release after their

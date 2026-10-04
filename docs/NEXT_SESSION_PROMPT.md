@@ -13,8 +13,14 @@ https://delta-pagoda-509904-j8.web.app and its browser metadata reports project
 `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`. Do not
 use another person's Firebase project for future phases.
 
-Next action: publish/review/merge the local evidence checkpoint, then close
-Phase 2. Afterward, the scientific lead must approve component coefficients, units,
+Next action: authenticate GitHub with a write-authorized account and publish
+`codex/phase2-deployment-evidence`, review/merge after green CI, then rebuild,
+deploy and smoke-test the green merged source before closing Phase 2.
+2026-10-04 verification passed all local gates (14 tests and package build),
+production asset-byte equality, both 404 routes and browser smoke. Firebase
+site-list access succeeds; no new project or Firebase login is currently needed.
+See `docs/evidence/phase2-2026-10-04.json`. Afterward, the scientific lead must
+approve component coefficients, units,
 applicable ranges, source citations, reviewer and review date under
 `THERMODYNAMIC_DATA_SPEC.md`. Then implement the Phase 3 minimum engine and
 reviewed total-condenser closure. Do not invent coefficients or review approval.

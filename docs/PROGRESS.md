@@ -109,8 +109,15 @@ Completed:
   scientific output; NF=11 with N=10 is rejected; reset restores NF=5. Partial
   condenser and sensitivity execution remain unavailable as designed.
 
-Remaining: Commit the configuration, metadata fix, tests and evidence; then
-push a PR, require CI/review and merge it according to `PROJECT_RULES.md`.
+- Reverified production on 2026-10-04: all four assets match the local build;
+  both required 404 routes pass; browser validation/reset/no-calculation gates
+  pass; Firebase CLI can list the account-owned Hosting site.
+- Repeated every local quality gate, including 14 tests, isolated package
+  build and zero-finding secret scan; all passed.
+
+Remaining: Publish the committed configuration/metadata/evidence branch,
+require PR CI/review and merge; build/deploy the green merged source and repeat
+production verification according to `PROJECT_RULES.md`.
 
 Blockers: GitHub evidence publication requires a write-authorized session. No
 Firebase deployment blocker remains.
@@ -122,10 +129,11 @@ Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed working tree based on
 `f09b299200cfec94c85139a97c4a98d0cc2a946f`; build ID
 `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`;
 production browser smoke PASS. The sandbox denied terminal HTTP socket access,
-so byte-for-byte asset and 404 checks were not repeated after this deployment.
+so byte-for-byte asset and 404 checks were not repeated on 2026-09-27.
+Those checks passed on 2026-10-04; see `docs/evidence/phase2-2026-10-04.json`.
 This checkpoint still requires PR CI/review before Phase 2 is marked DONE.
 
-Last Updated: 2026-09-27
+Last Updated: 2026-10-04
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 

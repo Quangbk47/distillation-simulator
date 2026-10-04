@@ -1,0 +1,61 @@
+{
+  "verified_utc": "2026-10-04T05:53:47.016029+00:00",
+  "url": "https://delta-pagoda-509904-j8.web.app",
+  "source_commit": "0a739bded5b59ec352b1f026e1efdfc5a9355a49",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "sha256": "b9c228355e71cffd3b0894e66da3b8024e4f7c6382bd8488182afbc185a5534c",
+      "matches_local": true
+    },
+    {
+      "path": "/app.js",
+      "status": 200,
+      "sha256": "27453dac2c1d64d398e11ac093877349d1fdd082ea8665dca37b038cef4c06f7",
+      "matches_local": true
+    },
+    {
+      "path": "/styles.css",
+      "status": 200,
+      "sha256": "966b80f33e528a770d8f223376806b194b29b3a5602b3494875902e328cf17c2",
+      "matches_local": true
+    },
+    {
+      "path": "/build-info.json",
+      "status": 200,
+      "sha256": "239d8628aaaae054644c9df6601d15c40085a5b9df14fafc322a9bc34e9bb06f",
+      "matches_local": true
+    },
+    {
+      "path": "/phase2-nonexistent",
+      "status": 404
+    },
+    {
+      "path": "/api/health",
+      "status": 404
+    }
+  ],
+  "build_id": "70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7",
+  "firebase_site_access": "PASS: hosting:sites:list --project delta-pagoda-509904-j8 --non-interactive",
+  "browser_checks": {
+    "hosting_metadata": "PASS",
+    "valid_submit_no_scientific_output": "PASS",
+    "NF_11_N_10_rejected": "PASS",
+    "reset_NF_5_error_cleared": "PASS",
+    "sensitivity_execution_disabled": "PASS",
+    "partial_condenser_disabled": "PASS"
+  },
+  "local_checks": {
+    "structure": "PASS",
+    "format": "PASS",
+    "lint": "PASS",
+    "mypy": "PASS (14 source files)",
+    "tests": "14 passed, one upstream deprecation warning",
+    "frontend_build": "PASS",
+    "package_build": "PASS (sdist and wheel)",
+    "secret_scan": "PASS (zero findings)"
+  },
+  "phase2_status": "IN PROGRESS: branch publication, PR CI/review/merge and post-merge deployment remain",
+  "deployment_this_session": false
+}
