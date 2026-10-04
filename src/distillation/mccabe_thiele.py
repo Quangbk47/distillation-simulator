@@ -7,14 +7,15 @@ from pathlib import Path
 from typing import Any
 
 from distillation.contracts import SimulationCase
-from thermodynamics.antoine_raoult import AntoineRecord, equilibrium_y
+from thermodynamics.antoine_raoult import AntoineRecord, ThermoWarningDetail, equilibrium_y
 
 ROOT_TOLERANCE = 1e-4
 Warnings = tuple[str, ...]
-EquilibriumValue = tuple[float, float, Warnings]
+WarningDetails = tuple[ThermoWarningDetail, ...]
+EquilibriumValue = tuple[float, float, Warnings, WarningDetails]
 StageRow = dict[str, Any]
 LineGeometry = tuple[float, float, float, float]
-TrialResult = tuple[float, list[StageRow], float, Warnings, LineGeometry]
+TrialResult = tuple[float, list[StageRow], float, Warnings, WarningDetails, LineGeometry]
 
 
 class SimulationEngineNotReady(NotImplementedError):
@@ -77,7 +78,7 @@ def _equilibrium_table(
     p: float, ethanol_records: list[AntoineRecord], heavy: AntoineRecord
 ) -> tuple[
     Callable[[float], EquilibriumValue],
-    Callable[[float], tuple[float, Warnings]],
+    Callable[[float], tuple[float, Warnings, WarningDetails]],
     list[dict[str, float]],
 ]:
     xs = [i / 400 for i in range(401)]
@@ -90,14 +91,15 @@ def _equilibrium_table(
         values.append(result)
     ys = [v[0] for v in values]
     warnings = tuple(sorted({w for v in values for w in v[2]}))
+    table_details = tuple(dict.fromkeys(detail for v in values for detail in v[3]))
 
     def inverse(y: float) -> EquilibriumValue:
         if y < ys[0] - 1e-10 or y > ys[-1] + 1e-10:
             raise ValueError("NON_CONVERGED")
         if y <= ys[0]:
-            return xs[0], values[0][1], warnings
+            return xs[0], values[0][1], warnings, table_details
         if y >= ys[-1]:
-            return xs[-1], values[-1][1], warnings
+            return xs[-1], values[-1][1], warnings, table_details
         i = bisect_left(ys, y)
         y0, y1 = ys[i - 1], ys[i]
         f = (y - y0) / (y1 - y0)
@@ -105,17 +107,20 @@ def _equilibrium_table(
             xs[i - 1] + f * (xs[i] - xs[i - 1]),
             values[i - 1][1] + f * (values[i][1] - values[i - 1][1]),
             warnings,
+            table_details,
         )
 
-    def value(x: float) -> tuple[float, Warnings]:
+    def value(x: float) -> tuple[float, Warnings, WarningDetails]:
         if x <= xs[0]:
-            return ys[0], values[0][2]
+            return ys[0], values[0][2], values[0][3]
         if x >= xs[-1]:
-            return ys[-1], values[-1][2]
+            return ys[-1], values[-1][2], values[-1][3]
         i = bisect_left(xs, x)
         f = (x - xs[i - 1]) / (xs[i] - xs[i - 1])
-        return ys[i - 1] + f * (ys[i] - ys[i - 1]), tuple(
-            dict.fromkeys(values[i - 1][2] + values[i][2])
+        return (
+            ys[i - 1] + f * (ys[i] - ys[i - 1]),
+            tuple(dict.fromkeys(values[i - 1][2] + values[i][2])),
+            tuple(dict.fromkeys(values[i - 1][3] + values[i][3])),
         )
 
     return inverse, value, [{"x_ethanol": xs[i], "y_ethanol": ys[i]} for i in range(0, 401, 20)]
@@ -144,17 +149,20 @@ def solve_mccabe_thiele(c: SimulationCase) -> dict[str, Any]:
         stages: list[StageRow] = []
         y = xd
         warnings: Warnings = ()
+        warning_details: WarningDetails = ()
         for i in range(1, c.N + 1):
-            x, t, w = inverse(y)
+            x, t, w, detail = inverse(y)
             warnings = tuple(dict.fromkeys(warnings + w))
+            warning_details = tuple(dict.fromkeys(warning_details + detail))
             section = "rectifying" if i < c.NF else "stripping"
             y = rect_slope * x + rect_int if section == "rectifying" else m2 * x + b2
             stages.append(
                 {"stage": i, "T_C": t - 273.15, "x_ethanol": x, "y_ethanol": y, "section": section}
             )
-        ye, w = equilibrium(xb)
+        ye, w, detail = equilibrium(xb)
         warnings = tuple(dict.fromkeys(warnings + w))
-        return y - ye, stages, xb, warnings, (xq, yq, m2, b2)
+        warning_details = tuple(dict.fromkeys(warning_details + detail))
+        return y - ye, stages, xb, warnings, warning_details, (xq, yq, m2, b2)
 
     prev: tuple[float, float] | None = None
     bracket: tuple[float, float] | None = None
@@ -180,7 +188,7 @@ def solve_mccabe_thiele(c: SimulationCase) -> dict[str, Any]:
         else:
             a = m
     xd = (a + b) / 2
-    outer, stages, xb, warnings, line_geometry = trial(xd)
+    outer, stages, xb, warnings, warning_details, line_geometry = trial(xd)
     if abs(outer) > ROOT_TOLERANCE:
         raise ValueError("NON_CONVERGED")
     recovery = 100 * D * xd / (F * z)
@@ -197,6 +205,20 @@ def solve_mccabe_thiele(c: SimulationCase) -> dict[str, Any]:
         "thermoDataVersion": version,
         "isExtrapolated": bool(warnings),
         "warnings": list(warnings),
+        "warningDetails": [
+            {
+                "code": detail.code,
+                "component": detail.component,
+                "actualTemperature": detail.actual_temperature,
+                "temperatureUnit": detail.temperature_unit,
+                "sourceRange": {
+                    "min": detail.source_range[0],
+                    "max": detail.source_range[1],
+                    "unit": detail.temperature_unit,
+                },
+            }
+            for detail in warning_details
+        ],
         "residuals": {
             "totalMass": 0.0,
             "ethanolBalance": 0.0,

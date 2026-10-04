@@ -43,6 +43,10 @@ def test_total_condenser_simulation_returns_results() -> None:
     assert body["residuals"]["solver"] < 1e-4
     assert len(body["stages"]) == 5
     assert body["operatingLines"]["feedIntersection"]["x"] == 0.5
+    assert body["warnings"] == ["THERMO_EXTRAPOLATION"]
+    assert body["warningDetails"][0]["code"] == "THERMO_EXTRAPOLATION"
+    assert "actualTemperature" in body["warningDetails"][0]
+    assert body["warningDetails"][0]["sourceRange"]["unit"] == "K"
 
 
 def test_partial_condenser_is_explicitly_not_implemented() -> None:

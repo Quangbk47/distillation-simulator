@@ -70,6 +70,8 @@ def test_antoine_extrapolation_is_structured_warning() -> None:
     result = evaluate_antoine(record, 100.0)
     assert result.is_extrapolated
     assert result.warnings == ("THERMO_EXTRAPOLATION",)
+    assert result.warning_details[0].component == "fixture-component"
+    assert result.warning_details[0].actual_temperature == 100.0
     assert result.source_range == (20.0, 80.0)
 
 

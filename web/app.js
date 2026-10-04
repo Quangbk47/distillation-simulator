@@ -59,9 +59,20 @@ function renderResult(result) {
   document.querySelector("#result-duty").textContent = `${text(result.QC_kW, 2)} / ${text(result.QR_kW, 2)}`;
   document.querySelector("#thermo-version").textContent = result.thermoDataVersion;
   document.querySelector("#residuals").textContent = JSON.stringify(result.residuals);
-  document.querySelector("#warning-text").textContent = result.warnings.length ? result.warnings.join(", ") : "None";
+  document.querySelector("#warning-text").textContent = warningText(result);
   document.querySelector("#stage-table").innerHTML = `<table><thead><tr><th>Stage</th><th>Section</th><th>x</th><th>y</th><th>T (C)</th></tr></thead><tbody>${result.stages.map((s) => `<tr><td>${s.stage}</td><td>${s.section}</td><td>${text(s.x_ethanol)}</td><td>${text(s.y_ethanol)}</td><td>${text(s.T_C, 2)}</td></tr>`).join("")}</tbody></table>`;
   renderMcCabePlot(result);
+}
+
+function warningText(result) {
+  const details = result.warningDetails ?? [];
+  if (details.length) {
+    return details.map((detail) => {
+      const range = detail.sourceRange;
+      return `${detail.code}: ${detail.component} T=${detail.actualTemperature.toFixed(2)} ${detail.temperatureUnit}; source range ${range.min.toFixed(2)}–${range.max.toFixed(2)} ${range.unit}`;
+    }).join(" | ");
+  }
+  return result.warnings.length ? result.warnings.join(", ") : "None";
 }
 
 function linePoint(line, x) {

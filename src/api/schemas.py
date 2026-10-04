@@ -63,6 +63,24 @@ class StageResult(BaseModel):
     section: Literal["rectifying", "stripping"]
 
 
+class SourceRange(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    min: float
+    max: float
+    unit: str
+
+
+class WarningDetail(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    code: str
+    component: str
+    actualTemperature: float
+    temperatureUnit: str
+    sourceRange: SourceRange
+
+
 class SimulationResult(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -77,6 +95,7 @@ class SimulationResult(BaseModel):
     thermoDataVersion: str
     isExtrapolated: bool
     warnings: list[str]
+    warningDetails: list[WarningDetail] = Field(default_factory=list)
     residuals: ResidualModel
     QC_kW: float | None = None
     QR_kW: float | None = None

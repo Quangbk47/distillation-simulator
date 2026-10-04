@@ -26,6 +26,15 @@ class AntoineRecord:
 
 
 @dataclass(frozen=True)
+class ThermoWarningDetail:
+    code: str
+    component: str
+    actual_temperature: float
+    temperature_unit: str
+    source_range: tuple[float, float]
+
+
+@dataclass(frozen=True)
 class SaturationPressure:
     component: str
     temperature: float
@@ -33,6 +42,7 @@ class SaturationPressure:
     pressure_unit: str
     is_extrapolated: bool
     warnings: tuple[str, ...]
+    warning_details: tuple[ThermoWarningDetail, ...]
     source_range: tuple[float, float]
 
 
@@ -50,6 +60,19 @@ def evaluate_antoine(record: AntoineRecord, temperature: float) -> SaturationPre
 
     extrapolated = not record.temperature_min <= temperature <= record.temperature_max
     warnings = ("THERMO_EXTRAPOLATION",) if extrapolated else ()
+    warning_details = (
+        (
+            ThermoWarningDetail(
+                code="THERMO_EXTRAPOLATION",
+                component=record.component,
+                actual_temperature=temperature,
+                temperature_unit=record.temperature_unit,
+                source_range=(record.temperature_min, record.temperature_max),
+            ),
+        )
+        if extrapolated
+        else ()
+    )
     return SaturationPressure(
         component=record.component,
         temperature=temperature,
@@ -57,6 +80,7 @@ def evaluate_antoine(record: AntoineRecord, temperature: float) -> SaturationPre
         pressure_unit=record.pressure_unit,
         is_extrapolated=extrapolated,
         warnings=warnings,
+        warning_details=warning_details,
         source_range=(record.temperature_min, record.temperature_max),
     )
 
@@ -86,7 +110,7 @@ def bubble_temperature(
     pressure_bar: float,
     light: AntoineRecord,
     heavy: AntoineRecord,
-) -> tuple[float, tuple[str, ...]]:
+) -> tuple[float, tuple[str, ...], tuple[ThermoWarningDetail, ...]]:
     """Solve the binary Raoult bubble point by bisection."""
     if not 0.0 <= liquid_fraction <= 1.0 or pressure_bar <= 0:
         raise ValueError("invalid VLE input")
@@ -119,13 +143,15 @@ def bubble_temperature(
             lo, flo = mid, f(mid)
     result = evaluate_antoine(light, mid)
     other = evaluate_antoine(heavy, mid)
-    return mid, tuple(dict.fromkeys(result.warnings + other.warnings))
+    warnings = tuple(dict.fromkeys(result.warnings + other.warnings))
+    details = tuple(dict.fromkeys(result.warning_details + other.warning_details))
+    return mid, warnings, details
 
 
 def equilibrium_y(
     liquid_fraction: float, pressure_bar: float, light: AntoineRecord, heavy: AntoineRecord
-) -> tuple[float, float, tuple[str, ...]]:
-    temperature, warnings = bubble_temperature(liquid_fraction, pressure_bar, light, heavy)
+) -> tuple[float, float, tuple[str, ...], tuple[ThermoWarningDetail, ...]]:
+    temperature, warnings, details = bubble_temperature(liquid_fraction, pressure_bar, light, heavy)
     pl = evaluate_antoine(light, temperature).pressure
     y = liquid_fraction * pl / pressure_bar
-    return y, temperature, warnings
+    return y, temperature, warnings, details
