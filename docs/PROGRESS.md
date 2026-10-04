@@ -14,14 +14,14 @@ phase statuses are `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and `DONE`.
 
 Current working phase: **Phase 2 — FIREBASE EARLY CONNECTION**
 
-Current status: **IN PROGRESS**
+Current status: **IN PROGRESS** (production deployment and smoke test pass;
+the required evidence commit/PR/CI/review/merge remains to be published).
 
-The repository has a tested backend/API skeleton and a dependency-free static
-UI shell. It is not yet a working scientific simulator. The Firebase target is
-configured in the repository, but the legacy project/site is inaccessible to
-the current CLI session. This is a technical migration task, not an Owner
-blocker: the student team may create/use a new Firebase project/site, update
-the configuration, deploy and verify it.
+Phase 2 Hosting uses the Firebase project owned by
+`bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
+backend/API skeleton and a static UI shell, not an operational scientific
+simulator. Phase 3 cannot produce scientific output until the scientific lead
+approves the Antoine records.
 
 ## Phase status ledger
 
@@ -91,45 +91,49 @@ Status: **IN PROGRESS**
 
 Completed:
 
-- Firebase target `distillation-simulator` is configured in the repository and
-  PR #2 is merged to `main`.
-- Target/site selection was recorded on 2026-09-24; re-verification on
-  2026-09-25 returned HTTP 403 for the current CLI session.
-- Static-only Hosting configuration and deterministic public build metadata added.
-- Demo displays build/project information and preserves ENGINE NOT CONNECTED.
-- Local structure, format, lint, mypy, 13 tests, frontend/package builds and
-  secret scan pass. GitHub PR CI run `36154667511` passed for merge commit
-  `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`. No credentials are stored in the
-  repository.
-- Production build from merge commit `bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`
-  produced build ID
-  `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
+- Static Hosting configuration, deterministic build metadata and demo shell
+  were merged through PR #2; the demo preserves ENGINE NOT CONNECTED.
+- Created a Google Cloud/Firebase project owned by `bichloannb06@gmail.com` on
+  2026-09-27: `delta-pagoda-509904-j8`. Firebase is enabled, the default
+  Hosting site exists, and Google Analytics is disabled for the static demo.
+  Repository deployment configuration now targets this project exclusively.
+- Main source `f09b299200cfec94c85139a97c4a98d0cc2a946f` passed GitHub CI
+  `36157068321`. The current deployment worktree passed structure, format,
+  lint, mypy, 14 tests and a zero-finding secret scan on 2026-09-27.
+- The account owner deployed the static bundle successfully to
+  https://delta-pagoda-509904-j8.web.app on 2026-09-27.
+- Production browser smoke confirmed the metadata fix: `Firebase connection OK ·
+  Static Hosting only`, project `delta-pagoda-509904-j8`, and build ID
+  `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`.
+  A valid submission shows the backend-unavailable warning without fabricating
+  scientific output; NF=11 with N=10 is rejected; reset restores NF=5. Partial
+  condenser and sensitivity execution remain unavailable as designed.
 
-Remaining:
+- Reverified production on 2026-10-04: all four assets match the local build;
+  both required 404 routes pass; browser validation/reset/no-calculation gates
+  pass; Firebase CLI can list the account-owned Hosting site.
+- Repeated every local quality gate, including 14 tests, isolated package
+  build and zero-finding secret scan; all passed.
 
-- Use an accessible student Firebase account/project/site, or create a new
-  project/site; update `.firebaserc`/`firebase.json` to the selected target.
-- Deploy Hosting, verify the public URL and record release/build evidence after
-  a successful production smoke test.
+Remaining: Publish the committed configuration/metadata/evidence branch,
+require PR CI/review and merge; build/deploy the green merged source and repeat
+production verification according to `PROJECT_RULES.md`.
 
-Blockers: No scientific blocker. The legacy `distillation-simulator` target is
-inaccessible (`firebase projects:list` omits it and its Hosting/deploy commands
-returned HTTP 403), but the technical team is authorized to create or select a
-student-controlled replacement. No production URL exists yet.
+Blockers: GitHub evidence publication requires a write-authorized session. No
+Firebase deployment blocker remains.
 
-Next Action: Create/select a student-controlled Firebase project/site, update
-the repository target, deploy the static build, then run HTTP/browser production
-smoke tests.
+Next Action: Publish/review/merge the evidence checkpoint. Phase 3 remains
+blocked pending scientific-lead approval of the Antoine data.
 
-Evidence: `firebase.json`, `.firebaserc`,
-`tests/integration/test_frontend_build.py`; merge commit
-`bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`; CI run `36154667511`; CLI `15.19.0`;
-build ID `3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`;
-deploy attempted 2026-09-25 and failed with project-access error; production
-URL: none. Autonomy policy updated 2026-09-25: create/select a replacement
-student-controlled target rather than waiting for legacy-project access.
+Evidence: `DEPLOYMENT_RUNBOOK.md`; deployed working tree based on
+`f09b299200cfec94c85139a97c4a98d0cc2a946f`; build ID
+`70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`;
+production browser smoke PASS. The sandbox denied terminal HTTP socket access,
+so byte-for-byte asset and 404 checks were not repeated on 2026-09-27.
+Those checks passed on 2026-10-04; see `docs/evidence/phase2-2026-10-04.json`.
+This checkpoint still requires PR CI/review before Phase 2 is marked DONE.
 
-Last Updated: 2026-09-25
+Last Updated: 2026-10-04
 
 ### Phase 3 — MINIMUM CALCULATION ENGINE
 
@@ -283,8 +287,8 @@ Blockers: All preceding phases and authorized deployment access.
 
 Next Action: Start only after Phase 9 is DONE.
 
-Evidence: `docs/ROADMAP.md`, `docs/DEPLOYMENT_RUNBOOK.md` and no production URL
-currently recorded.
+Evidence: `docs/ROADMAP.md` and `docs/DEPLOYMENT_RUNBOOK.md`; the Phase 2 static
+demo URL exists, but the full Phase 10 production release is not complete.
 
 Last Updated: 2026-09-19
 
@@ -294,8 +298,6 @@ Last Updated: 2026-09-19
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.
-- Phase 2 has no production URL or smoke-test PASS yet. The legacy Firebase
-  target is inaccessible; create/select a student-controlled replacement and
-  update the repository configuration before deploying.
+- Phase 2 deployment and static smoke checks passed; no current Hosting blocker.
 - Separate backend runtime: required before production deployment; Firebase
   Hosting serves frontend/static assets only.

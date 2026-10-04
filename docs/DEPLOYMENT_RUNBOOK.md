@@ -52,12 +52,11 @@ scientific data version together when a scientific defect is found.
 
 ## Phase 2 static demo procedure
 
-Current legacy target/site: `distillation-simulator` (inaccessible to the
-current CLI session on 2026-09-25). The student team may create or select a
-replacement project/site in its own Firebase account and must update the repo
-configuration before deployment. Install Firebase CLI from the official Firebase distribution (`npm install -g
-firebase-tools`; validated with 15.31.0). Run `firebase login` and complete the
-browser flow yourself. Never put credentials or CLI auth state in the repo.
+Current target/site: `delta-pagoda-509904-j8`, created under
+`bichloannb06@gmail.com` on 2026-09-27. Firebase is enabled and the default
+Hosting site exists. Use this target for every future Firebase Hosting phase;
+do not rely on another person's Firebase project. Google Analytics is disabled
+for the static demo. Keep credentials outside the repository.
 
 1. Check out the intended PR commit and run every README quality check.
 2. Require green GitHub PR CI (`CI_REQUIREMENTS.md`).
@@ -89,17 +88,70 @@ For rollback, use the Firebase Hosting release history to restore a previously
 verified release, or rebuild/redeploy its reviewed commit. Do not disable the
 site or modify other Firebase services as a rollback shortcut.
 
-## Latest Phase 2 evidence
+## Previous Phase 2 evidence — 2026-09-27
 
-Attempt date: 2026-09-25. Source/merge commit:
-`bc4d2e5e07451c8d9d8c18e4f23f633fa3e99b52`. GitHub CI run `36154667511` passed.
-The production frontend build completed with build ID
-`3739c85b7628bc20cd6d5e7aea1bfe42a81a2792beddeb0e5e175c52760cea20`.
+- Verified: 2026-09-27.
+- Source baseline: `f09b299200cfec94c85139a97c4a98d0cc2a946f` (main, PR #5
+  merge); the deployed metadata fix is awaiting its evidence PR.
+- CI: https://github.com/Quangbk47/distillation-simulator/actions/runs/36157068321
+  â€” completed, success.
+- Local gate: structure, format, lint, mypy and 14 tests passed; detect-secrets
+  reported zero findings. TestClient emitted one upstream deprecation warning;
+  no failures. A package build could not be repeated because the sandbox blocks
+  outbound setup access and the local virtual environment lacks setuptools.
+- Project/site: `delta-pagoda-509904-j8` (account-owned default Hosting site).
+- URL: https://delta-pagoda-509904-j8.web.app.
+- Build ID: `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`.
+- Deploy result: success, confirmed by the account owner on 2026-09-27.
+- Browser smoke: Firebase connection OK with project
+  `delta-pagoda-509904-j8` and expected build metadata visible;
+  valid default submission preserves NOT CALCULATED/ENGINE NOT CONNECTED with
+  the backend-unavailable warning; NF=11 with N=10 shows the expected error;
+  reset restores NF=5 and clears the error; sensitivity tab is disabled for
+  execution and switching back works; partial condenser is unavailable.
+  Controls were tested via keyboard Enter because pointer automation was
+  inconclusive. No scientific results are fabricated. The sandbox denied the
+  terminal's post-deploy HTTP socket test, so asset-byte and 404 checks were
+  not repeated for this deployment.
 
-Deployment result: `firebase deploy --only hosting --project
-distillation-simulator --non-interactive` failed before upload because the
-current authorized CLI session could not access the target project; Firebase
-returned a project-access/HTTP 403 error. Production URL and smoke-test result:
-not available. This legacy-target failure is not an Owner blocker: create/select
-a student-controlled replacement, update configuration, then deploy and smoke
-test. Do not record `DONE` until deployment and smoke verification succeed.
+The former project access issue is historical. This account-owned deployment
+passes the Phase 2 production and browser-smoke gates; its evidence still needs
+the required commit, PR CI/review and merge. It is not the Phase 10 scientific
+production-release gate.
+
+## Latest Phase 2 verification — 2026-10-04
+
+The recorded 2026-09-25 HTTP 403 concerned the former project
+`distillation-simulator` and occurred before upload. The surviving record
+establishes a project-access failure, not the exact denied IAM permission.
+Do not diagnose it as a frontend defect or change permissions on that project.
+The documented account-owned replacement `delta-pagoda-509904-j8` is accessible:
+`firebase hosting:sites:list --project delta-pagoda-509904-j8 --non-interactive`
+succeeded and returned https://delta-pagoda-509904-j8.web.app.
+
+- Source: `0a739bded5b59ec352b1f026e1efdfc5a9355a49`, local evidence branch.
+  Fetch succeeded; remote main remains `f09b299200cfec94c85139a97c4a98d0cc2a946f`.
+- Existing production deployment reverified; no deployment was performed in
+  this session. All four public assets match the locally rebuilt artifact
+  byte-for-byte. Unknown path and `/api/health` both return HTTP 404.
+- Browser smoke: expected project/build and static Hosting status; valid
+  submission leaves results NOT CALCULATED with the backend-unavailable
+  warning; NF=11/N=10 rejected; reset restores NF=5 and clears the error;
+  sensitivity execution and partial condenser remain disabled.
+- Structure, formatting, lint, mypy, frontend build, 14 tests, isolated package
+  build (sdist/wheel), and zero-finding secret scan all pass. One upstream
+  TestClient deprecation warning remains. The previous network/package-build
+  verification limitations are resolved for this session.
+- Machine-readable HTTP hashes and check results:
+  [phase2-2026-10-04.json](evidence/phase2-2026-10-04.json).
+- Publication remains unfinished: noninteractive GitHub push dry-run exits
+  128 and the available GitHub browser is signed out. A write-authorized
+  account session is required; no Firebase account action is currently needed.
+- Next: publish the existing evidence branch, open PR, require green CI and
+  review, merge, then build/deploy the merged green source and repeat smoke
+  checks. Keep Phase 2 IN PROGRESS until that sequence and evidence are complete.
+
+Scientific gates remain unchanged: TODO-001 reviewed ethanol/water Antoine
+records block Phase 3/4 output; partial condenser remains NOT_IMPLEMENTED;
+reviewed enthalpy data blocks Phase 6 only. This is a static demo, not the
+Phase 10 scientific production release.

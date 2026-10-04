@@ -34,6 +34,12 @@ def test_build_is_reproducible_and_excludes_private_files(tmp_path: Path) -> Non
 def test_hosting_is_static_only() -> None:
     hosting = json.loads((ROOT / "firebase.json").read_text())["hosting"]
     assert hosting["public"] == "build/frontend"
-    assert hosting["site"] == "distillation-simulator"
+    assert hosting["site"] == "delta-pagoda-509904-j8"
     assert "rewrites" not in hosting
     assert "functions" not in hosting
+
+
+def test_hosting_status_reads_the_deployed_build_project() -> None:
+    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    assert "const project = info.project;" in script
+    assert "`${project}.web.app`" in script

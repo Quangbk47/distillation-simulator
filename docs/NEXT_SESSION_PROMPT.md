@@ -1,34 +1,32 @@
 # Next Session Prompt
 
-Start by running `git pull`, then read these files in order:
+Pull latest main, then read `PROJECT_RULES.md`, the relevant `ROADMAP.md`
+phase, `PROGRESS.md`, `TODO.md`, `HANDOVER.md` and related specifications.
 
-1. `docs/PROJECT_RULES.md`
-2. `docs/ROADMAP.md` for the phase being considered
-3. `docs/PROGRESS.md`
-4. the relevant `docs/TODO.md` items
-5. the relevant specification files
+Phase 0/1 are DONE. Phase 2 production deployment and browser smoke gates pass,
+but the evidence PR is pending GitHub write access. Phase 3 is BLOCKED by
+TODO-001.
+Firebase now uses the account-owned project/site `delta-pagoda-509904-j8`
+under `bichloannb06@gmail.com`. The deployed URL is
+https://delta-pagoda-509904-j8.web.app and its browser metadata reports project
+`delta-pagoda-509904-j8` with build
+`70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`. Do not
+use another person's Firebase project for future phases.
 
-The repository rule is:
+Next action: authenticate GitHub with a write-authorized account and publish
+`codex/phase2-deployment-evidence`, review/merge after green CI, then rebuild,
+deploy and smoke-test the green merged source before closing Phase 2.
+2026-10-04 verification passed all local gates (14 tests and package build),
+production asset-byte equality, both 404 routes and browser smoke. Firebase
+site-list access succeeds; no new project or Firebase login is currently needed.
+See `docs/evidence/phase2-2026-10-04.json`. Afterward, the scientific lead must
+approve component coefficients, units,
+applicable ranges, source citations, reviewer and review date under
+`THERMODYNAMIC_DATA_SPEC.md`. Then implement the Phase 3 minimum engine and
+reviewed total-condenser closure. Do not invent coefficients or review approval.
+Keep partial condenser NOT_IMPLEMENTED and enthalpy as a Phase 6 blocker only.
 
-> **NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED.**
-
-Use the checkpoint sequence `READ CURRENT STATE → IMPLEMENT → TEST → UPDATE
-DOCS → COMMIT/PUSH → PR → CI/REVIEW → MERGE MAIN → BUILD PRODUCTION → DEPLOY
-FIREBASE HOSTING → PRODUCTION SMOKE TEST → UPDATE EVIDENCE → CLOSE PHASE IF DoD
-PASSES → CONTINUE NEXT PHASE`. Do not call a task `DONE` a phase `DONE`; preserve
-every remaining item. Use only `NOT STARTED`, `IN PROGRESS`, `BLOCKED` and
-`DONE` for phase status, with `DEFERRED` only as a task/item label.
-
-Current starting point: Phase 0/1 DONE, Phase 2 IN PROGRESS, Phase 3 BLOCKED.
-The legacy Firebase target `distillation-simulator` returns HTTP 403 to the
-current CLI session. Create/select a student-controlled Firebase project/site,
-update `.firebaserc`/`firebase.json`, deploy production, smoke-test the public
-URL and update evidence. No separate Owner approval is required for any of
-these technical steps. Do not mark Phase 2 DONE until deployment and smoke
-tests pass. See `DEPLOYMENT_RUNBOOK.md` for commands.
-
-Do not invent Antoine or enthalpy data, partial-condenser equations or
-validation mappings. Keep partial condenser `NOT_IMPLEMENTED`. Enthalpy is a
-Phase 6 blocker only. Before Phase 4, verify the total-condenser closure gate:
-outer `xD`, reboiler boundary and direct `NF` stage indexing, with no
-geometric-stage rejection gate.
+NO WORK IS COMPLETE UNTIL PROGRESS IS UPDATED. Follow the technical workflow
+in PROJECT_RULES: implementation, tests, docs, commit/push, PR, CI/review,
+merge, applicable production build/deploy/smoke and evidence. Owner approval
+is not a separate technical gate; scientific decisions remain with the expert.

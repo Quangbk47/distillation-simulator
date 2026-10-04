@@ -107,20 +107,23 @@ an unresolved item to make the queue look clean.
 - Acceptance condition: Reference/literature case is reviewed, executed and
   reported using the accepted MAE threshold of 5 percentage points.
 
-### TODO-013 — Firebase static hosting
+### TODO-013 — Firebase evidence and later releases
 
-- Phase: 2/5/10
+- Phase: 2/5/10 (Phase 2 deployment/smoke verified on 2026-09-27).
 - Status: `IN PROGRESS`
 - Owner/role: Student developer / DevOps
-- Status for Phase 2: `IN PROGRESS`; repository configuration and PR merge are
-  complete, but the legacy project/site is unavailable to the current CLI
-  session. The student team may create/select a replacement Firebase project
-  and Hosting site, then update repo configuration.
-- Dependency/blocker: An accessible student-controlled Firebase account/project
-  or a successful self-service project/site creation, then deployment and
-  public smoke verification.
-- Acceptance condition: Static build is deployed, URL and commit are recorded,
-  and a smoke test passes; no credentials are committed.
+- Phase 2 deployment and browser smoke passed at
+  https://delta-pagoda-509904-j8.web.app (build
+  `70f1fd3097ee0c74c9238c6db58eac3d444593485167086c957d54ca5e6181f7`).
+  Reverified on 2026-10-04: asset equality, 404 routes, browser smoke and all
+  local quality gates pass. Remaining: publish the committed branch using a
+  write-authorized GitHub session, PR CI/review/merge, then deploy and verify
+  the green merged source.
+- Dependency/blocker: Validated API/UI for Phase 5 and full release gates for
+  Phase 10. Existing project/site access and static demo are verified.
+- Acceptance condition: Deploy the functional UI and final release after their
+  respective CI/review gates; record source/build/URL and smoke evidence.
+- Phase 2 evidence: `DEPLOYMENT_RUNBOOK.md`, https://delta-pagoda-509904-j8.web.app.
 
 ### TODO-014 — Product hardening and production release
 
