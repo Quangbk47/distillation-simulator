@@ -176,24 +176,32 @@ Last Updated: 2026-09-19
 
 ### Phase 5 — MINIMUM FUNCTIONAL UI
 
-Status: **NOT STARTED**
+Status: **IN PROGRESS**
 
 Completed:
 
-- Static presentation shell only; it deliberately does not calculate.
+- Static presentation shell exists.
+- Local UI submits to the local API and renders backend-calculated
+  xD/xB/recovery/D/B, warnings, stage table and McCabe--Thiele plot.
+- The UI was restyled toward the supervisor-provided three-column form:
+  input groups on the left, column/process visualization in the middle and
+  results/table/plot on the right, without changing the scientific engine.
 
 Remaining:
 
-- Connect the UI to the validated API, render real results/warnings/stages and
-  add the required manual/API smoke evidence.
+- Add approved reference validation evidence before calling the UI scientifically
+  validated.
+- Production deployment still needs a backend runtime decision; Firebase Hosting
+  alone remains static.
 
-Blockers: Phase 4 engine and API contract completion.
+Blockers: Scientific reference validation and later backend runtime decision.
 
-Next Action: Begin after Phase 4 is DONE.
+Next Action: Keep the local functional UI path stable while reference cases are
+reviewed; do not add sensitivity or new scientific models yet.
 
-Evidence: `web/` shell build in `afb7bfa`; no engine connection exists.
+Evidence: `web/` shell build in `afb7bfa`; local frontend/API smoke tests pass.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-10-05
 
 ### Phase 6 — ENERGY
 

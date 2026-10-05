@@ -81,11 +81,15 @@ an unresolved item to make the queue look clean.
 ### TODO-010 — Connect functional UI
 
 - Phase: 5
-- Status: `NOT STARTED`
+- Status: `IN PROGRESS`
 - Owner/role: Student developer
 - Dependency/blocker: TODO-009 and API contract completion.
 - Acceptance condition: UI consumes backend results, warnings and stage data;
   no client-side scientific authority or fake result is introduced.
+- Progress: Local UI consumes backend simulation output, renders
+  xD/xB/recovery/D/B, warning details, stage table and McCabe--Thiele plot, and
+  has been restyled toward the supervisor-provided three-column form. Reference
+  validation and production backend/runtime remain open.
 
 ### TODO-011 — Implement sensitivity
 
