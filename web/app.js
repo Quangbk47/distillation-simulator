@@ -3,6 +3,8 @@ const panels = document.querySelectorAll("[data-panel]");
 const form = document.querySelector("#simulation-form");
 const formError = document.querySelector("#form-error");
 const resetButton = document.querySelector("#reset-button");
+const diagramNLabel = document.querySelector("#diagram-n-label");
+const diagramFeedLabel = document.querySelector("#diagram-feed-label");
 
 function selectTab(name) {
   tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.tab === name));
@@ -14,6 +16,20 @@ tabs.forEach((tab) => tab.addEventListener("click", () => selectTab(tab.dataset.
 function numberValue(name) {
   return Number(form.elements[name].value);
 }
+
+function updateDiagramLabels() {
+  const n = form.elements.N.value || "—";
+  const nf = form.elements.NF.value || "—";
+  const f = form.elements.F_kmol_h.value || "—";
+  const zf = form.elements.zF_ethanol.value || "—";
+  diagramNLabel.textContent = `N = ${n}`;
+  diagramFeedLabel.innerHTML = `Feed F=${f}<br />zF=${zf} · NF=${nf}`;
+}
+
+["N", "NF", "F_kmol_h", "zF_ethanol"].forEach((name) => {
+  form.elements[name].addEventListener("input", updateDiagramLabels);
+});
+updateDiagramLabels();
 
 function validateForm() {
   const f = numberValue("F_kmol_h");
@@ -33,12 +49,25 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   formError.textContent = validateForm();
   if (formError.textContent) return;
+
   const payload = Object.fromEntries(new FormData(form).entries());
-  for (const key of ["F_kmol_h","zF_ethanol","q","P_bar","N","NF","R","D_kmol_h","heatLoss_kW"]) payload[key] = Number(payload[key]);
+  for (const key of ["F_kmol_h", "zF_ethanol", "q", "P_bar", "N", "NF", "R", "D_kmol_h", "heatLoss_kW"]) {
+    payload[key] = Number(payload[key]);
+  }
   payload.condenser = form.elements.condenser.value;
+
   document.querySelector("#result-status").textContent = "CALCULATING";
-  fetch("/api/simulations", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(payload)})
-    .then(async (response) => { const body = await response.json(); if (!response.ok) throw new Error(body.detail || "API calculation failed"); return body; })
+  document.querySelector("#connection-status").textContent = "ENGINE CONNECTING";
+  fetch("/api/simulations", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then(async (response) => {
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.detail || "API calculation failed");
+      return body;
+    })
     .then(renderResult)
     .catch((error) => {
       document.querySelector("#result-status").textContent = "FAILED";
@@ -47,20 +76,24 @@ form.addEventListener("submit", (event) => {
     });
 });
 
+function formatNumber(value, digits = 4) {
+  return typeof value === "number" && Number.isFinite(value) ? value.toFixed(digits) : "—";
+}
+
 function renderResult(result) {
-  const text = (value, digits = 4) => typeof value === "number" ? value.toFixed(digits) : "—";
   document.querySelector("#connection-status").textContent = "ENGINE CONNECTED";
   document.querySelector("#result-status").textContent = result.status.toUpperCase();
-  document.querySelector("#result-xd").textContent = text(result.xD);
-  document.querySelector("#result-xb").textContent = text(result.xB);
-  document.querySelector("#result-recovery").textContent = text(result.recovery_ethanol_percent, 2);
-  document.querySelector("#result-d").textContent = text(result.D_kmol_h, 2);
-  document.querySelector("#result-b").textContent = text(result.B_kmol_h, 2);
-  document.querySelector("#result-duty").textContent = `${text(result.QC_kW, 2)} / ${text(result.QR_kW, 2)}`;
+  document.querySelector("#result-xd").textContent = formatNumber(result.xD);
+  document.querySelector("#result-xb").textContent = formatNumber(result.xB);
+  document.querySelector("#result-recovery").textContent = formatNumber(result.recovery_ethanol_percent, 2);
+  document.querySelector("#result-d").textContent = formatNumber(result.D_kmol_h, 2);
+  document.querySelector("#result-b").textContent = formatNumber(result.B_kmol_h, 2);
+  document.querySelector("#result-duty").textContent = `${formatNumber(result.QC_kW, 2)} / ${formatNumber(result.QR_kW, 2)}`;
   document.querySelector("#thermo-version").textContent = result.thermoDataVersion;
   document.querySelector("#residuals").textContent = JSON.stringify(result.residuals);
   document.querySelector("#warning-text").textContent = warningText(result);
-  document.querySelector("#stage-table").innerHTML = `<table><thead><tr><th>Stage</th><th>Section</th><th>x</th><th>y</th><th>T (C)</th></tr></thead><tbody>${result.stages.map((s) => `<tr><td>${s.stage}</td><td>${s.section}</td><td>${text(s.x_ethanol)}</td><td>${text(s.y_ethanol)}</td><td>${text(s.T_C, 2)}</td></tr>`).join("")}</tbody></table>`;
+  document.querySelector("#stage-table").innerHTML = `<table><thead><tr><th>Mâm</th><th>Section</th><th>xEtOH</th><th>yEtOH</th><th>T (°C)</th></tr></thead><tbody>${result.stages.map((stage) => `<tr><td>${stage.stage}</td><td>${stage.section}</td><td>${formatNumber(stage.x_ethanol)}</td><td>${formatNumber(stage.y_ethanol)}</td><td>${formatNumber(stage.T_C, 2)}</td></tr>`).join("")}</tbody></table>`;
+  updateDiagramLabels();
   renderMcCabePlot(result);
 }
 
@@ -134,7 +167,7 @@ function renderMcCabePlot(result) {
       <line class="plot-axis" x1="${pad}" y1="${sy(0)}" x2="${sx(1)}" y2="${sy(0)}"></line>
       <line class="plot-axis" x1="${pad}" y1="${sy(0)}" x2="${pad}" y2="${sy(1)}"></line>
       <path class="plot-diagonal" d="${svgPath([{ x: 0, y: 0 }, { x: 1, y: 1 }], sx, sy)}"></path>
-      <path class="plot-equilibrium" d="${svgPath(equilibrium.map((p) => ({ x: p.x_ethanol, y: p.y_ethanol })), sx, sy)}"></path>
+      <path class="plot-equilibrium" d="${svgPath(equilibrium.map((point) => ({ x: point.x_ethanol, y: point.y_ethanol })), sx, sy)}"></path>
       <path class="plot-rectifying" d="${svgPath(rectifying, sx, sy)}"></path>
       <path class="plot-stripping" d="${svgPath(stripping, sx, sy)}"></path>
       <path class="plot-qline" d="${svgPath(qLine, sx, sy)}"></path>
@@ -151,6 +184,7 @@ function renderMcCabePlot(result) {
 resetButton.addEventListener("click", () => {
   form.reset();
   formError.textContent = "";
+  updateDiagramLabels();
 });
 
 // Hosting status proves static delivery only; it does not imply an API connection.
