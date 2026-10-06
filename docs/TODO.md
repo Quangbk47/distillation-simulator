@@ -111,11 +111,15 @@ an unresolved item to make the queue look clean.
 ### TODO-012 — Scientific validation
 
 - Phase: 8
-- Status: `NOT STARTED`
+- Status: `IN PROGRESS`
 - Owner/role: Scientific lead and validation owner
 - Dependency/blocker: Reviewed source/mapping and completed calculation path.
 - Acceptance condition: Reference/literature case is reviewed, executed and
   reported using the accepted MAE threshold of 5 percentage points.
+- Progress: Validation request and pending case template are prepared in
+  `docs/VALIDATION_REQUEST.md` and
+  `data/validation/cases/ethanol-water.pending.json`. No validation PASS is
+  claimed until GVHD/source values are filled and evaluated.
 
 ### TODO-013 — Firebase evidence and later releases
 

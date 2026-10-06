@@ -2,9 +2,36 @@
   "caseId": "ethanol-water-pending-001",
   "sourceCitation": "PENDING_SOURCE_CITATION",
   "sourceType": "literature",
-  "sourceConditions": {},
-  "mappedInput": {},
-  "observed": {},
+  "sourceConditions": {
+    "system": "Ethanol-Water",
+    "pressure": {"value": null, "unit": "bar"},
+    "feedCompositionEthanol": {"value": null, "unit": "mol fraction or mol %"},
+    "feedFlow": {"value": null, "unit": "kmol/h"},
+    "feedThermalState": {"q": null, "note": "Use q directly if source gives q; otherwise record mapping assumption."},
+    "refluxRatio": {"value": null, "definition": "R = L/D"},
+    "distillateFlow": {"value": null, "unit": "kmol/h"},
+    "numberOfStages": {"value": null, "countingConvention": "body stages, condenser excluded unless source says otherwise"},
+    "feedStage": {"value": null, "countingConvention": "counted from top"}
+  },
+  "mappedInput": {
+    "zF_ethanol": null,
+    "F_kmol_h": null,
+    "P_bar": null,
+    "q": null,
+    "N": null,
+    "NF": null,
+    "R": null,
+    "D_kmol_h": null,
+    "condenser": "total",
+    "heatLoss_kW": 0
+  },
+  "observed": {
+    "xD_ethanol": {"value": null, "unit": "mol fraction or mol %"},
+    "xB_ethanol": {"value": null, "unit": "mol fraction or mol %"},
+    "ethanolRecovery": {"value": null, "unit": "%", "optional": true},
+    "stageTemperatures": {"value": null, "unit": "degC", "optional": true},
+    "stageCompositions": {"value": null, "unit": "mol fraction", "optional": true}
+  },
   "validationAcceptance": {
     "metric": "MAE_xD_xB_percentage_points",
     "threshold": 5,

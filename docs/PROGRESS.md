@@ -187,6 +187,8 @@ Completed:
 - Local smoke on 2026-10-04 rendered the end-to-end total-condenser flow at
   `http://127.0.0.1:8000/`: input -> xD/xB/recovery/D/B -> stage data ->
   McCabe--Thiele plot -> detailed `THERMO_EXTRAPOLATION` warning.
+- A golden-case request/template now exists so GVHD data can be mapped without
+  inventing validation values.
 
 Remaining:
 
@@ -199,7 +201,8 @@ reference case; keep partial condenser `NOT_IMPLEMENTED`.
 
 Evidence: `docs/ROADMAP.md`, `docs/ALGORITHM_SPEC.md`,
 `docs/TEST_CASES.md` and
-`docs/evidence/phase3-4-local-2026-10-04.json`.
+`docs/evidence/phase3-4-local-2026-10-04.json`;
+`docs/VALIDATION_REQUEST.md`.
 
 Last Updated: 2026-10-04
 
@@ -212,6 +215,8 @@ Completed:
 - Static presentation shell exists.
 - Local UI now submits to the local API and renders backend-calculated
   xD/xB/recovery/D/B, stage table, McCabe--Thiele plot and warning details.
+- UI form on `main` was restyled toward the supervisor-provided layout while
+  preserving the existing backend/API calculation path.
 
 Remaining:
 
@@ -225,10 +230,10 @@ Blockers: Scientific reference validation and later backend runtime decision.
 Next Action: Keep the local functional UI path stable while reference cases are
 reviewed; do not add sensitivity or new scientific models yet.
 
-Evidence: `web/` shell build in `afb7bfa` and
-`docs/evidence/phase3-4-local-2026-10-04.json`.
+Evidence: `web/` shell build in `afb7bfa`,
+`docs/evidence/phase3-4-local-2026-10-04.json` and local frontend/API tests.
 
-Last Updated: 2026-10-04
+Last Updated: 2026-10-06
 
 ### Phase 6 — ENERGY
 
