@@ -324,7 +324,9 @@ Last Updated: 2026-09-19
 
 ## Cross-phase blockers
 
-- Reviewed Antoine dataset: blocks Phase 3/4 scientific output.
+- Reviewed Antoine dataset: resolved for Ethanol-Water Phase 3/4 runtime use.
+- Reviewed reference/golden validation case: blocks claiming scientific
+  validation PASS.
 - Partial-condenser equations/reference case: `DEFERRED` and
   `BLOCKED` by scientific decision; keep the API `NOT_IMPLEMENTED`.
 - Reviewed Cp/latent-heat data: blocks Phase 6 only.

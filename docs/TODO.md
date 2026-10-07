@@ -118,7 +118,9 @@ an unresolved item to make the queue look clean.
   reported using the accepted MAE threshold of 5 percentage points.
 - Progress: Validation request and pending case template are prepared in
   `docs/VALIDATION_REQUEST.md` and
-  `data/validation/cases/ethanol-water.pending.json`. No validation PASS is
+  `data/validation/cases/ethanol-water.pending.json`. A registration/scope note
+  is recorded in `docs/PROJECT_REGISTRATION.md` to keep the broad project title
+  aligned with the narrow approved V1 implementation. No validation PASS is
   claimed until GVHD/source values are filled and evaluated.
 
 ### TODO-013 — Firebase evidence and later releases
