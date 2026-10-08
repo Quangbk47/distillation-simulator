@@ -32,7 +32,12 @@ Latest Phase 5 hardening note: the frontend now renders structured result
 states for `SUCCESS`, `WARNING`, `FAILED` and `CALCULATING`; non-converged
 cases show that no valid stage table or McCabe--Thiele plot exists instead of
 leaving ambiguous empty output. Quality gates pass: `ruff check`, `mypy src`,
-and `pytest` with 23 tests.
+and `pytest` with 28 tests.
+
+Latest API guardrail note: simulation input validation is covered for extra
+unapproved fields, invalid feed-stage placement (`NF > N`) and distillate flow
+not below feed flow (`D >= F`). These checks protect the existing contract
+without changing scientific assumptions.
 
 Latest Phase 6 guardrail note: tests explicitly lock the current energy
 boundary so `QC_kW`, `QR_kW` and `energyBreakdown` remain null/pending until
@@ -62,10 +67,10 @@ structure, frontend build, lint, type-check, pytest and API-smoke gates with one
 command.
 
 Phase 2 Hosting uses the Firebase project owned by
-`bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
-backend/API skeleton and a static UI shell, not an operational scientific
-simulator. Phase 3 cannot produce scientific output until the scientific lead
-approves the Antoine records.
+`bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository now has a
+local functional total-condenser API/UI path, but production deployment still
+needs a backend runtime decision and scientific validation still needs an
+approved reference case.
 
 ## Phase status ledger
 
@@ -194,6 +199,8 @@ Completed:
   are returned by the minimum API calculation path.
 - The total-condenser path rejects non-converged cases instead of clamping
   off-curve McCabe--Thiele steps into a fabricated result.
+- API validation rejects unapproved extra fields, `NF > N` and `D >= F` before
+  calculation.
 - The implementation boundary remains explicit; no fake result is exposed.
 - Local smoke on 2026-10-04 confirmed the reviewed data path can run from
   input through xD/xB/recovery and controlled thermodynamic warning details.
@@ -212,7 +219,7 @@ Evidence: `docs/THERMODYNAMIC_DATA_SPEC.md`, `docs/CALCULATION_FORMULAS.md`,
 current pending-data tests, the API skeleton and
 `docs/evidence/phase3-4-local-2026-10-04.json`.
 
-Last Updated: 2026-10-04
+Last Updated: 2026-10-08
 
 ### Phase 4 — MCCABE–THIELE ENGINE
 
@@ -263,6 +270,8 @@ Completed:
 - Structured UI states now distinguish warning, failed, calculating and
   success results; failed/non-converged outputs explicitly suppress stage-table
   and plot claims.
+- API/input guard tests protect the UI-to-backend contract from accepting
+  unapproved or physically invalid request shapes.
 
 Remaining:
 
@@ -277,7 +286,8 @@ Next Action: Keep the local functional UI path stable while reference cases are
 reviewed; do not add sensitivity or new scientific models yet.
 
 Evidence: `web/` shell build in `afb7bfa`,
-`docs/evidence/phase3-4-local-2026-10-04.json` and local frontend/API tests.
+`docs/evidence/phase3-4-local-2026-10-04.json`, local frontend/API tests and
+`scripts/run_quality.py`.
 
 Last Updated: 2026-10-08
 

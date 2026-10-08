@@ -72,7 +72,8 @@ an unresolved item to make the queue look clean.
 - Progress: Outer residual gate is enforced and non-converged cases return
   a structured `failed` result instead of clamped values or an unstructured API
   exception. Local smoke passes from input through xD/xB/recovery/D/B and
-  warning details; golden/reference validation is still required.
+  warning details. API guardrail tests now reject unapproved extra fields,
+  `NF > N` and `D >= F`; golden/reference validation is still required.
 
 ### TODO-009 — Implement McCabe–Thiele path
 
