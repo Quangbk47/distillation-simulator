@@ -27,7 +27,9 @@ def thermo_data_version() -> dict[str, str]:
     return {"model": THERMO_MODEL, "version": THERMO_VERSION}
 
 
-def failed_simulation(error_code: str, message: str, simulation_input: SimulationInput) -> SimulationResult:
+def failed_simulation(
+    error_code: str, message: str, simulation_input: SimulationInput
+) -> SimulationResult:
     return SimulationResult.model_validate(
         {
             "status": "failed",

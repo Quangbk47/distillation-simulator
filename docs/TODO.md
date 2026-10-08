@@ -82,8 +82,9 @@ an unresolved item to make the queue look clean.
   remains unavailable until TODO-002 is complete.
 - Progress: q-line, feed intersection, rectifying/stripping lines, stage table
   and graph-ready response are implemented for total condenser. Local UI smoke
-  rendered the McCabe--Thiele plot and stage data. Partial condenser remains
-  `NOT_IMPLEMENTED`.
+  rendered the McCabe--Thiele plot and stage data. Unit tests now lock the
+  direct `NF` section switch, stage numbering and reflux-ratio response for a
+  converged total-condenser case. Partial condenser remains `NOT_IMPLEMENTED`.
 
 ### TODO-010 — Connect functional UI
 

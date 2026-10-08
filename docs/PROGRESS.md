@@ -28,6 +28,11 @@ not a validation PASS. A material-balance check also shows that `D=45.2`,
 `xD=0.95`, mapped `xB=0.052` and `recovery=90.4%` are not mutually consistent;
 GVHD must confirm which displayed value is authoritative.
 
+Latest Phase 4 test note: total-condenser McCabe-Thiele tests now cover direct
+`NF` section switching, stage numbering, feed intersection at saturated-liquid
+`q = 1`, and a reflux-ratio response for a converged case. Quality gates pass:
+`ruff check`, `mypy src`, and `pytest` with 22 tests.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific

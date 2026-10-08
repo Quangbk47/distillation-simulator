@@ -1,5 +1,10 @@
 from api.schemas import SimulationInput
-from distillation.mccabe_thiele import q_line_intersection, select_ethanol_record
+from distillation.contracts import SimulationCase
+from distillation.mccabe_thiele import (
+    q_line_intersection,
+    select_ethanol_record,
+    solve_mccabe_thiele,
+)
 from solver.convergence import Residuals, residuals_pass
 from thermodynamics.antoine_raoult import AntoineRecord, evaluate_antoine
 
@@ -121,3 +126,47 @@ def test_ethanol_record_selection_prefers_record_one_in_overlap() -> None:
 
     assert select_ethanol_record([record_one, record_two], 365.0) is record_one
     assert select_ethanol_record([record_one, record_two], 370.0) is record_two
+
+
+def total_condenser_case(**overrides: object) -> SimulationCase:
+    values: dict[str, object] = {
+        "F_kmol_h": 100.0,
+        "zF_ethanol": 0.5,
+        "q": 1.0,
+        "P_bar": 1.0,
+        "N": 5,
+        "NF": 2,
+        "R": 3.0,
+        "D_kmol_h": 80.0,
+        "heatLoss_kW": 0.0,
+        "condenser": "total",
+    }
+    values.update(overrides)
+    return SimulationCase(**values)  # type: ignore[arg-type]
+
+
+def test_total_condenser_stage_sections_follow_direct_nf_switch() -> None:
+    result = solve_mccabe_thiele(total_condenser_case(N=5, NF=2))
+
+    assert [stage["stage"] for stage in result["stages"]] == [1, 2, 3, 4, 5]
+    assert [stage["section"] for stage in result["stages"]] == [
+        "rectifying",
+        "stripping",
+        "stripping",
+        "stripping",
+        "stripping",
+    ]
+    assert result["operatingLines"]["feedIntersection"]["x"] == 0.5
+    assert result["residuals"]["solver"] < 1e-4
+
+
+def test_reflux_ratio_changes_total_condenser_solution() -> None:
+    low_reflux = solve_mccabe_thiele(total_condenser_case(R=3.0))
+    high_reflux = solve_mccabe_thiele(total_condenser_case(R=10.0))
+
+    assert high_reflux["xD"] != low_reflux["xD"]
+    assert high_reflux["xB"] < low_reflux["xB"]
+    assert (
+        high_reflux["operatingLines"]["rectifying"]["slope"]
+        > low_reflux["operatingLines"]["rectifying"]["slope"]
+    )
