@@ -61,6 +61,14 @@ def main() -> None:
     check(len(sim_body["stages"]) == BASE_CASE["N"], "stage table length matches N")
     check(sim_body["QC_kW"] is None and sim_body["QR_kW"] is None, "energy remains pending")
 
+    invalid_feed_stage = client.post("/api/simulations", json={**BASE_CASE, "NF": 6})
+    check(invalid_feed_stage.status_code == 422, "invalid NF>N input is rejected")
+
+    extra_field = client.post(
+        "/api/simulations", json={**BASE_CASE, "unapprovedField": 1.0}
+    )
+    check(extra_field.status_code == 422, "unapproved simulation fields are rejected")
+
     partial_case = {**BASE_CASE, "condenser": "partial"}
     partial = client.post("/api/simulations", json=partial_case)
     check(partial.status_code == 501, "partial condenser remains not implemented")

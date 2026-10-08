@@ -64,7 +64,8 @@ after the unit/integration/reference/validation suite.
 
 Latest developer-experience note: `scripts/run_quality.py` now runs the local
 structure, frontend build, lint, type-check, pytest and API-smoke gates with one
-command.
+command. The smoke script also checks representative invalid API inputs so the
+demo/handover gate catches broken request validation quickly.
 
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository now has a
@@ -217,7 +218,8 @@ cases, then keep improving the UI path without adding new scientific models.
 
 Evidence: `docs/THERMODYNAMIC_DATA_SPEC.md`, `docs/CALCULATION_FORMULAS.md`,
 current pending-data tests, the API skeleton and
-`docs/evidence/phase3-4-local-2026-10-04.json`.
+`docs/evidence/phase3-4-local-2026-10-04.json`; `scripts/smoke_local_api.py`
+now covers valid and invalid API request shapes.
 
 Last Updated: 2026-10-08
 
