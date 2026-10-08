@@ -118,6 +118,12 @@ backend cần runtime riêng trước Phase 10.
 ## Kiểm tra
 
 ```powershell
+python scripts/run_quality.py
+```
+
+Hoặc chạy từng bước:
+
+```powershell
 python -m ruff check .
 python -m mypy src
 python -m pytest --basetemp work/pytest-tmp -p no:cacheprovider

@@ -57,6 +57,10 @@ simulation, and intentionally gated partial/sensitivity endpoints.
 Latest CI note: the GitHub Actions workflow now runs the local API smoke script
 after the unit/integration/reference/validation suite.
 
+Latest developer-experience note: `scripts/run_quality.py` now runs the local
+structure, frontend build, lint, type-check, pytest and API-smoke gates with one
+command.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific
