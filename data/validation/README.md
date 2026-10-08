@@ -5,7 +5,10 @@ input/units, observed values và assumptions. Nguồn literature/dataset đượ
 ở giai đoạn hiện tại. V1 dùng MAE của xD/xB theo điểm phần trăm với ngưỡng `5`;
 không được gắn nhãn PASS khi case chưa được review và đánh giá.
 
-Schema nằm tại `schema.json`. Case mẫu pending nằm tại `cases/ethanol-water.pending.json`.
+Schema nằm tại `schema.json`. Case mẫu pending nằm tại
+`cases/ethanol-water.pending.json`. Schema bắt buộc có `mappedInput` đủ input
+runtime (`zF_ethanol`, `F_kmol_h`, `P_bar`, `q`, `N`, `NF`, `R`, `D_kmol_h`,
+`condenser`, `heatLoss_kW`) và observed tối thiểu `xD_ethanol`, `xB_ethanol`.
 
 ## Quy trình tối thiểu cho case chuẩn
 

@@ -3,14 +3,44 @@
   "$id": "https://example.invalid/distillation-simulator/validation-case.schema.json",
   "title": "Distillation validation case",
   "type": "object",
-  "required": ["caseId", "sourceCitation", "sourceType", "sourceConditions", "observed", "validationAcceptance"],
+  "required": ["caseId", "sourceCitation", "sourceType", "sourceConditions", "mappedInput", "observed", "validationAcceptance"],
   "properties": {
     "caseId": {"type": "string"},
     "sourceCitation": {"type": "string"},
     "sourceType": {"enum": ["experimental", "literature"]},
     "sourceConditions": {"type": "object"},
-    "mappedInput": {"type": "object"},
-    "observed": {"type": "object"},
+    "mappedInput": {
+      "type": "object",
+      "required": ["zF_ethanol", "F_kmol_h", "P_bar", "q", "N", "NF", "R", "D_kmol_h", "condenser", "heatLoss_kW"],
+      "properties": {
+        "zF_ethanol": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1},
+        "F_kmol_h": {"type": "number", "exclusiveMinimum": 0},
+        "P_bar": {"type": "number", "exclusiveMinimum": 0},
+        "q": {"type": "number"},
+        "N": {"type": "integer", "minimum": 1},
+        "NF": {"type": "integer", "minimum": 1},
+        "R": {"type": "number", "minimum": 0},
+        "D_kmol_h": {"type": "number", "exclusiveMinimum": 0},
+        "condenser": {"enum": ["total", "partial"]},
+        "heatLoss_kW": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "observed": {
+      "type": "object",
+      "required": ["xD_ethanol", "xB_ethanol"],
+      "properties": {
+        "xD_ethanol": {"$ref": "#/$defs/observedValue"},
+        "xB_ethanol": {"$ref": "#/$defs/observedValue"},
+        "ethanolRecovery": {"$ref": "#/$defs/observedValue"},
+        "bottomWaterPurity": {"$ref": "#/$defs/observedValue"},
+        "condenserDuty": {"$ref": "#/$defs/observedValue"},
+        "reboilerDuty": {"$ref": "#/$defs/observedValue"},
+        "stageTemperatures": {"type": "object"},
+        "stageCompositions": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
     "validationAcceptance": {
       "type": "object",
       "required": ["metric", "threshold", "value", "pass", "status"],
@@ -20,6 +50,21 @@
         "value": {"type": ["number", "null"]},
         "pass": {"type": ["boolean", "null"]},
         "status": {"enum": ["READY_FOR_EVALUATION", "EVALUATED"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "observedValue": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "properties": {
+        "value": {"type": "number"},
+        "unit": {"type": "string"},
+        "sourceValue": {"type": "number"},
+        "sourceUnit": {"type": "string"},
+        "optional": {"type": "boolean"},
+        "phase": {"type": "string"}
       },
       "additionalProperties": false
     }

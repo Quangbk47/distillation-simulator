@@ -42,6 +42,10 @@ Latest documentation hygiene note: handover, next-session and test-case docs
 now reflect the current state that Antoine approval is resolved and that the
 remaining scientific blocker is an approved golden/reference validation case.
 
+Latest validation-data guardrail note: the validation JSON schema now requires
+runtime-mapped inputs and observed `xD_ethanol`/`xB_ethanol`, reducing the risk
+of incomplete GVHD/reference cases being treated as executable validation.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific

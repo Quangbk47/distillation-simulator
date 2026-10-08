@@ -30,6 +30,12 @@ def test_validation_case_uses_accepted_v1_threshold() -> None:
     schema = load_json("data/validation/schema.json")
     case = load_json("data/validation/cases/ethanol-water.pending.json")
     validate(case, schema)
+    mapped_input = case["mappedInput"]
+    assert mapped_input["condenser"] == "total"
+    assert 0 < mapped_input["zF_ethanol"] < 1
+    assert 1 <= mapped_input["NF"] <= mapped_input["N"]
+    assert "xD_ethanol" in case["observed"]
+    assert "xB_ethanol" in case["observed"]
     acceptance = case["validationAcceptance"]
     assert acceptance["metric"] == "MAE_xD_xB_percentage_points"
     assert acceptance["threshold"] == 5
