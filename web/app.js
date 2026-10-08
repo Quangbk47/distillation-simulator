@@ -56,7 +56,7 @@ form.addEventListener("submit", (event) => {
   }
   payload.condenser = form.elements.condenser.value;
 
-  document.querySelector("#result-status").textContent = "CALCULATING";
+  setResultStatus("CALCULATING");
   document.querySelector("#connection-status").textContent = "ENGINE CONNECTING";
   fetch("/api/simulations", {
     method: "POST",
@@ -70,9 +70,11 @@ form.addEventListener("submit", (event) => {
     })
     .then(renderResult)
     .catch((error) => {
-      document.querySelector("#result-status").textContent = "FAILED";
+      setResultStatus("FAILED");
       document.querySelector("#connection-status").textContent = "ENGINE ERROR";
       document.querySelector("#warning-text").textContent = error.message;
+      document.querySelector("#stage-table").innerHTML = `<div class="table-empty">FAILED · ${escapeHtml(error.message)}</div>`;
+      renderEmptyPlot("FAILED · Không có dữ liệu đồ thị");
     });
 });
 
@@ -80,9 +82,24 @@ function formatNumber(value, digits = 4) {
   return typeof value === "number" && Number.isFinite(value) ? value.toFixed(digits) : "—";
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function setResultStatus(status) {
+  const badge = document.querySelector("#result-status");
+  badge.textContent = status;
+  badge.dataset.status = status.toLowerCase();
+}
+
 function renderResult(result) {
   document.querySelector("#connection-status").textContent = "ENGINE CONNECTED";
-  document.querySelector("#result-status").textContent = result.status.toUpperCase();
+  setResultStatus(result.status.toUpperCase());
   document.querySelector("#result-xd").textContent = formatNumber(result.xD);
   document.querySelector("#result-xb").textContent = formatNumber(result.xB);
   document.querySelector("#result-recovery").textContent = formatNumber(result.recovery_ethanol_percent, 2);
@@ -92,7 +109,11 @@ function renderResult(result) {
   document.querySelector("#thermo-version").textContent = result.thermoDataVersion;
   document.querySelector("#residuals").textContent = JSON.stringify(result.residuals);
   document.querySelector("#warning-text").textContent = warningText(result);
-  document.querySelector("#stage-table").innerHTML = `<table><thead><tr><th>Mâm</th><th>Section</th><th>xEtOH</th><th>yEtOH</th><th>T (°C)</th></tr></thead><tbody>${result.stages.map((stage) => `<tr><td>${stage.stage}</td><td>${stage.section}</td><td>${formatNumber(stage.x_ethanol)}</td><td>${formatNumber(stage.y_ethanol)}</td><td>${formatNumber(stage.T_C, 2)}</td></tr>`).join("")}</tbody></table>`;
+  if (result.status === "failed") {
+    document.querySelector("#stage-table").innerHTML = `<div class="table-empty">FAILED · ${escapeHtml(result.errorCode || "CALCULATION_FAILED")} · Chưa có stage output hợp lệ</div>`;
+  } else {
+    document.querySelector("#stage-table").innerHTML = `<table><thead><tr><th>Mâm</th><th>Section</th><th>xEtOH</th><th>yEtOH</th><th>T (°C)</th></tr></thead><tbody>${result.stages.map((stage) => `<tr><td>${stage.stage}</td><td>${stage.section}</td><td>${formatNumber(stage.x_ethanol)}</td><td>${formatNumber(stage.y_ethanol)}</td><td>${formatNumber(stage.T_C, 2)}</td></tr>`).join("")}</tbody></table>`;
+  }
   updateDiagramLabels();
   renderMcCabePlot(result);
 }
@@ -125,9 +146,9 @@ function renderMcCabePlot(result) {
   const status = document.querySelector("#plot-status");
   const lines = result.operatingLines;
   if (!lines || !result.stages.length) {
-    status.textContent = "NOT CALCULATED";
-    target.className = "empty-plot";
-    target.innerHTML = "<span>NO GRAPH DATA</span>";
+    const message = result.status === "failed" ? "FAILED · Không có dữ liệu đồ thị hợp lệ" : "NO GRAPH DATA";
+    status.textContent = result.status === "failed" ? "FAILED" : "NOT CALCULATED";
+    renderEmptyPlot(message);
     return;
   }
 
@@ -183,6 +204,12 @@ function renderMcCabePlot(result) {
     </svg>
     <div class="plot-legend"><span>Equilibrium</span><span>Operating</span><span>Stages</span><span>q-line</span></div>
   `;
+}
+
+function renderEmptyPlot(message) {
+  const target = document.querySelector("#mccabe-plot");
+  target.className = "empty-plot";
+  target.innerHTML = `<span>${escapeHtml(message)}</span>`;
 }
 
 resetButton.addEventListener("click", () => {

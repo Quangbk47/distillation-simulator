@@ -90,6 +90,26 @@ code { color: #334155; font-size: 0.9em; }
   white-space: nowrap;
 }
 
+.pending-badge[data-status="success"] {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.pending-badge[data-status="warning"] {
+  color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.pending-badge[data-status="failed"] {
+  color: var(--danger);
+  background: #fee2e2;
+}
+
+.pending-badge[data-status="calculating"] {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #d97706; }
 
 .tabs {

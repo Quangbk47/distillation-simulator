@@ -28,10 +28,11 @@ not a validation PASS. A material-balance check also shows that `D=45.2`,
 `xD=0.95`, mapped `xB=0.052` and `recovery=90.4%` are not mutually consistent;
 GVHD must confirm which displayed value is authoritative.
 
-Latest Phase 4 test note: total-condenser McCabe-Thiele tests now cover direct
-`NF` section switching, stage numbering, feed intersection at saturated-liquid
-`q = 1`, and a reflux-ratio response for a converged case. Quality gates pass:
-`ruff check`, `mypy src`, and `pytest` with 22 tests.
+Latest Phase 5 hardening note: the frontend now renders structured result
+states for `SUCCESS`, `WARNING`, `FAILED` and `CALCULATING`; non-converged
+cases show that no valid stage table or McCabe--Thiele plot exists instead of
+leaving ambiguous empty output. Quality gates pass: `ruff check`, `mypy src`,
+and `pytest` with 23 tests.
 
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
@@ -232,6 +233,9 @@ Completed:
   xD/xB/recovery/D/B, stage table, McCabe--Thiele plot and warning details.
 - UI form on `main` was restyled toward the supervisor-provided layout while
   preserving the existing backend/API calculation path.
+- Structured UI states now distinguish warning, failed, calculating and
+  success results; failed/non-converged outputs explicitly suppress stage-table
+  and plot claims.
 
 Remaining:
 
@@ -248,7 +252,7 @@ reviewed; do not add sensitivity or new scientific models yet.
 Evidence: `web/` shell build in `afb7bfa`,
 `docs/evidence/phase3-4-local-2026-10-04.json` and local frontend/API tests.
 
-Last Updated: 2026-10-06
+Last Updated: 2026-10-08
 
 ### Phase 6 — ENERGY
 

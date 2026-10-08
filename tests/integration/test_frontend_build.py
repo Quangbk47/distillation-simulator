@@ -43,3 +43,16 @@ def test_hosting_status_reads_the_deployed_build_project() -> None:
     script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
     assert "const project = info.project;" in script
     assert "`${project}.web.app`" in script
+
+
+def test_frontend_renders_structured_failed_state() -> None:
+    script = (ROOT / "web" / "app.js").read_text(encoding="utf-8")
+    html = (ROOT / "web" / "index.html").read_text(encoding="utf-8")
+    css = (ROOT / "web" / "styles.css").read_text(encoding="utf-8")
+
+    assert "setResultStatus(result.status.toUpperCase())" in script
+    assert "Chưa có stage output hợp lệ" in script
+    assert "FAILED · Không có dữ liệu đồ thị hợp lệ" in script
+    assert "function escapeHtml" in script
+    assert "Bảng kết quả theo mâm" in html
+    assert '.pending-badge[data-status="failed"]' in css

@@ -97,8 +97,10 @@ an unresolved item to make the queue look clean.
 - Progress: Simulation tab consumes backend output and renders xD/xB/recovery,
   stage table, McCabe--Thiele plot and detailed thermodynamic warnings from API
   data. Non-converged total-condenser cases now show a structured failed status
-  and explanatory error message instead of a generic API failure. Sensitivity
-  remains disabled.
+  and explanatory error message instead of a generic API failure. The frontend
+  also suppresses invalid stage-table/plot claims for failed results and gives
+  separate visual states for success, warning, failed and calculating.
+  Sensitivity remains disabled.
 
 ### TODO-011 — Implement sensitivity
 
