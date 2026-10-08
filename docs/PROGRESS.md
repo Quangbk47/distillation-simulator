@@ -46,6 +46,10 @@ Latest validation-data guardrail note: the validation JSON schema now requires
 runtime-mapped inputs and observed `xD_ethanol`/`xB_ethanol`, reducing the risk
 of incomplete GVHD/reference cases being treated as executable validation.
 
+Latest scope hygiene note: project scope, roadmap and architecture docs now
+state that energy and sensitivity are later gated V1 milestones, while current
+work stays on total-condenser Phase 4/5 and pending scientific validation.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific

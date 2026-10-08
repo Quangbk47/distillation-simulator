@@ -13,9 +13,10 @@ workflow in `PROJECT_RULES.md`: **NO WORK IS COMPLETE UNTIL PROGRESS IS
 UPDATED.**
 
 The authoritative scope is Ethanol–Water, steady-state, binary, constant
-pressure, Raoult + Antoine, McCabe–Thiele, simple energy, and sensitivity of
-exactly one of `R`, `N` or `NF`. System 2, Wilson/NRTL, optimization, dynamic
-simulation, detailed tray hydraulics, microservices and Kubernetes are
+pressure, Raoult + Antoine and McCabe–Thiele. Simple energy and sensitivity of
+exactly one of `R`, `N` or `NF` are later V1 milestones, not authority to invent
+enthalpy data or validation outputs. System 2, Wilson/NRTL, optimization,
+dynamic simulation, detailed tray hydraulics, microservices and Kubernetes are
 deferred.
 
 Important implementation order: Firebase Hosting is connected early to prove
@@ -82,10 +83,10 @@ Existing final documents and the calculation specification.
 
 **Blockers**
 
-Reviewed Antoine data remains blocking for Phase 3/4 scientific output; reviewed
-enthalpy data blocks only Phase 6 energy. The student team may use or create a
-Firebase target; a successful deployment/smoke test is required evidence for
-Phase 2 and later release gates.
+Reviewed Antoine data was the Phase 3/4 scientific-data blocker and is resolved
+for the Ethanol-Water runtime dataset. Reviewed enthalpy data blocks only Phase
+6 energy. The student team may use or create a Firebase target; a successful
+deployment/smoke test is required evidence for Phase 2 and later release gates.
 
 ## Phase 1 — PROJECT SKELETON
 
@@ -218,7 +219,7 @@ use or create a student-controlled target instead.
 
 These tracks may proceed in parallel after the UI shell is reachable:
 
-- scientific lead reviews the Antoine dataset for Phase 3/4;
+- scientific lead reviews golden/reference validation cases for Phase 8;
 - backend team implements/tests the total-condenser calculation closure and
   direct NF section-switch contract;
 - scientific lead answers the partial-condenser OPEN/BLOCKING questions and
@@ -702,9 +703,10 @@ Firebase capability, or missing backend runtime/access.
 
 ## Current starting point
 
-Phase 0–1 are complete; Phase 2 deployment/smoke gates pass and its evidence
-PR awaits GitHub write access. Static Hosting evidence is recorded in
-`DEPLOYMENT_RUNBOOK.md`. Current work is Phase 3, blocked by reviewed Antoine
-records (TODO-001). The scientific lead must approve the data before scientific
-output is implemented. Later technical delivery remains autonomous under
-CI/review, with all simulation outputs pending until the backend is implemented.
+Phase 0–2 are complete. Phase 3 is complete for the reviewed Ethanol-Water
+Raoult-Antoine minimum engine. Current work is Phase 4/5 total-condenser
+McCabe-Thiele plus local functional UI, with scientific validation still
+blocked by a GVHD-approved golden/reference case. Later technical delivery
+remains autonomous under CI/review; partial condenser, energy, sensitivity,
+backend production runtime and final release remain gated by their documented
+blockers.

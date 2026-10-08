@@ -16,9 +16,9 @@ a V1 deliverable but is OPEN/BLOCKING until its missing physical conventions
 are approved; it must return `NOT_IMPLEMENTED` before then.
 
 V1 includes direct numeric q, body-stage `N`/`NF`, material/component balance,
-ethanol recovery, simple QC/QR energy, absolute `heatLoss_kW`, sensitivity of
-one variable at a time (`R`, `N` or `NF`), scientific validation and a simple
-web UI.
+ethanol recovery, absolute `heatLoss_kW`, scientific validation and a simple
+web UI. Simple QC/QR energy and one-variable sensitivity (`R`, `N` or `NF`) are
+later V1 milestones and must stay pending until their blockers are resolved.
 
 ## Explicitly out of scope
 

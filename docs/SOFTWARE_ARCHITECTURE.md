@@ -20,7 +20,7 @@ a database unless a later decision explicitly requires it.
 | `src/thermodynamics` | Load reviewed records, Antoine, Raoult, bubble point, equilibrium inversion | Store unreviewed constants or Wilson/NRTL runtime logic |
 | `src/distillation` | Flows/balances, operating lines, closed total-condenser solver, partial placeholder, stage records, energy boundary | Read UI state or invent result values |
 | `src/solver` | Bracket/root utilities, iteration trace and residual gates | Hide failed convergence |
-| `src/sensitivity` | One-variable R/N/NF sweeps | Optimize or vary multiple variables |
+| `src/sensitivity` | One-variable R/N/NF sweep contract; endpoint remains pending until validation | Optimize, vary multiple variables or run before the base case is validated |
 | `src/api` | Pydantic validation, engine dispatch, status/error/provenance serialization | Become a second calculation implementation |
 | `src/ui` | Render inputs, process diagram, tables and graphs from API result | Recalculate science or own thermo data |
 | `data/thermodynamics` | Reviewed Antoine data and provenance | Accept `PENDING_REVIEW` as runtime data |
@@ -46,7 +46,8 @@ a database unless a later decision explicitly requires it.
 - `GET /health`: process health only; does not claim scientific readiness.
 - `GET /api/thermo-data/version`: model and reviewed/pending data version.
 - `POST /api/simulations`: typed input to typed result/error.
-- `POST /api/sensitivity`: one-variable sweep after the engine is ready.
+- `POST /api/sensitivity`: currently structured `NOT_IMPLEMENTED`; later
+  one-variable sweep after the base case is validated.
 - Validation/admin endpoints are deferred until authentication/authorization
   and backend runtime are explicitly selected.
 
@@ -70,4 +71,5 @@ until the scientific contract is approved.
 3. Implement reviewed thermo/material functions.
 4. Implement total-condenser closure and stage solver.
 5. Integrate API/UI and deploy the vertical slice.
-6. Add energy, sensitivity, validation and hardening in roadmap order.
+6. Add validation, then energy, sensitivity, hardening and release work in
+   roadmap order as their blockers are resolved.
