@@ -17,3 +17,15 @@ Schema nằm tại `schema.json`. Case mẫu pending nằm tại `cases/ethanol-
    và tính MAE thật.
 4. Không tự suy diễn xD/xB hoặc số mâm từ ảnh minh họa UI; ảnh giao diện chỉ là
    tham khảo trình bày, không phải dữ liệu validation.
+
+## Kiểm tra cân bằng vật chất nhanh
+
+Sau khi điền case, chạy:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\check_validation_balance.py
+```
+
+Script chỉ kiểm tra cân bằng ethanol của case đã map vào JSON; nó không chạy mô
+phỏng tháp và không được dùng để tự gắn nhãn validation PASS. Nếu residual khác
+0 đáng kể, cần hỏi lại GVHD/source xem giá trị nào là authoritative.
