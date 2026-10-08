@@ -56,3 +56,11 @@ def test_frontend_renders_structured_failed_state() -> None:
     assert "function escapeHtml" in script
     assert "Bảng kết quả theo mâm" in html
     assert '.pending-badge[data-status="failed"]' in css
+
+
+def test_frontend_keeps_unapproved_features_disabled() -> None:
+    html = (ROOT / "web" / "index.html").read_text(encoding="utf-8")
+
+    assert '<option value="partial" disabled>Partial — Chưa hỗ trợ</option>' in html
+    assert '<button class="button primary" type="button" disabled>Chạy khảo sát</button>' in html
+    assert "energy pending" in html
