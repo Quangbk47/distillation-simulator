@@ -98,11 +98,18 @@ def create_simulation(simulation_input: SimulationInput) -> SimulationResult:
 
 
 @app.post("/api/sensitivity")
-def create_sensitivity(request: SensitivityRequest) -> dict[str, str]:
+def create_sensitivity(request: SensitivityRequest) -> None:
     del request
     raise HTTPException(
         status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Sensitivity runner is reserved for the V1 engine implementation",
+        detail={
+            "status": "not_implemented",
+            "errorCode": "NOT_IMPLEMENTED",
+            "message": (
+                "Sensitivity runner is reserved until the base total-condenser "
+                "simulation has an approved validation case"
+            ),
+        },
     )
 
 

@@ -113,6 +113,9 @@ an unresolved item to make the queue look clean.
 - Dependency/blocker: Validated base simulation and API/UI path.
 - Acceptance condition: Each sweep changes exactly one of `R`, `N` or `NF` and
   preserves all other inputs; tests cover the contract.
+- Progress: The endpoint remains intentionally disabled, but it now returns a
+  structured `NOT_IMPLEMENTED` response that explains sensitivity is reserved
+  until the base case has an approved validation case.
 
 ## P2 — release and validation
 

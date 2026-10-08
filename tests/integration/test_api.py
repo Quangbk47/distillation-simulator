@@ -97,3 +97,31 @@ def test_non_converged_total_condenser_returns_failed_result() -> None:
     assert body["xD"] is None
     assert body["xB"] is None
     assert body["stages"] == []
+
+
+def test_sensitivity_is_structured_not_implemented_until_validation() -> None:
+    response = client.post(
+        "/api/sensitivity",
+        json={
+            "base": {
+                "F_kmol_h": 100.0,
+                "zF_ethanol": 0.5,
+                "q": 1.0,
+                "P_bar": 1.0,
+                "N": 5,
+                "NF": 2,
+                "R": 3.0,
+                "D_kmol_h": 80.0,
+                "heatLoss_kW": 0.0,
+                "condenser": "total",
+            },
+            "parameter": "R",
+            "values": [2.0, 3.0, 4.0],
+        },
+    )
+
+    assert response.status_code == 501
+    body = response.json()["detail"]
+    assert body["status"] == "not_implemented"
+    assert body["errorCode"] == "NOT_IMPLEMENTED"
+    assert "approved validation case" in body["message"]

@@ -283,7 +283,8 @@ Last Updated: 2026-10-08
 Status: **NOT STARTED**
 
 Completed: Sensitivity boundary for changing exactly one of `R`, `N` or `NF`
-is documented.
+is documented. The API endpoint is intentionally disabled but now returns a
+structured `NOT_IMPLEMENTED` response instead of an unstructured string.
 
 Remaining: Implement sweeps, preserve all other inputs and test outputs.
 
@@ -291,9 +292,10 @@ Blockers: Validated calculation engine and API/UI integration.
 
 Next Action: Start after the base simulation path is complete.
 
-Evidence: Sensitivity schemas/contracts and pending tests.
+Evidence: Sensitivity schemas/contracts and the API not-implemented contract
+test.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-10-08
 
 ### Phase 8 — SCIENTIFIC VALIDATION
 
