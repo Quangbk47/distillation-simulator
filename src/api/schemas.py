@@ -86,6 +86,7 @@ class SimulationResult(BaseModel):
 
     status: Literal["success", "warning", "failed", "not_implemented"]
     errorCode: str | None = None
+    errorMessage: str | None = None
     D_kmol_h: float | None = None
     B_kmol_h: float | None = None
     xD: float | None = None

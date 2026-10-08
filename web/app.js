@@ -98,6 +98,10 @@ function renderResult(result) {
 }
 
 function warningText(result) {
+  if (result.status === "failed") {
+    const code = result.errorCode ? `${result.errorCode}: ` : "";
+    return `${code}${result.errorMessage || "Không hội tụ với bộ input hiện tại. Kiểm tra lại D, N/NF, R và quy ước số liệu."}`;
+  }
   const details = result.warningDetails ?? [];
   if (details.length) {
     return details.map((detail) => {

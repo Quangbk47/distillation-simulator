@@ -67,9 +67,9 @@ an unresolved item to make the queue look clean.
   direct `NF` section switch and reference residuals pass; no `NF_geo` gate is
   introduced.
 - Progress: Outer residual gate is enforced and non-converged cases return
-  failure instead of clamped results. Local smoke passes from input through
-  xD/xB/recovery/D/B and warning details; golden/reference validation is still
-  required.
+  a structured `failed` result instead of clamped values or an unstructured API
+  exception. Local smoke passes from input through xD/xB/recovery/D/B and
+  warning details; golden/reference validation is still required.
 
 ### TODO-009 — Implement McCabe–Thiele path
 
@@ -95,7 +95,9 @@ an unresolved item to make the queue look clean.
   no client-side scientific authority or fake result is introduced.
 - Progress: Simulation tab consumes backend output and renders xD/xB/recovery,
   stage table, McCabe--Thiele plot and detailed thermodynamic warnings from API
-  data. Sensitivity remains disabled.
+  data. Non-converged total-condenser cases now show a structured failed status
+  and explanatory error message instead of a generic API failure. Sensitivity
+  remains disabled.
 
 ### TODO-011 — Implement sensitivity
 

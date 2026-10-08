@@ -67,3 +67,30 @@ def test_partial_condenser_is_explicitly_not_implemented() -> None:
     )
     assert response.status_code == 501
     assert response.json()["detail"]["errorCode"] == "NOT_IMPLEMENTED"
+
+
+def test_non_converged_total_condenser_returns_failed_result() -> None:
+    response = client.post(
+        "/api/simulations",
+        json={
+            "F_kmol_h": 100.0,
+            "zF_ethanol": 0.5,
+            "q": 1.0,
+            "P_bar": 1.0,
+            "N": 20,
+            "NF": 10,
+            "R": 2.0,
+            "D_kmol_h": 45.2,
+            "heatLoss_kW": 0.0,
+            "condenser": "total",
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "failed"
+    assert body["errorCode"] == "NON_CONVERGED"
+    assert body["errorMessage"].startswith("Calculation did not converge")
+    assert body["xD"] is None
+    assert body["xB"] is None
+    assert body["stages"] == []
