@@ -8,8 +8,10 @@ Khung nền cho mô phỏng chưng cất nhị phân Ethanol–Water ở trạng
 - Cân bằng hơi–lỏng chính: Raoult + Antoine.
 - Phương pháp tháp: McCabe–Thiele.
 - Người dùng nhập trực tiếp `q`; `N` chỉ đếm số mâm trong thân tháp.
-- Hỗ trợ total condenser và partial condenser.
-- `QC`/`QR` dùng mô hình enthalpy đơn giản với dữ liệu Cp/ẩn nhiệt có provenance.
+- Hỗ trợ đường chạy total condenser. Partial condenser vẫn trả
+  `NOT_IMPLEMENTED` cho tới khi GVHD chốt công thức/reference case.
+- `QC`/`QR` để pending trong Phase 3/4; Phase 6 chỉ được bật sau khi có dữ liệu
+  Cp/ẩn nhiệt và quy ước dấu được review.
 - Tổn thất nhiệt là tải nhiệt tuyệt đối `heatLoss_kW`.
 - Kết quả chỉ thành công khi residual cân bằng tổng, residual cân bằng cấu tử, residual outer và residual solver đều `< 1e-4`.
 - Ngoại suy dữ liệu nhiệt động được phép nhưng phải trả warning `THERMO_EXTRAPOLATION`, nêu nhiệt độ thực tế và miền nguồn.
@@ -20,6 +22,11 @@ Ngoài V1: optimization, AI/ML, dynamic simulation, thủy lực mâm chi tiết
 ## Logic chuyên môn đã chốt
 
 Nguồn chuẩn là [`docs/EXPERT_CONFIRMATION.md`](docs/EXPERT_CONFIRMATION.md) và [`docs/PROJECT_RULES.md`](docs/PROJECT_RULES.md); quyết định metric/ngưỡng validation mới nhất nằm trong [`docs/VALIDATION_ACCEPTANCE.md`](docs/VALIDATION_ACCEPTANCE.md). Các contract chi tiết nằm trong [`docs/PROCESS_MODEL.md`](docs/PROCESS_MODEL.md), [`docs/ALGORITHM_SPEC.md`](docs/ALGORITHM_SPEC.md), [`docs/CALCULATION_FORMULAS.md`](docs/CALCULATION_FORMULAS.md), [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) và [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md). Dữ liệu Antoine/enthalpy chưa được coi là reviewed cho đến khi có citation, miền áp dụng, reviewer và ngày review.
+
+Hiện tại bộ Antoine Ethanol–Water NIST SRD 69 đã được GVHD/Anh Đại review ngày
+2026-10-04 và nằm tại
+[`data/thermodynamics/antoine_ethanol_water.json`](data/thermodynamics/antoine_ethanol_water.json).
+Validation khoa học vẫn cần một golden/reference case được GVHD xác nhận.
 
 Audit và execution roadmap nằm trong [`docs/PROJECT_AUDIT.md`](docs/PROJECT_AUDIT.md) và [`docs/ROADMAP.md`](docs/ROADMAP.md). Firebase Hosting chỉ host frontend/static assets; backend Python cần runtime riêng. Nhóm sinh viên có thể dùng hoặc tự tạo Firebase project/site của mình, rồi cập nhật `.firebaserc`/`firebase.json` và ghi URL production thực tế theo deployment runbook.
 
@@ -83,20 +90,37 @@ py -m venv .venv
 python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 Copy-Item .env.example .env
-python -m uvicorn api.app:app --reload --host 127.0.0.1 --port 8000
+python -m uvicorn api.app:app --app-dir src --reload --host 127.0.0.1 --port 8000
+```
+
+Sau đó mở:
+
+```text
+http://127.0.0.1:8000/
+```
+
+Giữ cửa sổ terminal chạy Uvicorn mở trong lúc dùng web local. Nếu trình duyệt
+báo `ERR_CONNECTION_REFUSED`, nghĩa là backend chưa chạy hoặc terminal đã bị
+tắt.
+
+Nếu chỉ cần build static bundle để deploy Hosting:
+
+```powershell
 python scripts/build_frontend.py
 python -m http.server 5173 --directory build/frontend
 ```
 
-API skeleton có `/health`, `/api/thermo-data/version`, `/api/simulations` và `/api/sensitivity`. Static UI shell build vào `build/frontend` và hiện hiển thị `ENGINE NOT CONNECTED`/`NOT CALCULATED`; endpoint mô phỏng đầy đủ sẽ chỉ được mở khi engine và data review hoàn tất.
+API có `/health`, `/api/thermo-data/version`, `/api/simulations` và
+`/api/sensitivity`. Local FastAPI tại `127.0.0.1:8000` phục vụ cả frontend và
+backend tính toán. Firebase Hosting hiện chỉ phục vụ static assets; production
+backend cần runtime riêng trước Phase 10.
 
 ## Kiểm tra
 
 ```powershell
-python -m ruff format --check src tests scripts
-python -m ruff check src tests scripts
+python -m ruff check .
 python -m mypy src
-python -m pytest tests/unit tests/integration tests/reference tests/validation
+python -m pytest --basetemp work/pytest-tmp -p no:cacheprovider
 python scripts/check_structure.py
 python scripts/build_frontend.py
 python -m build
