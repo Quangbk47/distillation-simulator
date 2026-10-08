@@ -11,6 +11,7 @@ def test_validation_is_not_reported_as_pass_before_case_evaluation() -> None:
     assert case["validationAcceptance"]["metric"] == "MAE_xD_xB_percentage_points"
     assert case["validationAcceptance"]["threshold"] == 5
     assert case["validationAcceptance"]["pass"] is None
+    assert case["sourceConditions"]["massBalanceReview"]["status"] == "NEEDS_GVHD_CONFIRMATION"
 
 
 def test_supervisor_candidate_balance_conflict_is_reproducible() -> None:

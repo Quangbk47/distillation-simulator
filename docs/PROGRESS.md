@@ -50,6 +50,8 @@ remaining scientific blocker is an approved golden/reference validation case.
 Latest validation-data guardrail note: the validation JSON schema now requires
 runtime-mapped inputs and observed `xD_ethanol`/`xB_ethanol`, reducing the risk
 of incomplete GVHD/reference cases being treated as executable validation.
+Tests also lock the supervisor-form candidate mass-balance review status as
+`NEEDS_GVHD_CONFIRMATION`.
 
 Latest scope hygiene note: project scope, roadmap and architecture docs now
 state that energy and sensitivity are later gated V1 milestones, while current
