@@ -124,8 +124,10 @@ an unresolved item to make the queue look clean.
   candidate values have been entered with the scientifically reasonable mapping
   `bottom purity 94.8 mol% water -> xB_ethanol = 0.052`; however, the current
   engine does not converge for the candidate input (`D=45.2`, `R=2`, `N=20`,
-  `NF=10`), so no validation PASS is claimed until the case/mapping is reviewed
-  and evaluated successfully.
+  `NF=10`). A direct material-balance check also shows the displayed `D`,
+  `xD`, mapped `xB` and recovery are not mutually consistent, so no validation
+  PASS is claimed until GVHD confirms which value is authoritative or provides a
+  mass-balanced reference case.
 
 ### TODO-013 — Firebase evidence and later releases
 

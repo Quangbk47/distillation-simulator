@@ -17,8 +17,19 @@
     "notes": [
       "The source form shows bottom purity = 94.8 mol%. For an Ethanol-Water separation with ethanol as the light component, the scientifically reasonable mapping is bottom product rich in water.",
       "Therefore observed xB_ethanol is mapped as 1 - 0.948 = 0.052.",
-      "The source also shows QC = -18.5 kW and QR = 22.1 kW, but Phase 3/4 does not validate energy yet."
-    ]
+      "The source also shows QC = -18.5 kW and QR = 22.1 kW, but Phase 3/4 does not validate energy yet.",
+      "Mass-balance review is required: the displayed D, xD, mapped xB and recovery are not mutually consistent."
+    ],
+    "massBalanceReview": {
+      "status": "NEEDS_GVHD_CONFIRMATION",
+      "basis": "F=100, zF_ethanol=0.50, xD_ethanol=0.95, mapped xB_ethanol=0.052",
+      "D_requiredBy_xD_xB_balance": {"value": 49.888641425389764, "unit": "kmol/h"},
+      "recovery_requiredBy_xD_xB_balance": {"value": 94.78841870824053, "unit": "%"},
+      "xB_ethanol_if_D_45_2_and_xD_0_95": {"value": 0.1288321167883212, "unit": "mol fraction"},
+      "bottomWaterPurity_if_D_45_2_and_xD_0_95": {"value": 87.11678832116788, "unit": "mol %"},
+      "D_if_recovery_90_4_and_xD_0_95": {"value": 47.578947368421055, "unit": "kmol/h"},
+      "note": "Do not claim validation PASS until GVHD confirms which displayed value is authoritative or provides a mass-balanced reference case."
+    }
   },
   "mappedInput": {
     "zF_ethanol": 0.5,

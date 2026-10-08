@@ -52,3 +52,19 @@ Các giá trị từ form minh họa/GVHD đã được nhập vào
 Khi chạy engine hiện tại, candidate này chưa hội tụ (`NON_CONVERGED`), nên vẫn
 cần thầy xác nhận lại quy ước số mâm, D, NF và ý nghĩa độ tinh khiết đáy trước
 khi claim validation PASS.
+
+## Điểm cần hỏi lại thầy sau khi kiểm tra cân bằng vật chất
+
+Nếu hiểu hợp lý rằng đáy giàu nước, tức `xB_ethanol = 1 - 0.948 = 0.052`, thì
+các số trong form chưa tự khớp cân bằng vật chất ethanol:
+
+- Với `F = 100`, `zF = 0.50`, `xD = 0.95`, `xB_ethanol = 0.052`, cân bằng yêu
+  cầu `D ≈ 49.89 kmol/h`, không phải `45.2 kmol/h`.
+- Nếu giữ `D = 45.2 kmol/h` và `xD = 0.95`, cân bằng cho `xB_ethanol ≈ 0.1288`,
+  tức đáy khoảng 87.12 mol% water, không phải 94.8 mol% water.
+- Nếu giữ `recovery = 90.4%` và `xD = 0.95`, cân bằng cho `D ≈ 47.58 kmol/h`.
+
+Câu hỏi ngắn cần xác nhận: trong form này, `D`, `xD`, độ tinh khiết đáy và
+recovery có phải là số liệu minh họa giao diện không, hay là một case chuẩn đã
+cân bằng? Nếu là case chuẩn, thầy cho biết giá trị nào là giá trị chính xác để
+em dùng làm validation.
