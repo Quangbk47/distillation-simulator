@@ -31,6 +31,17 @@ def test_build_is_reproducible_and_excludes_private_files(tmp_path: Path) -> Non
         BUILDER.build(tmp_path)
 
 
+def test_build_fails_when_required_public_asset_is_missing(tmp_path: Path) -> None:
+    (tmp_path / "web").mkdir()
+    for name in BUILDER.ASSETS:
+        if name != "app.js":
+            (tmp_path / "web" / name).write_text("demo", encoding="utf-8")
+    (tmp_path / ".firebaserc").write_text('{"projects":{"default":"test-project"}}')
+
+    with pytest.raises(FileNotFoundError):
+        BUILDER.build(tmp_path)
+
+
 def test_hosting_is_static_only() -> None:
     hosting = json.loads((ROOT / "firebase.json").read_text())["hosting"]
     assert hosting["public"] == "build/frontend"

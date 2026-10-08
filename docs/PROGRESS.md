@@ -32,7 +32,7 @@ Latest Phase 5 hardening note: the frontend now renders structured result
 states for `SUCCESS`, `WARNING`, `FAILED` and `CALCULATING`; non-converged
 cases show that no valid stage table or McCabe--Thiele plot exists instead of
 leaving ambiguous empty output. Quality gates pass: `ruff check`, `mypy src`,
-and `pytest` with 29 tests.
+and `pytest` with 30 tests.
 
 Latest API guardrail note: simulation input validation is covered for extra
 unapproved fields, invalid feed-stage placement (`NF > N`) and distillate flow
@@ -278,6 +278,8 @@ Completed:
   unapproved or physically invalid request shapes.
 - Frontend build tests keep unapproved UI paths disabled: partial condenser,
   sensitivity execution and energy output remain visibly gated/pending.
+- Frontend build tests also fail fast if a required public asset is missing,
+  avoiding a silently incomplete local/demo build.
 
 Remaining:
 
