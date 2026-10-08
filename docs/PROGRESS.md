@@ -34,6 +34,10 @@ cases show that no valid stage table or McCabe--Thiele plot exists instead of
 leaving ambiguous empty output. Quality gates pass: `ruff check`, `mypy src`,
 and `pytest` with 23 tests.
 
+Latest Phase 6 guardrail note: tests explicitly lock the current energy
+boundary so `QC_kW`, `QR_kW` and `energyBreakdown` remain null/pending until
+reviewed Cp/latent-heat data and a sign convention are approved.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific
@@ -269,8 +273,10 @@ Next Action: Review energy data only after the earlier calculation path is
 stable.
 
 Evidence: Energy contract is documented; no production energy implementation.
+The test suite now asserts that the reserved `calc_energy` boundary raises
+`EnergyCalculationNotReady` and that the API keeps QC/QR outputs null.
 
-Last Updated: 2026-09-19
+Last Updated: 2026-10-08
 
 ### Phase 7 — SENSITIVITY
 

@@ -36,6 +36,9 @@ an unresolved item to make the queue look clean.
   missing.
 - Acceptance condition: Sources, reference state, sign convention, ranges and
   reviewer/date are recorded and `calcEnergy` reference tests pass.
+- Progress: Guardrail tests now assert that `calc_energy` raises
+  `EnergyCalculationNotReady` and that API `QC_kW`, `QR_kW` and
+  `energyBreakdown` remain null instead of fabricated before review.
 
 ### TODO-005 — Choose backend runtime
 

@@ -43,6 +43,9 @@ def test_total_condenser_simulation_returns_results() -> None:
     assert body["residuals"]["solver"] < 1e-4
     assert len(body["stages"]) == 5
     assert body["operatingLines"]["feedIntersection"]["x"] == 0.5
+    assert body["QC_kW"] is None
+    assert body["QR_kW"] is None
+    assert body["energyBreakdown"] is None
     assert body["warnings"] == ["THERMO_EXTRAPOLATION"]
     assert body["warningDetails"][0]["code"] == "THERMO_EXTRAPOLATION"
     assert "actualTemperature" in body["warningDetails"][0]

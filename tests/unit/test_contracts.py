@@ -1,5 +1,6 @@
 from api.schemas import SimulationInput
 from distillation.contracts import SimulationCase
+from distillation.energy import EnergyCalculationNotReady, calc_energy
 from distillation.mccabe_thiele import (
     q_line_intersection,
     select_ethanol_record,
@@ -30,6 +31,15 @@ def test_q_is_direct_and_heat_loss_is_absolute() -> None:
     item = valid_input(q=0.35, heatLoss_kW=12.5)
     assert item.q == 0.35
     assert item.heatLoss_kW == 12.5
+
+
+def test_energy_calculation_requires_reviewed_phase6_data() -> None:
+    try:
+        calc_energy(input={}, solution={}, enthalpyData={})
+    except EnergyCalculationNotReady as error:
+        assert "reviewed Cp/latent-heat data" in str(error)
+    else:
+        raise AssertionError("Phase 6 energy must not fabricate QC/QR without reviewed data")
 
 
 def test_feed_stage_and_condenser_contract() -> None:
