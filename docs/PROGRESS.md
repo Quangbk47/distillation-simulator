@@ -54,6 +54,9 @@ Latest demo smoke note: `scripts/smoke_local_api.py` now provides a quick
 in-process local API check for health, thermo-data version, total-condenser
 simulation, and intentionally gated partial/sensitivity endpoints.
 
+Latest CI note: the GitHub Actions workflow now runs the local API smoke script
+after the unit/integration/reference/validation suite.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific

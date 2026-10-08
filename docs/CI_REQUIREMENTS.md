@@ -9,6 +9,7 @@ install
 → lint
 → type check
 → unit/integration/reference/validation tests
+→ local API smoke test
 → production package build
 → secret scan
 ```
