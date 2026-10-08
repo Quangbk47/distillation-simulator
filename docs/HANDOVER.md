@@ -2,9 +2,10 @@
 
 ## Current Phase and Status
 
-Phase 2: `IN PROGRESS` pending evidence publication, CI/review/merge and
-post-merge deployment. Phase 3 is `BLOCKED` by TODO-001 reviewed Antoine
-records. Phase 0/1 are `DONE`; Phase 4-10 are `NOT STARTED`.
+Phase 2 is `DONE`. Phase 3 is `DONE` for the reviewed Ethanol-Water
+Raoult-Antoine minimum engine. Phase 4/5 are `IN PROGRESS` for total-condenser
+McCabe-Thiele and the local functional UI. Phase 6/7/8/9/10 remain gated by
+their documented dependencies.
 
 ## Completed checkpoint — 2026-09-27
 
@@ -22,10 +23,13 @@ records. Phase 0/1 are `DONE`; Phase 4-10 are `NOT STARTED`.
 
 ## Remaining and scientific blockers
 
-- TODO-001: scientific lead approves Antoine coefficients, units, applicable
-  ranges, citations, reviewer and review date before Phase 3 scientific output.
-- Implement minimum engine and total-condenser closure only against the
-  approved contract; direct NF indexing, no geometric-stage rejection gate.
+- TODO-001 is resolved: GVHD approved the Ethanol-Water NIST SRD 69 Antoine
+  records on 2026-10-04, and the reviewed runtime dataset is committed.
+- Continue total-condenser closure only against the approved contract; direct
+  NF indexing, no geometric-stage rejection gate.
+- A GVHD-approved golden/reference case is still needed before claiming
+  scientific validation PASS. The supervisor-form candidate is recorded but
+  currently conflicts with material balance, so it is not a pass case.
 - Partial-condenser equations/reference case remain DEFERRED/BLOCKED; keep
   `NOT_IMPLEMENTED`. Reviewed enthalpy data blocks Phase 6 only.
 - Functional UI, energy, sensitivity, validation and Phase 10 release remain
@@ -33,17 +37,9 @@ records. Phase 0/1 are `DONE`; Phase 4-10 are `NOT STARTED`.
 
 ## Next action
 
-Publish the committed deployment-evidence branch through PR CI/review and
-merge, then deploy and verify the green merged source. A GitHub account with
-repository write access must authenticate; the available browser is signed
-out and noninteractive push fails. No Firebase account action is required.
-The 2026-10-04 verification passed HTTP asset equality, 404 routes, browser
-smoke, all 14 tests, package build and secret scan; see the latest runbook
-entry and `docs/evidence/phase2-2026-10-04.json`. Then obtain the scientific-lead
-data approval before starting Phase 3.
-
-Read `PROJECT_RULES.md`, `ROADMAP.md`, `PROGRESS.md`, TODO-001 and
-`THERMODYNAMIC_DATA_SPEC.md`. Obtain the scientific-lead decision on Antoine
-records; do not invent data or record approval on the reviewer's behalf.
-Technical work remains autonomous with CI/review; update PROGRESS at each
-meaningful checkpoint. TASK DONE is not PHASE DONE.
+Read `PROJECT_RULES.md`, `ROADMAP.md`, `PROGRESS.md`, `TODO.md` and the
+validation files before continuing. Keep improving the local Phase 4/5 path
+without inventing validation data, partial-condenser equations or energy
+constants. Ask GVHD for the authoritative reference case before promoting
+scientific validation. Technical work remains autonomous with CI/review; update
+PROGRESS at each meaningful checkpoint. TASK DONE is not PHASE DONE.

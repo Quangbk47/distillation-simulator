@@ -35,8 +35,8 @@ solver < 1e-4
 
 | ID | Case | Expected behavior | Expected numerical data |
 |---|---|---|---|
-| T-01 | Antoine in source range | Positive Psat with provenance and no extrapolation warning | Pending reviewed Antoine dataset |
-| T-02 | Antoine outside source range | Physical result plus `THERMO_EXTRAPOLATION`, actual T and source range | Pending reviewed dataset/range |
+| T-01 | Antoine in source range | Positive Psat with provenance and no extrapolation warning | Reviewed Ethanol-Water NIST SRD 69 dataset |
+| T-02 | Antoine outside source range | Physical result plus `THERMO_EXTRAPOLATION`, actual T and source range | Reviewed source ranges |
 | T-03 | Non-positive/NaN Psat or invalid denominator | Reject calculation | Analytic expectation; implement unit test |
 | T-04 | Pure water `x=0` | Finite bubble point/equilibrium endpoint | Expected numeric value pending source review |
 | T-05 | Pure ethanol `x=1` | Finite bubble point/equilibrium endpoint | Expected numeric value pending source review |

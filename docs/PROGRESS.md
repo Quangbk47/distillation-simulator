@@ -38,6 +38,10 @@ Latest Phase 6 guardrail note: tests explicitly lock the current energy
 boundary so `QC_kW`, `QR_kW` and `energyBreakdown` remain null/pending until
 reviewed Cp/latent-heat data and a sign convention are approved.
 
+Latest documentation hygiene note: handover, next-session and test-case docs
+now reflect the current state that Antoine approval is resolved and that the
+remaining scientific blocker is an approved golden/reference validation case.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific
