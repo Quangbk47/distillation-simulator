@@ -121,6 +121,7 @@ backend cần runtime riêng trước Phase 10.
 python -m ruff check .
 python -m mypy src
 python -m pytest --basetemp work/pytest-tmp -p no:cacheprovider
+python scripts/smoke_local_api.py
 python scripts/check_structure.py
 python scripts/build_frontend.py
 python -m build

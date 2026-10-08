@@ -50,6 +50,10 @@ Latest scope hygiene note: project scope, roadmap and architecture docs now
 state that energy and sensitivity are later gated V1 milestones, while current
 work stays on total-condenser Phase 4/5 and pending scientific validation.
 
+Latest demo smoke note: `scripts/smoke_local_api.py` now provides a quick
+in-process local API check for health, thermo-data version, total-condenser
+simulation, and intentionally gated partial/sensitivity endpoints.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific
