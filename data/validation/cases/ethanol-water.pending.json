@@ -1,36 +1,56 @@
 {
-  "caseId": "ethanol-water-pending-001",
-  "sourceCitation": "PENDING_SOURCE_CITATION",
+  "caseId": "ethanol-water-supervisor-form-candidate-001",
+  "sourceCitation": "Supervisor-provided distillation simulator form screenshot, shared by student on 2026-10-07/2026-10-08; values require final GVHD confirmation before PASS claim.",
   "sourceType": "literature",
   "sourceConditions": {
     "system": "Ethanol-Water",
-    "pressure": {"value": null, "unit": "bar"},
-    "feedCompositionEthanol": {"value": null, "unit": "mol fraction or mol %"},
-    "feedFlow": {"value": null, "unit": "kmol/h"},
-    "feedThermalState": {"q": null, "note": "Use q directly if source gives q; otherwise record mapping assumption."},
-    "refluxRatio": {"value": null, "definition": "R = L/D"},
-    "distillateFlow": {"value": null, "unit": "kmol/h"},
-    "numberOfStages": {"value": null, "countingConvention": "body stages, condenser excluded unless source says otherwise"},
-    "feedStage": {"value": null, "countingConvention": "counted from top"}
+    "pressure": {"value": 1.0, "unit": "bar"},
+    "feedCompositionEthanol": {"value": 50.0, "unit": "mol %"},
+    "feedFlow": {"value": 100.0, "unit": "kmol/h"},
+    "feedTemperature": {"value": 78.0, "unit": "degC", "note": "Shown in the source form; Phase 3 runtime currently uses q directly."},
+    "feedThermalState": {"q": 1.0, "note": "Source form labels saturated liquid, q = 1."},
+    "refluxRatio": {"value": 2.0, "definition": "R = L/D"},
+    "distillateFlow": {"value": 45.2, "unit": "kmol/h"},
+    "numberOfStages": {"value": 20, "countingConvention": "source form labels N = 20; condenser/reboiler inclusion still needs GVHD confirmation"},
+    "feedStage": {"value": 10, "countingConvention": "source form labels NF = 10; assumed counted from top pending GVHD confirmation"},
+    "condenser": {"value": "total", "note": "Source form labels total condenser."},
+    "notes": [
+      "The source form shows bottom purity = 94.8 mol%. For an Ethanol-Water separation with ethanol as the light component, the scientifically reasonable mapping is bottom product rich in water.",
+      "Therefore observed xB_ethanol is mapped as 1 - 0.948 = 0.052.",
+      "The source also shows QC = -18.5 kW and QR = 22.1 kW, but Phase 3/4 does not validate energy yet."
+    ]
   },
   "mappedInput": {
-    "zF_ethanol": null,
-    "F_kmol_h": null,
-    "P_bar": null,
-    "q": null,
-    "N": null,
-    "NF": null,
-    "R": null,
-    "D_kmol_h": null,
+    "zF_ethanol": 0.5,
+    "F_kmol_h": 100.0,
+    "P_bar": 1.0,
+    "q": 1.0,
+    "N": 20,
+    "NF": 10,
+    "R": 2.0,
+    "D_kmol_h": 45.2,
     "condenser": "total",
     "heatLoss_kW": 0
   },
   "observed": {
-    "xD_ethanol": {"value": null, "unit": "mol fraction or mol %"},
-    "xB_ethanol": {"value": null, "unit": "mol fraction or mol %"},
-    "ethanolRecovery": {"value": null, "unit": "%", "optional": true},
-    "stageTemperatures": {"value": null, "unit": "degC", "optional": true},
-    "stageCompositions": {"value": null, "unit": "mol fraction", "optional": true}
+    "xD_ethanol": {"value": 0.95, "unit": "mol fraction", "sourceValue": 95.0, "sourceUnit": "mol %"},
+    "xB_ethanol": {"value": 0.052, "unit": "mol fraction", "sourceValue": 94.8, "sourceUnit": "mol % water in bottoms, mapped as 1 - water purity"},
+    "ethanolRecovery": {"value": 90.4, "unit": "%", "optional": true},
+    "bottomWaterPurity": {"value": 94.8, "unit": "mol %", "optional": true},
+    "condenserDuty": {"value": -18.5, "unit": "kW", "optional": true, "phase": "Phase 6 pending"},
+    "reboilerDuty": {"value": 22.1, "unit": "kW", "optional": true, "phase": "Phase 6 pending"},
+    "stageTemperatures": {
+      "value": [
+        {"stage": 1, "T_degC": 78.2, "x_ethanol": 0.95, "y_ethanol": 0.98},
+        {"stage": 5, "T_degC": 82.4, "x_ethanol": 0.78, "y_ethanol": 0.85},
+        {"stage": 10, "T_degC": 88.1, "x_ethanol": 0.50, "y_ethanol": 0.56},
+        {"stage": 15, "T_degC": 95.6, "x_ethanol": 0.20, "y_ethanol": 0.28},
+        {"stage": 20, "T_degC": 104.5, "x_ethanol": 0.05, "y_ethanol": 0.10}
+      ],
+      "unit": "degC",
+      "optional": true
+    },
+    "stageCompositions": {"value": "See stageTemperatures rows from source form.", "unit": "mol fraction", "optional": true}
   },
   "validationAcceptance": {
     "metric": "MAE_xD_xB_percentage_points",

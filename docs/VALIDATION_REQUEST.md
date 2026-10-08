@@ -36,3 +36,19 @@ tự bổ sung mô hình hoặc tự suy diễn số liệu từ ảnh minh họ
 - Không dùng ảnh UI làm số liệu validation.
 - Không đổi contract partial condenser khi chưa được duyệt.
 - Không claim `PASS` nếu chưa tính MAE thật từ case đã review.
+
+## Candidate case đã nhập từ form GVHD
+
+Các giá trị từ form minh họa/GVHD đã được nhập vào
+`data/validation/cases/ethanol-water.pending.json` để chờ review:
+
+- Ethanol-Water, P = 1 bar, zF ethanol = 50 mol%, F = 100 kmol/h.
+- q = 1, R = 2, D = 45.2 kmol/h, N = 20, NF = 10, total condenser.
+- xD ethanol = 95.0 mol%.
+- Độ tinh khiết đáy 94.8 mol% được hiểu theo hướng hợp lý là water-rich
+  bottoms, nên map thành xB ethanol = 5.2 mol%.
+- Recovery ethanol = 90.4%.
+
+Khi chạy engine hiện tại, candidate này chưa hội tụ (`NON_CONVERGED`), nên vẫn
+cần thầy xác nhận lại quy ước số mâm, D, NF và ý nghĩa độ tinh khiết đáy trước
+khi claim validation PASS.

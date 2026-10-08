@@ -18,6 +18,13 @@ Current status: **IN PROGRESS** (Phase 2 is merged and deployed; the reviewed
 thermodynamic data and minimum total-condenser calculation path are now wired
 locally, while UI integration and scientific reference validation remain).
 
+Latest validation note: a supervisor-form candidate case has been recorded for
+Ethanol-Water (`zF=0.50`, `F=100 kmol/h`, `P=1 bar`, `q=1`, `R=2`, `D=45.2
+kmol/h`, `N=20`, `NF=10`, total condenser). The bottom purity shown as 94.8
+mol% is mapped as water-rich bottoms, so `xB_ethanol = 0.052`. The current
+engine returns `NON_CONVERGED` for this candidate input; therefore it remains
+ready for review/evaluation and is not a validation PASS.
+
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository has a tested
 backend/API skeleton and a static UI shell, not an operational scientific
