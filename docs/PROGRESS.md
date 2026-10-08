@@ -65,7 +65,9 @@ after the unit/integration/reference/validation suite.
 Latest developer-experience note: `scripts/run_quality.py` now runs the local
 structure, frontend build, lint, type-check, pytest and API-smoke gates with one
 command. The smoke script also checks representative invalid API inputs so the
-demo/handover gate catches broken request validation quickly.
+demo/handover gate catches broken request validation quickly. README local-run
+troubleshooting now documents the observed `ERR_CONNECTION_REFUSED` and
+`{"detail":"Not Found"}` cases.
 
 Phase 2 Hosting uses the Firebase project owned by
 `bichloannb06@gmail.com`: `delta-pagoda-509904-j8`. The repository now has a

@@ -103,6 +103,14 @@ Giữ cửa sổ terminal chạy Uvicorn mở trong lúc dùng web local. Nếu 
 báo `ERR_CONNECTION_REFUSED`, nghĩa là backend chưa chạy hoặc terminal đã bị
 tắt.
 
+Nếu trình duyệt hiện `{"detail":"Not Found"}`:
+
+- Kiểm tra URL phải là `http://127.0.0.1:8000/`, có dấu `/` cuối, không phải
+  route API cũ hoặc tab bị cache.
+- Bấm `Ctrl + F5` để hard refresh.
+- Nếu vẫn lỗi, chạy lại `python scripts/build_frontend.py` rồi khởi động lại
+  Uvicorn bằng lệnh phía trên.
+
 Nếu chỉ cần build static bundle để deploy Hosting:
 
 ```powershell
