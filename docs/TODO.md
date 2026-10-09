@@ -74,7 +74,8 @@ an unresolved item to make the queue look clean.
   exception. Local smoke passes from input through xD/xB/recovery/D/B and
   warning details. API guardrail tests now reject unapproved extra fields,
   `NF > N`, `D >= F`, invalid boundary values and unknown condenser values;
-  golden/reference validation is still required.
+  response-shape tests lock the typed API result keys for warning and failed
+  total-condenser outputs. Golden/reference validation is still required.
 
 ### TODO-009 — Implement McCabe–Thiele path
 

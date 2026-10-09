@@ -39,6 +39,10 @@ unapproved fields, invalid feed-stage placement (`NF > N`) and distillate flow
 not below feed flow (`D >= F`). These checks protect the existing contract
 without changing scientific assumptions. Boundary tests also cover invalid
 `F`, `zF`, `P`, `N`, `NF`, `R`, `heatLoss_kW` and unknown condenser values.
+Integration tests now also lock the simulation response key set against the
+typed `SimulationResult` schema for both converged warning results and
+non-converged failed results, so clients do not silently depend on missing or
+extra fields.
 
 Latest Phase 6 guardrail note: tests explicitly lock the current energy
 boundary so `QC_kW`, `QR_kW` and `energyBreakdown` remain null/pending until
@@ -209,6 +213,8 @@ Completed:
   off-curve McCabe--Thiele steps into a fabricated result.
 - API validation rejects unapproved extra fields, `NF > N` and `D >= F` before
   calculation.
+- API integration tests lock the response shape to the typed result schema for
+  successful/warning and failed total-condenser responses.
 - The implementation boundary remains explicit; no fake result is exposed.
 - Local smoke on 2026-10-04 confirmed the reviewed data path can run from
   input through xD/xB/recovery and controlled thermodynamic warning details.

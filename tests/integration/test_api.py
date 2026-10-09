@@ -2,8 +2,11 @@ import pytest
 from fastapi.testclient import TestClient
 
 from api.app import app
+from api.schemas import SimulationResult
 
 client = TestClient(app)
+
+EXPECTED_SIMULATION_RESULT_KEYS = set(SimulationResult.model_fields)
 
 VALID_SIMULATION_INPUT = {
     "F_kmol_h": 100.0,
@@ -38,6 +41,7 @@ def test_total_condenser_simulation_returns_results() -> None:
     response = client.post("/api/simulations", json=VALID_SIMULATION_INPUT)
     assert response.status_code == 200
     body = response.json()
+    assert set(body) == EXPECTED_SIMULATION_RESULT_KEYS
     assert body["status"] in {"success", "warning"}
     assert body["xD"] > body["xB"]
     assert body["residuals"]["solver"] < 1e-4
@@ -142,6 +146,7 @@ def test_non_converged_total_condenser_returns_failed_result() -> None:
 
     assert response.status_code == 200
     body = response.json()
+    assert set(body) == EXPECTED_SIMULATION_RESULT_KEYS
     assert body["status"] == "failed"
     assert body["errorCode"] == "NON_CONVERGED"
     assert body["errorMessage"].startswith("Calculation did not converge")
