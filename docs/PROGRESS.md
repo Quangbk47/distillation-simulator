@@ -32,12 +32,13 @@ Latest Phase 5 hardening note: the frontend now renders structured result
 states for `SUCCESS`, `WARNING`, `FAILED` and `CALCULATING`; non-converged
 cases show that no valid stage table or McCabe--Thiele plot exists instead of
 leaving ambiguous empty output. Quality gates pass: `ruff check`, `mypy src`,
-and `pytest` with 30 tests.
+and `pytest` with 39 tests.
 
 Latest API guardrail note: simulation input validation is covered for extra
 unapproved fields, invalid feed-stage placement (`NF > N`) and distillate flow
 not below feed flow (`D >= F`). These checks protect the existing contract
-without changing scientific assumptions.
+without changing scientific assumptions. Boundary tests also cover invalid
+`F`, `zF`, `P`, `N`, `NF`, `R`, `heatLoss_kW` and unknown condenser values.
 
 Latest Phase 6 guardrail note: tests explicitly lock the current energy
 boundary so `QC_kW`, `QR_kW` and `energyBreakdown` remain null/pending until

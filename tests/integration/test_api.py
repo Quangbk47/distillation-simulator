@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from api.app import app
@@ -75,6 +76,31 @@ def test_simulation_rejects_distillate_flow_not_below_feed_flow() -> None:
 
     assert response.status_code == 422
     assert "D_kmol_h must be less than F_kmol_h" in response.text
+
+
+@pytest.mark.parametrize(
+    ("override", "expected_fragment"),
+    [
+        ({"F_kmol_h": 0.0}, "greater than 0"),
+        ({"zF_ethanol": 0.0}, "greater than 0"),
+        ({"zF_ethanol": 1.0}, "less than 1"),
+        ({"P_bar": 0.0}, "greater than 0"),
+        ({"N": 0}, "greater than or equal to 1"),
+        ({"NF": 0}, "greater than or equal to 1"),
+        ({"R": -0.1}, "greater than or equal to 0"),
+        ({"heatLoss_kW": -0.1}, "greater than or equal to 0"),
+        ({"condenser": "unknown"}, "Input should be"),
+    ],
+)
+def test_simulation_rejects_invalid_boundary_inputs(
+    override: dict[str, float | int | str], expected_fragment: str
+) -> None:
+    payload = VALID_SIMULATION_INPUT | override
+
+    response = client.post("/api/simulations", json=payload)
+
+    assert response.status_code == 422
+    assert expected_fragment in response.text
 
 
 def test_partial_condenser_is_explicitly_not_implemented() -> None:
