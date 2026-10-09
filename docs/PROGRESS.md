@@ -32,7 +32,7 @@ Latest Phase 5 hardening note: the frontend now renders structured result
 states for `SUCCESS`, `WARNING`, `FAILED` and `CALCULATING`; non-converged
 cases show that no valid stage table or McCabe--Thiele plot exists instead of
 leaving ambiguous empty output. Quality gates pass: `ruff check`, `mypy src`,
-and `pytest` with 39 tests.
+and `pytest` with 42 tests.
 
 Latest API guardrail note: simulation input validation is covered for extra
 unapproved fields, invalid feed-stage placement (`NF > N`) and distillate flow
@@ -57,6 +57,8 @@ Tests also lock the supervisor-form candidate mass-balance review status as
 Latest scope hygiene note: project scope, roadmap and architecture docs now
 state that energy and sensitivity are later gated V1 milestones, while current
 work stays on total-condenser Phase 4/5 and pending scientific validation.
+Sensitivity request-shape tests now reject parameters outside `R`/`N`/`NF`,
+empty value lists and unapproved extra fields.
 
 Latest demo smoke note: `scripts/smoke_local_api.py` now provides a quick
 in-process local API check for health, thermo-data version, total-condenser

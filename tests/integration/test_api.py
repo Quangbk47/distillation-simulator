@@ -176,3 +176,26 @@ def test_sensitivity_is_structured_not_implemented_until_validation() -> None:
     assert body["status"] == "not_implemented"
     assert body["errorCode"] == "NOT_IMPLEMENTED"
     assert "approved validation case" in body["message"]
+
+
+@pytest.mark.parametrize(
+    ("override", "expected_fragment"),
+    [
+        ({"parameter": "q"}, "Input should be"),
+        ({"values": []}, "at least 1 item"),
+        ({"extra": "not allowed"}, "Extra inputs are not permitted"),
+    ],
+)
+def test_sensitivity_rejects_out_of_scope_request_shapes(
+    override: dict[str, object], expected_fragment: str
+) -> None:
+    payload = {
+        "base": VALID_SIMULATION_INPUT,
+        "parameter": "R",
+        "values": [2.0, 3.0, 4.0],
+    } | override
+
+    response = client.post("/api/sensitivity", json=payload)
+
+    assert response.status_code == 422
+    assert expected_fragment in response.text

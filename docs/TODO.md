@@ -117,7 +117,9 @@ an unresolved item to make the queue look clean.
   preserves all other inputs; tests cover the contract.
 - Progress: The endpoint remains intentionally disabled, but it now returns a
   structured `NOT_IMPLEMENTED` response that explains sensitivity is reserved
-  until the base case has an approved validation case.
+  until the base case has an approved validation case. Request-shape tests keep
+  the future sweep scope limited to `R`, `N` and `NF` with at least one value
+  and no extra fields.
 
 ## P2 — release and validation
 
