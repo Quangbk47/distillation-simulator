@@ -120,7 +120,8 @@ an unresolved item to make the queue look clean.
   structured `NOT_IMPLEMENTED` response that explains sensitivity is reserved
   until the base case has an approved validation case. Request-shape tests keep
   the future sweep scope limited to `R`, `N` and `NF` with at least one value
-  and no extra fields.
+  and no extra fields. API tests also lock the gated response detail shape to
+  `status`, `errorCode` and `message`.
 
 ## P2 — release and validation
 

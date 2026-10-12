@@ -7,6 +7,7 @@ from api.schemas import SimulationResult
 client = TestClient(app)
 
 EXPECTED_SIMULATION_RESULT_KEYS = set(SimulationResult.model_fields)
+EXPECTED_NOT_IMPLEMENTED_DETAIL_KEYS = {"status", "errorCode", "message"}
 
 VALID_SIMULATION_INPUT = {
     "F_kmol_h": 100.0,
@@ -124,7 +125,11 @@ def test_partial_condenser_is_explicitly_not_implemented() -> None:
         },
     )
     assert response.status_code == 501
-    assert response.json()["detail"]["errorCode"] == "NOT_IMPLEMENTED"
+    detail = response.json()["detail"]
+    assert set(detail) == EXPECTED_NOT_IMPLEMENTED_DETAIL_KEYS
+    assert detail["status"] == "not_implemented"
+    assert detail["errorCode"] == "NOT_IMPLEMENTED"
+    assert "Partial-condenser calculation contract is open" in detail["message"]
 
 
 def test_non_converged_total_condenser_returns_failed_result() -> None:
@@ -178,6 +183,7 @@ def test_sensitivity_is_structured_not_implemented_until_validation() -> None:
 
     assert response.status_code == 501
     body = response.json()["detail"]
+    assert set(body) == EXPECTED_NOT_IMPLEMENTED_DETAIL_KEYS
     assert body["status"] == "not_implemented"
     assert body["errorCode"] == "NOT_IMPLEMENTED"
     assert "approved validation case" in body["message"]

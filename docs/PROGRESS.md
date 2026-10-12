@@ -42,7 +42,9 @@ without changing scientific assumptions. Boundary tests also cover invalid
 Integration tests now also lock the simulation response key set against the
 typed `SimulationResult` schema for both converged warning results and
 non-converged failed results, so clients do not silently depend on missing or
-extra fields.
+extra fields. The intentionally gated partial-condenser and sensitivity
+responses are also locked to the structured `status`/`errorCode`/`message`
+detail shape.
 
 Latest Phase 6 guardrail note: tests explicitly lock the current energy
 boundary so `QC_kW`, `QR_kW` and `energyBreakdown` remain null/pending until
